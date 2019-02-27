@@ -2,21 +2,29 @@
 	margin: 3%;
 }
 
-.paritions {
-	margin-bottom: 2%;
+.center-aligned {
+    text-align: center;
+}
+
+.section {
+    margin-bottom: 3%;
 }
 
 table{
-	border: 3px solid red;
+	/*border: 3px solid red;*/
     width: 100%;
 }
 
 td{
-    border: 1px solid green;
+    /*border: 1px solid green;*/
     padding: 1%;
 }
 
 th{
-    border: 2px solid blue;
+    /*border: 2px solid blue;*/
     padding: 1%;
+}
+
+.equal-width {
+    table-layout: fixed !important;
 }
