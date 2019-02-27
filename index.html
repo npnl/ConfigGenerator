@@ -35,15 +35,15 @@
                                     <th>Select operations you want to perform</th>
                                 </tr>
                                 <tr>
-                                    <td><input type="checkbox" name="Re_orient_radiological" onchange="onCheckboxToggle(this)"></td>
+                                    <td><input type="checkbox" class="bright-checkbox" name="Re_orient_radiological" onchange="onCheckboxToggle(this)"></td>
                                     <td>Reorient to radiological convention</td>
                                 </tr>
                                 <tr>
-                                    <td><input type="checkbox" name="Lesion_correction" onchange="onCheckboxToggle(this)"></td>
+                                    <td><input type="checkbox" class="bright-checkbox" name="Lesion_correction" onchange="onCheckboxToggle(this)"></td>
                                     <td>Lesion correction for white matter voxels</td>
                                 </tr>
                                 <tr>
-                                    <td><input type="checkbox" name="Lesion_load_calculation" onchange="onCheckboxToggle(this)"></td>
+                                    <td><input type="checkbox" class="bright-checkbox" name="Lesion_load_calculation" onchange="onCheckboxToggle(this)"></td>
                                     <td>Lesion load calculation</td>
                                 </tr>
                             </table>
@@ -93,7 +93,7 @@
                                 </tr>
                                 <tr>
                                     <td>Has brain extraction already been performed on all subjects</td>
-                                    <td><input type="checkbox" name="bet_performed" onchange="onCheckboxToggle(this)"></td>
+                                    <td><input type="checkbox" class="bright-checkbox" name="bet_performed" onchange="onCheckboxToggle(this)"></td>
                                 </tr>
                                 <tr>
                                     <td>Skull-stripped brain identifier</td>
@@ -101,7 +101,7 @@
                                 </tr>
                                 <tr>
                                     <td>Has white matter segmentation already been performed on all subjects</td>
-                                    <td><input type="checkbox" name="wms_performed" onchange="onCheckboxToggle(this)"></td>
+                                    <td><input type="checkbox" class="bright-checkbox" name="wms_performed" onchange="onCheckboxToggle(this)"></td>
                                 </tr>
                                 <tr>
                                     <td>White matter mask identifier</td>
@@ -120,7 +120,7 @@
                                 </tr>
                                 <tr>
                                     <td>Has white matter segmentation already been performed on all subjects</td>
-                                    <td><input type="checkbox" name="wms_performed" onchange="onCheckboxToggle(this)"></td>
+                                    <td><input type="checkbox" class="bright-checkbox" name="wms_performed" onchange="onCheckboxToggle(this)"></td>
                                 </tr>
                                 <tr>
                                     <td>White matter mask identifier</td>
@@ -148,26 +148,98 @@
                                 <tr>
                                     <td>
                                         <select class="selectpicker" multiple data-live-search="true" data-actions-box="true" data-width="75%">
-                                            <option value="" disabled>Choose ROIs</option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
+                                            <option value="Left Corticospinal Tract">Left Corticospinal Tract</option>
+                                            <option value="Right Corticospinal Tract">Right Corticospinal Tract</option>
                                         </select>
                                     </td>
                                     <td>
                                         <select class="selectpicker" multiple data-live-search="true" data-actions-box="true" data-width="75%">
-                                            <option value="" disabled>Choose ROIs</option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
+                                            <option value="Left Bank of the Superior Temporal Sulcus">Left Bank of the Superior Temporal Sulcus</option>
+                                            <option value="Right Bank of the Superior Temporal Sulcus">Right Bank of the Superior Temporal Sulcus</option>
+                                            <option value="Left Caudal Anterior Cingulate">Left Caudal Anterior Cingulate</option>
+                                            <option value="Right Caudal Anterior Cingulate">Right Caudal Anterior Cingulate</option>
+                                            <option value="Left Caudal Middle Frontal">Left Caudal Middle Frontal</option>
+                                            <option value="Right Caudal Middle Frontal">Right Caudal Middle Frontal</option>
+                                            <option value="Left Cuneus">Left Cuneus</option>
+                                            <option value="Right Cuneus">Right Cuneus</option>
+                                            <option value="Left Entorhinal">Left Entorhinal</option>
+                                            <option value="Right Entorhinal">Right Entorhinal</option>
+                                            <option value="Left Frontal Pole">Left Frontal Pole</option>
+                                            <option value="Right Frontal Pole">Right Frontal Pole</option>
+                                            <option value="Left Fusiform">Left Fusiform</option>
+                                            <option value="Right Fusiform">Right Fusiform</option>
+                                            <option value="Left Inferior Parietal">Left Inferior Parietal</option>
+                                            <option value="Right Inferior Parietal">Right Inferior Parietal</option>
+                                            <option value="Left Inferior Temporal">Left Inferior Temporal</option>
+                                            <option value="Right Inferior Temporal">Right Inferior Temporal</option>
+                                            <option value="Left Insula">Left Insula</option>
+                                            <option value="Right Insula">Right Insula</option>
+                                            <option value="Left Isthmus Cingulate">Left Isthmus Cingulate</option>
+                                            <option value="Right Isthmus Cingulate">Right Isthmus Cingulate</option>
+                                            <option value="Left Lateral Occipital">Left Lateral Occipital</option>
+                                            <option value="Right Lateral Occipital">Right Lateral Occipital</option>
+                                            <option value="Left Lateral Orbitofronal">Left Lateral Orbitofronal</option>
+                                            <option value="Right Lateral Orbitofronal">Right Lateral Orbitofronal</option>
+                                            <option value="Left Lingual">Left Lingual</option>
+                                            <option value="Right Lingual">Right Lingual</option>
+                                            <option value="Left Medial Orbitofrontal">Left Medial Orbitofrontal</option>
+                                            <option value="Right Medial Orbitofrontal">Right Medial Orbitofrontal</option>
+                                            <option value="Left Middle Temporal">Left Middle Temporal</option>
+                                            <option value="Right Middle Temporal">Right Middle Temporal</option>
+                                            <option value="Left Paracentral">Left Paracentral</option>
+                                            <option value="Right Paracentral">Right Paracentral</option>
+                                            <option value="Left Parahippocampal">Left Parahippocampal</option>
+                                            <option value="Right Parahippocampal">Right Parahippocampal</option>
+                                            <option value="Left Pars Opercularis">Left Pars Opercularis</option>
+                                            <option value="Right Pars Opercularis">Right Pars Opercularis</option>
+                                            <option value="Left Pars Orbitalis">Left Pars Orbitalis</option>
+                                            <option value="Right Pars Orbitalis">Right Pars Orbitalis</option>
+                                            <option value="Left Pars Triangularis">Left Pars Triangularis</option>
+                                            <option value="Right Pars Triangularis">Right Pars Triangularis</option>
+                                            <option value="Left Pericalcarine">Left Pericalcarine</option>
+                                            <option value="Right Pericalcarine">Right Pericalcarine</option>
+                                            <option value="Left Post Central">Left Post Central</option>
+                                            <option value="Right Post Central">Right Post Central</option>
+                                            <option value="Left Posterior Cingulate">Left Posterior Cingulate</option>
+                                            <option value="Right Posterior Cingulate">Right Posterior Cingulate</option>
+                                            <option value="Left Precentral">Left Precentral</option>
+                                            <option value="Right Precentral">Right Precentral</option>
+                                            <option value="Left Precuneus">Left Precuneus</option>
+                                            <option value="Right Precuneus">Right Precuneus</option>
+                                            <option value="Left Rostral Anterior Cingulate">Left Rostral Anterior Cingulate</option>
+                                            <option value="Right Rostral Anterior Cingulate">Right Rostral Anterior Cingulate</option>
+                                            <option value="Left Rostral Middle Frontal">Left Rostral Middle Frontal</option>
+                                            <option value="Right Rostral Middle Frontal">Right Rostral Middle Frontal</option>
+                                            <option value="Left Superior Frontal">Left Superior Frontal</option>
+                                            <option value="Right Superior Frontal">Right Superior Frontal</option>
+                                            <option value="Left Superior Parietal">Left Superior Parietal</option>
+                                            <option value="Right Superior Parietal">Right Superior Parietal</option>
+                                            <option value="Left Superior Temporal">Left Superior Temporal</option>
+                                            <option value="Right Superior Temporal">Right Superior Temporal</option>
+                                            <option value="Left Supramarginal">Left Supramarginal</option>
+                                            <option value="Right Supramarginal">Right Supramarginal</option>
+                                            <option value="Left Temporal Pole">Left Temporal Pole</option>
+                                            <option value="Right Temporal Pole">Right Temporal Pole</option>
+                                            <option value="Left Transverse Temporal">Left Transverse Temporal</option>
+                                            <option value="Right Transverse Temporal">Right Transverse Temporal</option>
                                         </select>
                                     </td>
                                     <td>
                                         <select class="selectpicker" multiple data-live-search="true" data-actions-box="true" data-width="75%">
-                                            <option value="" disabled>Choose ROIs</option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
+                                            <option value="Left Accumbens">Left Accumbens</option>
+                                            <option value="Right Accumbens">Right Accumbens</option>
+                                            <option value="Left Amygdala">Left Amygdala</option>
+                                            <option value="Right Amygdala">Right Amygdala</option>
+                                            <option value="Left Caudate">Left Caudate</option>
+                                            <option value="Right Caudate">Right Caudate</option>
+                                            <option value="Left Hippocampus">Left Hippocampus</option>
+                                            <option value="Right Hippocampus">Right Hippocampus</option>
+                                            <option value="Left Pallidum">Left Pallidum</option>
+                                            <option value="Right Pallidum">Right Pallidum</option>
+                                            <option value="Left Putamen">Left Putamen</option>
+                                            <option value="Right Putamen">Right Putamen</option>
+                                            <option value="Left Thalamus">Left Thalamus</option>
+                                            <option value="Right Thalamus">Right Thalamus</option>
                                         </select>
                                     </td>
                                 </tr>
@@ -190,18 +262,92 @@
                                 <tr>
                                     <td>
                                         <select class="selectpicker" multiple data-live-search="true" data-actions-box="true" data-width="75%">
-                                            <option value="" disabled>Choose ROIs</option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
+                                            <option value="Left Bank of the Superior Temporal Sulcus">Left Bank of the Superior Temporal Sulcus</option>
+                                            <option value="Right Bank of the Superior Temporal Sulcus">Right Bank of the Superior Temporal Sulcus</option>
+                                            <option value="Left Caudal Anterior Cingulate">Left Caudal Anterior Cingulate</option>
+                                            <option value="Right Caudal Anterior Cingulate">Right Caudal Anterior Cingulate</option>
+                                            <option value="Left Caudal Middle Frontal">Left Caudal Middle Frontal</option>
+                                            <option value="Right Caudal Middle Frontal">Right Caudal Middle Frontal</option>
+                                            <option value="Left Cuneus">Left Cuneus</option>
+                                            <option value="Right Cuneus">Right Cuneus</option>
+                                            <option value="Left Entorhinal">Left Entorhinal</option>
+                                            <option value="Right Entorhinal">Right Entorhinal</option>
+                                            <option value="Left Frontal Pole">Left Frontal Pole</option>
+                                            <option value="Right Frontal Pole">Right Frontal Pole</option>
+                                            <option value="Left Fusiform">Left Fusiform</option>
+                                            <option value="Right Fusiform">Right Fusiform</option>
+                                            <option value="Left Inferior Parietal">Left Inferior Parietal</option>
+                                            <option value="Right Inferior Parietal">Right Inferior Parietal</option>
+                                            <option value="Left Inferior Temporal">Left Inferior Temporal</option>
+                                            <option value="Right Inferior Temporal">Right Inferior Temporal</option>
+                                            <option value="Left Insula">Left Insula</option>
+                                            <option value="Right Insula">Right Insula</option>
+                                            <option value="Left Isthmus Cingulate">Left Isthmus Cingulate</option>
+                                            <option value="Right Isthmus Cingulate">Right Isthmus Cingulate</option>
+                                            <option value="Left Lateral Occipital">Left Lateral Occipital</option>
+                                            <option value="Right Lateral Occipital">Right Lateral Occipital</option>
+                                            <option value="Left Lateral Orbitofronal">Left Lateral Orbitofronal</option>
+                                            <option value="Right Lateral Orbitofronal">Right Lateral Orbitofronal</option>
+                                            <option value="Left Lingual">Left Lingual</option>
+                                            <option value="Right Lingual">Right Lingual</option>
+                                            <option value="Left Medial Orbitofrontal">Left Medial Orbitofrontal</option>
+                                            <option value="Right Medial Orbitofrontal">Right Medial Orbitofrontal</option>
+                                            <option value="Left Middle Temporal">Left Middle Temporal</option>
+                                            <option value="Right Middle Temporal">Right Middle Temporal</option>
+                                            <option value="Left Paracentral">Left Paracentral</option>
+                                            <option value="Right Paracentral">Right Paracentral</option>
+                                            <option value="Left Parahippocampal">Left Parahippocampal</option>
+                                            <option value="Right Parahippocampal">Right Parahippocampal</option>
+                                            <option value="Left Pars Opercularis">Left Pars Opercularis</option>
+                                            <option value="Right Pars Opercularis">Right Pars Opercularis</option>
+                                            <option value="Left Pars Orbitalis">Left Pars Orbitalis</option>
+                                            <option value="Right Pars Orbitalis">Right Pars Orbitalis</option>
+                                            <option value="Left Pars Triangularis">Left Pars Triangularis</option>
+                                            <option value="Right Pars Triangularis">Right Pars Triangularis</option>
+                                            <option value="Left Pericalcarine">Left Pericalcarine</option>
+                                            <option value="Right Pericalcarine">Right Pericalcarine</option>
+                                            <option value="Left Post Central">Left Post Central</option>
+                                            <option value="Right Post Central">Right Post Central</option>
+                                            <option value="Left Posterior Cingulate">Left Posterior Cingulate</option>
+                                            <option value="Right Posterior Cingulate">Right Posterior Cingulate</option>
+                                            <option value="Left Precentral">Left Precentral</option>
+                                            <option value="Right Precentral">Right Precentral</option>
+                                            <option value="Left Precuneus">Left Precuneus</option>
+                                            <option value="Right Precuneus">Right Precuneus</option>
+                                            <option value="Left Rostral Anterior Cingulate">Left Rostral Anterior Cingulate</option>
+                                            <option value="Right Rostral Anterior Cingulate">Right Rostral Anterior Cingulate</option>
+                                            <option value="Left Rostral Middle Frontal">Left Rostral Middle Frontal</option>
+                                            <option value="Right Rostral Middle Frontal">Right Rostral Middle Frontal</option>
+                                            <option value="Left Superior Frontal">Left Superior Frontal</option>
+                                            <option value="Right Superior Frontal">Right Superior Frontal</option>
+                                            <option value="Left Superior Parietal">Left Superior Parietal</option>
+                                            <option value="Right Superior Parietal">Right Superior Parietal</option>
+                                            <option value="Left Superior Temporal">Left Superior Temporal</option>
+                                            <option value="Right Superior Temporal">Right Superior Temporal</option>
+                                            <option value="Left Supramarginal">Left Supramarginal</option>
+                                            <option value="Right Supramarginal">Right Supramarginal</option>
+                                            <option value="Left Temporal Pole">Left Temporal Pole</option>
+                                            <option value="Right Temporal Pole">Right Temporal Pole</option>
+                                            <option value="Left Transverse Temporal">Left Transverse Temporal</option>
+                                            <option value="Right Transverse Temporal">Right Transverse Temporal</option>
                                         </select>
                                     </td>
                                     <td>
                                         <select class="selectpicker" multiple data-live-search="true" data-actions-box="true" data-width="75%">
-                                            <option value="" disabled>Choose ROIs</option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
+                                            <option value="Left Accumbens">Left Accumbens</option>
+                                            <option value="Right Accumbens">Right Accumbens</option>
+                                            <option value="Left Amygdala">Left Amygdala</option>
+                                            <option value="Right Amygdala">Right Amygdala</option>
+                                            <option value="Left Caudate">Left Caudate</option>
+                                            <option value="Right Caudate">Right Caudate</option>
+                                            <option value="Left Hippocampus">Left Hippocampus</option>
+                                            <option value="Right Hippocampus">Right Hippocampus</option>
+                                            <option value="Left Pallidum">Left Pallidum</option>
+                                            <option value="Right Pallidum">Right Pallidum</option>
+                                            <option value="Left Putamen">Left Putamen</option>
+                                            <option value="Right Putamen">Right Putamen</option>
+                                            <option value="Left Thalamus">Left Thalamus</option>
+                                            <option value="Right Thalamus">Right Thalamus</option>
                                         </select>
                                     </td>
                                 </tr>
