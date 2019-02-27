@@ -1,0 +1,22 @@
+.container {
+	margin: 3%;
+}
+
+.paritions {
+	margin-bottom: 2%;
+}
+
+table{
+	border: 3px solid red;
+    width: 100%;
+}
+
+td{
+    border: 1px solid green;
+    padding: 1%;
+}
+
+th{
+    border: 2px solid blue;
+    padding: 1%;
+}

@@ -1,0 +1,215 @@
+<!doctype html>
+<html>
+    <head>
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="assets/css/all.css">
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+        <!-- Material Design Bootstrap -->
+        <link rel="stylesheet" href="assets/css/mdb.min.css">
+
+
+
+
+
+
+        <!--<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>-->
+        <!-- <script src="{{ url_for('static' , filename='bootstrap.js') }}"></script> -->
+        <!-- <script src="{{ url_for('static', filename='bootstrap-typeahead.js') }}"></script> -->
+        <link rel="stylesheet" href="assets/css/main.css">
+
+
+        <title>PALS - Config Generator</title>
+    </head>
+    <body>
+        <div class="container">
+            <table>
+                <tr>
+                    <td>
+                        <div class="section">
+                            <table>
+                                <tr>
+                                    <th></th>
+                                    <th>Select operations you want to perform</th>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" name="Re_orient_radiological" onchange="onCheckboxToggle(this)"></td>
+                                    <td>Reorient to radiological convention</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" name="Lesion_correction" onchange="onCheckboxToggle(this)"></td>
+                                    <td>Lesion correction for white matter voxels</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" name="Lesion_load_calculation" onchange="onCheckboxToggle(this)"></td>
+                                    <td>Lesion load calculation</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div class="section">
+                            <table>
+                                <tr>
+                                    <th>Common Settings</th>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Input Directory</td>
+                                    <td><input type="text" name="input_dir" placeholder="Directory containing subjects" onchange="onTextChange(this)"></td>
+                                </tr>
+                                <tr>
+                                    <td>Output Directory</td>
+                                    <td><input type="text" name="output_dir"
+                                               placeholder="Directory where results should be placed" onchange="onTextChange(this)">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>T1 Anatomical Image Identifier</td>
+                                    <td><input type="text" name="t1_id" placeholder="T1 Identifier" onchange="onTextChange(this)"></td>
+                                </tr>
+                                <tr>
+                                    <td>Lesion Mask Identifier</td>
+                                    <td><input type="text" name="lesion_mask_id" placeholder="Lesion Mask Identifier" onchange="onTextChange(this)"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>
+
+                        <div class="section">
+                            <table>
+                                <tr>
+                                    <th>Inputs for Lesion correction for white matter voxels</th>
+                                </tr>
+                                <tr>
+                                    <td>Has brain extraction already been performed on all subjects</td>
+                                    <td><input type="checkbox" name="bet_performed" onchange="onCheckboxToggle(this)"></td>
+                                </tr>
+                                <tr>
+                                    <td>Skull-stripped brain identifier</td>
+                                    <td><input type="text" name="bet_identifier" placeholder="Brain identifier" onchange="onTextChange(this)"></td>
+                                </tr>
+                                <tr>
+                                    <td>Has white matter segmentation already been performed on all subjects</td>
+                                    <td><input type="checkbox" name="wms_performed" onchange="onCheckboxToggle(this)"></td>
+                                </tr>
+                                <tr>
+                                    <td>White matter mask identifier</td>
+                                    <td><input type="text" name="wms_identifier" placeholder="White matter identifier" onchange="onTextChange(this)"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="section">
+                            <table>
+                                <tr>
+                                    <th>Inputs for Lesion Load calculation</th>
+                                </tr>
+                                <tr>
+                                    <td>Has white matter segmentation already been performed on all subjects</td>
+                                    <td><input type="checkbox" name="wms_performed" onchange="onCheckboxToggle(this)"></td>
+                                </tr>
+                                <tr>
+                                    <td>White matter mask identifier</td>
+                                    <td><input type="text" name="wms_identifier" placeholder="White matter identifier" onchange="onTextChange(this)"></td>
+                                </tr>
+                                <tr>
+                                    <td>Select Regions of interesets included in PALS</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+
+                                        <table>
+                                            <tr>
+                                                <th>Corticospinal Tracts</th>
+                                                <th>FreeSurfer Cortical Regions of Interest</th>
+                                                <th>FreeSurfer Sub-Cortical Regions of Interest</th>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <select class="selectpicker" multiple data-live-search="true" data-actions-box="true" data-width="75%">
+                                                        <option value="" disabled selected>Choose ROIs</option>
+                                                        <option value="1">Option 1</option>
+                                                        <option value="2">Option 2</option>
+                                                        <option value="3">Option 3</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="selectpicker" multiple data-live-search="true" data-actions-box="true" data-width="75%">
+                                                        <option value="" disabled selected>Choose ROIs</option>
+                                                        <option value="1">Option 1</option>
+                                                        <option value="2">Option 2</option>
+                                                        <option value="3">Option 3</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="selectpicker" multiple data-live-search="true" data-actions-box="true" data-width="75%">
+                                                        <option value="" disabled selected>Choose ROIs</option>
+                                                        <option value="1">Option 1</option>
+                                                        <option value="2">Option 2</option>
+                                                        <option value="3">Option 3</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>Use subject-specific FreeSurfer segmentations</td>
+                                </tr>
+                                <tr>
+                                    <table>
+                                        <tr>
+                                            <th>FreeSurfer Cortical Regions of Interest</th>
+                                            <th>FreeSurfer Sub-Cortical Regions of Interest</th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <select class="selectpicker" multiple data-live-search="true" data-actions-box="true" data-width="75%">
+                                                    <option value="" disabled selected>Choose ROIs</option>
+                                                    <option value="1">Option 1</option>
+                                                    <option value="2">Option 2</option>
+                                                    <option value="3">Option 3</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class="selectpicker" multiple data-live-search="true" data-actions-box="true" data-width="75%">
+                                                    <option value="" disabled selected>Choose ROIs</option>
+                                                    <option value="1">Option 1</option>
+                                                    <option value="2">Option 2</option>
+                                                    <option value="3">Option 3</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <input class="btn btn-primary" type="button" onclick="printConfigs()" value="Print Configs">
+        </div>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+        <script src="assets/js/main.js"></script>
+    </body>
+</html>
