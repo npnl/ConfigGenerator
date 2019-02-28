@@ -75,11 +75,11 @@
                                 </tr>
                                 <tr>
                                     <td>Has brain extraction already been performed on all subjects</td>
-                                    <td><input type="checkbox" class="bright-checkbox" name="bet_performed" onchange="onCheckboxToggle(this)"></td>
+                                    <td><input type="checkbox" class="bright-checkbox" name="bet_performed_1" onchange="onCheckboxToggle(this)"></td>
                                 </tr>
                                 <tr>
                                     <td>Skull-stripped brain identifier</td>
-                                    <td><input type="text" class="form-control" name="bet_identifier" placeholder="Brain identifier" onchange="onTextChange(this)"></td>
+                                    <td><input type="text" class="form-control" id="bet_identifier_1" name="bet_identifier_1" placeholder="Brain identifier" onchange="onTextChange(this)"></td>
                                 </tr>
                                 <tr>
                                     <td>Has white matter segmentation already been performed on all subjects</td>
@@ -87,7 +87,7 @@
                                 </tr>
                                 <tr>
                                     <td>White matter mask identifier</td>
-                                    <td><input type="text" class="form-control" name="wms_identifier" placeholder="White matter identifier" onchange="onTextChange(this)"></td>
+                                    <td><input type="text" class="form-control" id="wms_identifier" name="wms_identifier" placeholder="White matter identifier" onchange="onTextChange(this)"></td>
                                 </tr>
                             </table>
                         </div>
@@ -101,14 +101,13 @@
                                     <th colspan="2">Inputs for Lesion Load calculation</th>
                                 </tr>
                                 <tr>
-                                    <td>Has white matter segmentation already been performed on all subjects</td>
-                                    <td><input type="checkbox" class="bright-checkbox" name="wms_performed" onchange="onCheckboxToggle(this)"></td>
+                                    <td>Has brain extraction already been performed on all subjects</td>
+                                    <td><input type="checkbox" class="bright-checkbox" name="bet_performed_2" onchange="onCheckboxToggle(this)"></td>
                                 </tr>
                                 <tr>
-                                    <td>White matter mask identifier</td>
-                                    <td><input type="text" class="form-control" name="wms_identifier" placeholder="White matter identifier" onchange="onTextChange(this)"></td>
+                                    <td>Skull-stripped brain identifier</td>
+                                    <td><input type="text" class="form-control" id="bet_identifier_2" name="bet_identifier_2" placeholder="Brain identifier" onchange="onTextChange(this)"></td>
                                 </tr>
-
                             </table>
                         </div>
                     </td>

@@ -61,8 +61,10 @@ function onTextChange(element) {
     case "lesion_mask_id":
       configs.common_settings.lesion_mask_id = value;
       break;
-    case "bet_identifier":
+    case "bet_identifier_1":
       configs.module_settings.Lesion_correction.bet_identifier = value;
+      break;
+    case "bet_identifier_2":
       configs.module_settings.Lesion_load_calculation.bet_identifier = value;
       break;
     case "wms_identifier":
@@ -72,6 +74,10 @@ function onTextChange(element) {
       console.log("Invalid selections");
   }
   itemsUpdated();
+}
+
+function toggleTextBox(textBoxId, toggle) {
+  $("#" + textBoxId).prop( "disabled", toggle);
 }
 
 function toggleComponent(component_id, ms) {
@@ -85,10 +91,12 @@ function onCheckboxToggle(element) {
     case "Re_orient_radiological":
       configs.modules.Re_orient_radiological = value;
       break;
+
     case "Lesion_correction":
       configs.modules.Lesion_correction = value;
       toggleComponent("lesion-correction", 500);
       break;
+
     case "Lesion_load_calculation":
       configs.modules.Lesion_load_calculation = value;
       toggleComponent("lesion-load-calculation-1", 500);
@@ -98,6 +106,21 @@ function onCheckboxToggle(element) {
       toggleComponent("lesion-load-calculation-5", 500);
       toggleComponent("lesion-load-calculation-6", 500);
       break;
+
+    case "bet_performed_1":
+      configs.module_settings.Lesion_correction.bet_performed = value;
+      toggleTextBox("bet_identifier_1", !value);
+      break;
+
+    case "bet_performed_2":
+      configs.module_settings.Lesion_load_calculation.bet_performed = value;
+      toggleTextBox("bet_identifier_2", !value);
+      break;
+
+    case "wms_performed":
+      configs.module_settings.Lesion_correction.wms_performed = value;
+      toggleTextBox("wms_identifier", !value);
+
     default:
       console.log("Invalid selections");
   }
@@ -135,6 +158,9 @@ $(document).ready(function () {
   toggleComponent("lesion-load-calculation-4", 0);
   toggleComponent("lesion-load-calculation-5", 0);
   toggleComponent("lesion-load-calculation-6", 0);
+  toggleTextBox("wms_identifier", true);
+  toggleTextBox("bet_identifier_1", true);
+  toggleTextBox("bet_identifier_2", true);
   itemsUpdated();
 });
 
@@ -144,11 +170,7 @@ function itemsUpdated() {
 
 
 function download() {
-
   var text = JSON.stringify(configs, null, 4);
-
-  console.log(text);
-
   var a = document.getElementById("a");
   var file = new Blob([text], {type: 'text/plain'});
   a.href = URL.createObjectURL(file);
