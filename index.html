@@ -1,25 +1,7 @@
 <!doctype html>
 <html>
     <head>
-
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="assets/css/all.css">
-        <!-- Bootstrap core CSS -->
-        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-        <!-- Material Design Bootstrap -->
-        <link rel="stylesheet" href="assets/css/mdb.min.css">
-
-
-
-
-
-
-        <!--<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>-->
-        <!-- <script src="{{ url_for('static' , filename='bootstrap.js') }}"></script> -->
-        <!-- <script src="{{ url_for('static', filename='bootstrap-typeahead.js') }}"></script> -->
         <link rel="stylesheet" href="assets/css/main.css">
-
-
         <title>PALS - Config Generator</title>
     </head>
     <body>
@@ -51,7 +33,7 @@
                     </td>
                 </tr>
 
-                <tr>
+                <tr id="common-settings">
                     <td>
                         <div class="section">
                             <table class="table table-striped">
@@ -83,7 +65,7 @@
                 </tr>
 
 
-                <tr>
+                <tr id="lesion-correction">
                     <td>
 
                         <div class="section">
@@ -111,7 +93,7 @@
                         </div>
                     </td>
                 </tr>
-                <tr>
+                <tr id="lesion-load-calculation-1">
                     <td>
                         <div class="section">
                             <table class="table table-striped">
@@ -132,11 +114,11 @@
                     </td>
                 </tr>
 
-                <tr>
+                <tr id="lesion-load-calculation-2">
                     <th>Select Regions of interesets included in PALS</th>
                 </tr>
 
-                <tr>
+                <tr id="lesion-load-calculation-3">
                     <td>
                         <div class="section">
                             <table class="table table-striped equal-width">
@@ -147,13 +129,13 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <select class="selectpicker" multiple data-live-search="true" data-actions-box="true" data-width="75%">
+                                        <select id="default_corticospinal_tracts" class="selectpicker" multiple data-live-search="true" data-actions-box="true" data-width="75%">
                                             <option value="Left Corticospinal Tract">Left Corticospinal Tract</option>
                                             <option value="Right Corticospinal Tract">Right Corticospinal Tract</option>
                                         </select>
                                     </td>
                                     <td>
-                                        <select class="selectpicker" multiple data-live-search="true" data-actions-box="true" data-width="75%">
+                                        <select id="default_fs_cortical" class="selectpicker" multiple data-live-search="true" data-actions-box="true" data-width="75%">
                                             <option value="Left Bank of the Superior Temporal Sulcus">Left Bank of the Superior Temporal Sulcus</option>
                                             <option value="Right Bank of the Superior Temporal Sulcus">Right Bank of the Superior Temporal Sulcus</option>
                                             <option value="Left Caudal Anterior Cingulate">Left Caudal Anterior Cingulate</option>
@@ -225,7 +207,7 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <select class="selectpicker" multiple data-live-search="true" data-actions-box="true" data-width="75%">
+                                        <select id="default_fs_sub_cortical" class="selectpicker" multiple data-live-search="true" data-actions-box="true" data-width="75%">
                                             <option value="Left Accumbens">Left Accumbens</option>
                                             <option value="Right Accumbens">Right Accumbens</option>
                                             <option value="Left Amygdala">Left Amygdala</option>
@@ -248,10 +230,10 @@
                     </td>
                 </tr>
 
-                <tr>
+                <tr id="lesion-load-calculation-4">
                     <th>Use subject-specific FreeSurfer segmentations</th>
                 </tr>
-                <tr>
+                <tr id="lesion-load-calculation-5">
                     <td>
                         <div class="section">
                             <table class="table table-striped">
@@ -261,7 +243,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <select class="selectpicker" multiple data-live-search="true" data-actions-box="true" data-width="75%">
+                                        <select id="fs_cortical" class="selectpicker" multiple data-live-search="true" data-actions-box="true" data-width="75%">
                                             <option value="Left Bank of the Superior Temporal Sulcus">Left Bank of the Superior Temporal Sulcus</option>
                                             <option value="Right Bank of the Superior Temporal Sulcus">Right Bank of the Superior Temporal Sulcus</option>
                                             <option value="Left Caudal Anterior Cingulate">Left Caudal Anterior Cingulate</option>
@@ -333,7 +315,7 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <select class="selectpicker" multiple data-live-search="true" data-actions-box="true" data-width="75%">
+                                        <select id="fs_sub_cortical" class="selectpicker" multiple data-live-search="true" data-actions-box="true" data-width="75%">
                                             <option value="Left Accumbens">Left Accumbens</option>
                                             <option value="Right Accumbens">Right Accumbens</option>
                                             <option value="Left Amygdala">Left Amygdala</option>
@@ -357,7 +339,7 @@
                 </tr>
                 <tr>
                     <td class="center-aligned">
-                        <input class="btn btn-primary" type="button" onclick="printConfigs()" value="Print Configs">
+                        <a href="" id="a" class="btn btn-primary">Click here to download your file</a>
                     </td>
                 </tr>
             </table>

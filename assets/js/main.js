@@ -71,6 +71,11 @@ function onTextChange(element) {
     default:
       console.log("Invalid selections");
   }
+  itemsUpdated();
+}
+
+function toggleComponent(component_id, ms) {
+  $("#" + component_id).toggle(ms);
 }
 
 function onCheckboxToggle(element) {
@@ -82,13 +87,34 @@ function onCheckboxToggle(element) {
       break;
     case "Lesion_correction":
       configs.modules.Lesion_correction = value;
+      toggleComponent("lesion-correction", 500);
       break;
     case "Lesion_load_calculation":
       configs.modules.Lesion_load_calculation = value;
+      toggleComponent("lesion-load-calculation-1", 500);
+      toggleComponent("lesion-load-calculation-2", 500);
+      toggleComponent("lesion-load-calculation-3", 500);
+      toggleComponent("lesion-load-calculation-4", 500);
+      toggleComponent("lesion-load-calculation-5", 500);
+      toggleComponent("lesion-load-calculation-6", 500);
       break;
     default:
       console.log("Invalid selections");
   }
+  itemsUpdated();
+}
+
+function updateSelectedROIS() {
+  configs.module_settings.Lesion_load_calculation.roi_names.default.corticospinal_tracts = $("#default_corticospinal_tracts").val() || [];
+  configs.module_settings.Lesion_load_calculation.roi_names.default.fs_cortical = $("#default_fs_cortical").val() || [];
+  configs.module_settings.Lesion_load_calculation.roi_names.default.fs_sub_cortical = $("#default_fs_sub_cortical").val() || [];
+
+  configs.module_settings.Lesion_load_calculation.roi_names.free_surfer.fs_cortical = $("#fs_cortical").val() || [];
+  configs.module_settings.Lesion_load_calculation.roi_names.free_surfer.fs_sub_cortical = $("#fs_sub_cortical").val() || [];
+
+  itemsUpdated();
+
+  console.log(configs);
 }
 
 function printConfigs() {
@@ -97,7 +123,34 @@ function printConfigs() {
 
 $('select').selectpicker();
 
-// $(document).ready(function() {
-//   console.log("This mthod kajs dakjsn d");
-//   $(".mdb-select").materialSelect();
-// });
+$('select').on('change', function(e){
+  updateSelectedROIS();
+});
+
+$(document).ready(function () {
+  toggleComponent("lesion-correction", 0);
+  toggleComponent("lesion-load-calculation-1", 0);
+  toggleComponent("lesion-load-calculation-2", 0);
+  toggleComponent("lesion-load-calculation-3", 0);
+  toggleComponent("lesion-load-calculation-4", 0);
+  toggleComponent("lesion-load-calculation-5", 0);
+  toggleComponent("lesion-load-calculation-6", 0);
+  itemsUpdated();
+});
+
+function itemsUpdated() {
+  download();
+}
+
+
+function download() {
+
+  var text = JSON.stringify(configs, null, 4);
+
+  console.log(text);
+
+  var a = document.getElementById("a");
+  var file = new Blob([text], {type: 'text/plain'});
+  a.href = URL.createObjectURL(file);
+  a.download = 'config.json';
+}
