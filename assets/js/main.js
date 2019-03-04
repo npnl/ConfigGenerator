@@ -7,8 +7,8 @@ var configs = {
   },
 
   "common_settings": {
-    "input_dir": "",
-    "output_dir": "",
+    "input_dir": "/pals/input/",
+    "output_dir": "/pals/output/",
     "t1_id": "",
     "lesion_mask_id": "",
     "same_anatomical_space": false
@@ -37,8 +37,8 @@ var configs = {
           "fs_sub_cortical": []
         },
         "own": {
-          "brain_template": "",
-          "paths": []
+          "template_brain": "",
+          "own_rois": false
         }
       }
     }
@@ -70,14 +70,26 @@ function onTextChange(element) {
     case "wms_identifier":
       configs.module_settings.Lesion_correction.wms_identifier = value;
       break;
+    case "template_brain":
+      configs.module_settings.Lesion_load_calculation.roi_names.own.template_brain = value;
+      break;
     default:
-      console.log("Invalid selections");
+      console.log("No handler for this text change");
   }
   itemsUpdated();
 }
 
 function toggleTextBox(textBoxId, toggle) {
   $("#" + textBoxId).prop( "disabled", toggle);
+}
+
+function toggleDiv(div_id, enable) {
+  if (enable) {
+    $("#" + div_id).removeClass("disable_div");
+  }
+  else {
+    $("#" + div_id).addClass("disable_div");
+  }
 }
 
 function toggleComponent(component_id, ms) {
@@ -105,6 +117,7 @@ function onCheckboxToggle(element) {
       toggleComponent("lesion-load-calculation-4", 500);
       toggleComponent("lesion-load-calculation-5", 500);
       toggleComponent("lesion-load-calculation-6", 500);
+      toggleComponent("lesion-load-calculation-7", 500);
       break;
 
     case "bet_performed_1":
@@ -120,6 +133,16 @@ function onCheckboxToggle(element) {
     case "wms_performed":
       configs.module_settings.Lesion_correction.wms_performed = value;
       toggleTextBox("wms_identifier", !value);
+      break;
+
+    case "verify_fs":
+      toggleDiv("lesion-load-calculation-6_1", value);
+      break;
+
+    case "own_rois":
+      configs.module_settings.Lesion_load_calculation.roi_names.own.own_rois = value;
+      break;
+
 
     default:
       console.log("Invalid selections");
@@ -158,10 +181,12 @@ $(document).ready(function () {
   toggleComponent("lesion-load-calculation-4", 0);
   toggleComponent("lesion-load-calculation-5", 0);
   toggleComponent("lesion-load-calculation-6", 0);
+  toggleComponent("lesion-load-calculation-7", 0);
   toggleTextBox("wms_identifier", true);
   toggleTextBox("bet_identifier_1", true);
   toggleTextBox("bet_identifier_2", true);
   itemsUpdated();
+  toggleDiv("lesion-load-calculation-6_1", false);
 });
 
 function itemsUpdated() {

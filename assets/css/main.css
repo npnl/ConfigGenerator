@@ -25,10 +25,19 @@ th{
     padding: 1%;
 }
 
+.no-padding {
+    padding: 0% !important;
+}
+
 .equal-width {
     table-layout: fixed !important;
 }
 
 .bright-checkbox {
     outline: 2px solid #4430b8;
+}
+
+.disable_div {
+    pointer-events:none;
+    background: #DCDCDC;
 }

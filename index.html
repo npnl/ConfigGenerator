@@ -41,16 +41,16 @@
                                     <th>Common Settings</th>
                                     <td></td>
                                 </tr>
-                                <tr>
-                                    <td>Input Directory</td>
-                                    <td><input type="text" class="form-control" name="input_dir" placeholder="Directory containing subjects" onchange="onTextChange(this)"></td>
-                                </tr>
-                                <tr>
-                                    <td>Output Directory</td>
-                                    <td><input type="text" class="form-control" name="output_dir"
-                                               placeholder="Directory where results should be placed" onchange="onTextChange(this)">
-                                    </td>
-                                </tr>
+                                <!--<tr>-->
+                                    <!--<td>Input Directory</td>-->
+                                    <!--<td><input type="text" class="form-control" name="input_dir" placeholder="Directory containing subjects" onchange="onTextChange(this)"></td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td>Output Directory</td>-->
+                                    <!--<td><input type="text" class="form-control" name="output_dir"-->
+                                               <!--placeholder="Directory where results should be placed" onchange="onTextChange(this)">-->
+                                    <!--</td>-->
+                                <!--</tr>-->
                                 <tr>
                                     <td>T1 Anatomical Image Identifier</td>
                                     <td><input type="text" class="form-control" name="t1_id" placeholder="T1 Identifier" onchange="onTextChange(this)"></td>
@@ -232,9 +232,23 @@
                 <tr id="lesion-load-calculation-4">
                     <th>Use subject-specific FreeSurfer segmentations</th>
                 </tr>
+
                 <tr id="lesion-load-calculation-5">
                     <td>
-                        <div class="section">
+                        <div>
+                            <table class="table table-striped">
+                                <tr>
+                                    <td><input type="checkbox" class="bright-checkbox" name="verify_fs" onchange="onCheckboxToggle(this)"></td>
+                                    <td>Each subject directory contains an aparc+aseg.mgz and T1.mgz file.</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr id="lesion-load-calculation-6">
+                    <td>
+                        <div class="section" id="lesion-load-calculation-6_1">
                             <table class="table table-striped">
                                 <tr>
                                     <th>FreeSurfer Cortical Regions of Interest</th>
@@ -336,6 +350,29 @@
                         </div>
                     </td>
                 </tr>
+
+                <tr id="lesion-load-calculation-7">
+                    <td>
+                        <div class="section">
+                            <table class="table table-striped">
+                                <tr>
+                                    <th colspan="2"><input type="checkbox" class="bright-checkbox" name="own_rois" onchange="onCheckboxToggle(this)"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Own ROIs</th>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">To use your own ROIs, place them in folder and mount that folder to "/pals/rois/" while running PALS in the docker container.</td>
+                                </tr>
+
+                                <tr>
+                                    <td>File name of the template brain for your ROIs.</td>
+                                    <td><input type="text" class="form-control" name="template_brain" placeholder="Template Brain" onchange="onTextChange(this)"></td>
+                                </tr>
+
+
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+
                 <tr>
                     <td class="center-aligned">
                         <a href="" id="a" class="btn btn-primary">Click here to download the config file</a>
