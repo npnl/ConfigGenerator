@@ -7,8 +7,8 @@ var configs = {
   },
 
   "common_settings": {
-    "input_dir": "/pals/input/",
-    "output_dir": "/pals/output/",
+    "input_dir": "/input/",
+    "output_dir": "/output/",
     "t1_id": "",
     "lesion_mask_id": "",
     "same_anatomical_space": false

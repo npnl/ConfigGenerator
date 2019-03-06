@@ -359,12 +359,12 @@
                                     <th colspan="2"><input type="checkbox" class="bright-checkbox" name="own_rois" onchange="onCheckboxToggle(this)"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Own ROIs</th>
                                 </tr>
                                 <tr>
-                                    <td colspan="2">To use your own ROIs, place them in folder and mount that folder to "/pals/rois/" while running PALS in the docker container.</td>
+                                    <td colspan="2">To use your own ROI, place them in folder along with the <b>Template Brain file</b> and mount that folder to <b>"/own_rois/"</b> while running PALS in the docker container.</td>
                                 </tr>
 
                                 <tr>
                                     <td>File name of the template brain for your ROIs.</td>
-                                    <td><input type="text" class="form-control" name="template_brain" placeholder="Template Brain" onchange="onTextChange(this)"></td>
+                                    <td><input type="text" class="form-control" name="template_brain" placeholder="Template Brain file name" onchange="onTextChange(this)"></td>
                                 </tr>
 
 
