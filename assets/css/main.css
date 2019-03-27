@@ -41,3 +41,8 @@ th{
     pointer-events:none;
     background: #DCDCDC;
 }
+
+.required:after {
+    content:" *";
+    color: red;
+}

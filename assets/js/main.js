@@ -45,6 +45,7 @@ var configs = {
   }
 };
 
+
 function onTextChange(element) {
   var element_name = element.name;
   var value = element.value;
@@ -163,10 +164,6 @@ function updateSelectedROIS() {
   console.log(configs);
 }
 
-function printConfigs() {
-  console.log(configs);
-}
-
 $('select').selectpicker();
 
 $('select').on('change', function(e){
@@ -187,6 +184,7 @@ $(document).ready(function () {
   toggleTextBox("bet_identifier_2", true);
   itemsUpdated();
   toggleDiv("lesion-load-calculation-6_1", false);
+  initializeToolTips();
 });
 
 function itemsUpdated() {
@@ -198,6 +196,80 @@ function download() {
   var text = JSON.stringify(configs, null, 4);
   var a = document.getElementById("a");
   var file = new Blob([text], {type: 'text/plain'});
+
+  if (configs.common_settings.t1_id === '' || configs.common_settings.lesion_mask_id === '') {
+    a.text = "T1 Identifier and Lesion Mask Id are required fields. Provide values for these fields to download the config file";
+    a.href = "";
+    return;
+  }
+  var text = JSON.stringify(configs, null, 4);
+  var a = document.getElementById("a");
+  var file = new Blob([text], {type: 'text/plain'});
+  a.text = "Click here to download the config file";
   a.href = URL.createObjectURL(file);
   a.download = 'config.json';
 }
+
+function setToolTips(element_id, text) {
+  $(element_id).attr('title', text)
+    .tooltip('show')
+    .tooltip('hide');
+}
+
+function initializeToolTips() {
+  $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+
+  var text = "This module will check that all subject inputs are in the same orientation, flag subjects that have mismatched input orientations, and convert all remaining inputs to radiological convention. This is recommended for all datasets, and especially for multi-site data.";
+  setToolTips("#rad_reorient-1", text);
+  setToolTips("#rad_reorient-2", text);
+
+  text = "This module is for manually segmented lesions. This aims to correct for intact white matter voxels that may have been inadvertently included in a manually segmented mask by removing voxels in the lesion mask that are within the intensity range of a white matter mask.";
+  setToolTips("#Lesion_correction-1", text);
+  setToolTips("#Lesion_correction-2", text);
+
+  text = "This module will perform lesion load for several different ROI selections: default ROIs, freesurfer segmentations, and user-input ROIs.";
+  setToolTips("#Lesion_load_calculation-1", text);
+  setToolTips("#Lesion_load_calculation-2", text);
+
+  text = "Provide the T1 identifier to your whole-brain anatomical images. Note: this identifier should be unique to the anatomical whole-brain image only. For example, put 'T1' if subject1's T1 file is subj01_T1.nii.gz.";
+  setToolTips("#t1_id-1", text);
+  setToolTips("#t1_id-2", text);
+
+  text = "Provide the identifier for your lesion mask. For example, put 'Lesion' if subject1's lesion mask files is subj01_Lesion.nii.gz.";
+  setToolTips("#lesion_mask_id-1", text);
+  setToolTips("#lesion_mask_id-2", text);
+
+  text = "Indicate if you have already performed brain extraction for all subjects. Each subject directory should contain a skull-stripped brain. If not, PALS will perform brain extraction for all subjects using FSL BET. *NOTE: Skull-stripped brain files must be present in each subject directory. If any subject is missing a brain file, PALS will run brain extraction on all subjects.";
+  setToolTips("#bet_performed_1-1", text);
+  setToolTips("#bet_performed_1-2", text);
+  setToolTips("#bet_performed_2-1", text);
+  setToolTips("#bet_performed_2-2", text);
+
+  text = "Indicate the unique identifier for skull-stripped brain files. For example, 'Brain' if subject1's brain file is subj01_Brain.nii.gz.";
+  setToolTips("#bet_identifier_1", text);
+  setToolTips("#bet_identifier_1-1", text);
+  setToolTips("#bet_identifier_2", text);
+  setToolTips("#bet_identifier_2-1", text);
+
+  text = "Indicate if you have already performed white matter segmentation on all subjects. Each subject directory should contain a white matter mask. If not, PALS will perform white matter segmentation for all subjects using FSL FAST. *NOTE: White matter mask files must be present in each subject directory. If any subject is missing a white matter mask, PALS will run white matter segmentation on all subjects.";
+  setToolTips("#wms_performed-1", text);
+  setToolTips("#wms_performed-2", text);
+
+  text = "Indicate the unique identifier for white matter masks. For example, 'wm' if subject1's white matter mask filename is subj01_wm.nii.gz.";
+  setToolTips("#wms_identifier", text);
+  setToolTips("#wms_identifier-1", text);
+
+  text = "NOTE: all of these template ROIs are in 2mm MNI152 template space.";
+  setToolTips("#default_corticospinal_tracts-1", text);
+  setToolTips("#default_fs_cortical-1", text);
+  setToolTips("#default_fs_sub_cortical-1", text);
+
+  text = "Select if you would like to use subject-specific Freesurfer segmentations to calculate lesion load. This operation requires that Freesurfer cortical and subcortical segmentation has already been performed for each subject, and each subject directory must contain an aparc+aseg.mgz and T1.mgz file.";
+  setToolTips("#verify_fs-1", text);
+  setToolTips("#verify_fs-2", text);
+
+  text = "Select if you would like import your own regions of interest to calculate lesion load. NOTE: these ROIs must all be in the same space.";
+  setToolTips("#own_rois-1", text);
+
+};
+

@@ -14,19 +14,19 @@
                             <table class="table table-striped">
                                 <tr>
                                     <th>Check</th>
-                                    <th>Select operations you want to perform</th>
+                                    <th class="required">Select operations you want to perform</th>
                                 </tr>
                                 <tr>
-                                    <td><input type="checkbox" class="bright-checkbox" name="Re_orient_radiological" onchange="onCheckboxToggle(this)"></td>
-                                    <td>Reorient to radiological convention</td>
+                                    <td><input id="rad_reorient-1" type="checkbox" class="bright-checkbox" name="Re_orient_radiological" onchange="onCheckboxToggle(this)"></td>
+                                    <td><span id="rad_reorient-2">Reorient to radiological convention</span></td>
                                 </tr>
                                 <tr>
-                                    <td><input type="checkbox" class="bright-checkbox" name="Lesion_correction" onchange="onCheckboxToggle(this)"></td>
-                                    <td>Lesion correction for white matter voxels</td>
+                                    <td><input id="Lesion_correction-1" type="checkbox" class="bright-checkbox" name="Lesion_correction" onchange="onCheckboxToggle(this)"></td>
+                                    <td><span id="Lesion_correction-2" >Lesion correction for white matter voxels</span></td>
                                 </tr>
                                 <tr>
-                                    <td><input type="checkbox" class="bright-checkbox" name="Lesion_load_calculation" onchange="onCheckboxToggle(this)"></td>
-                                    <td>Lesion load calculation</td>
+                                    <td><input id="Lesion_load_calculation-1" type="checkbox" class="bright-checkbox" name="Lesion_load_calculation" onchange="onCheckboxToggle(this)"></td>
+                                    <td><span id="Lesion_load_calculation-2">Lesion load calculation</span></td>
                                 </tr>
                             </table>
                         </div>
@@ -38,7 +38,7 @@
                         <div class="section">
                             <table class="table table-striped">
                                 <tr>
-                                    <th>Common Settings</th>
+                                    <th class="required">Common Settings (Mandatory)</th>
                                     <td></td>
                                 </tr>
                                 <!--<tr>-->
@@ -52,12 +52,12 @@
                                     <!--</td>-->
                                 <!--</tr>-->
                                 <tr>
-                                    <td>T1 Anatomical Image Identifier</td>
-                                    <td><input type="text" class="form-control" name="t1_id" placeholder="T1 Identifier" onchange="onTextChange(this)"></td>
+                                    <td class="required"><span id="t1_id-1">T1 Anatomical Image Identifier</span></td>
+                                    <td><input type="text" id="t1_id-2" class="form-control" name="t1_id" placeholder="T1 Identifier" onchange="onTextChange(this)"></td>
                                 </tr>
                                 <tr>
-                                    <td>Lesion Mask Identifier</td>
-                                    <td><input type="text" class="form-control" name="lesion_mask_id" placeholder="Lesion Mask Identifier" onchange="onTextChange(this)"></td>
+                                    <td class="required"><span id="lesion_mask_id-1">Lesion Mask Identifier</span></td>
+                                    <td><input type="text" id="lesion_mask_id-2" class="form-control" name="lesion_mask_id" placeholder="Lesion Mask Identifier" onchange="onTextChange(this)"></td>
                                 </tr>
                             </table>
                         </div>
@@ -71,23 +71,23 @@
                         <div class="section">
                             <table class="table table-striped">
                                 <tr>
-                                    <th colspan="2">Inputs for Lesion correction for white matter voxels</th>
+                                    <th colspan="2">Inputs for Lesion correction for white matter voxels (Select all that apply)</th>
                                 </tr>
                                 <tr>
-                                    <td>Has brain extraction already been performed on all subjects</td>
-                                    <td><input type="checkbox" class="bright-checkbox" name="bet_performed_1" onchange="onCheckboxToggle(this)"></td>
+                                    <td><span id="bet_performed_1-1">Has brain extraction already been performed on all subjects</span></td>
+                                    <td><input id="bet_performed_1-2" type="checkbox" class="bright-checkbox" name="bet_performed_1" onchange="onCheckboxToggle(this)"></td>
                                 </tr>
                                 <tr>
-                                    <td>Skull-stripped brain identifier</td>
-                                    <td><input type="text" class="form-control" id="bet_identifier_1" name="bet_identifier_1" placeholder="Brain identifier" onchange="onTextChange(this)"></td>
+                                    <td><span id="bet_identifier_1-1">Skull-stripped brain identifier</span></td>
+                                    <td><input id="bet_identifier_1" type="text" class="form-control" name="bet_identifier_1" placeholder="Brain identifier" onchange="onTextChange(this)"></td>
                                 </tr>
                                 <tr>
-                                    <td>Has white matter segmentation already been performed on all subjects</td>
-                                    <td><input type="checkbox" class="bright-checkbox" name="wms_performed" onchange="onCheckboxToggle(this)"></td>
+                                    <td><span id="wms_performed-1">Has white matter segmentation already been performed on all subjects</span></td>
+                                    <td><input id="wms_performed-2" type="checkbox" class="bright-checkbox" name="wms_performed" onchange="onCheckboxToggle(this)"></td>
                                 </tr>
                                 <tr>
-                                    <td>White matter mask identifier</td>
-                                    <td><input type="text" class="form-control" id="wms_identifier" name="wms_identifier" placeholder="White matter identifier" onchange="onTextChange(this)"></td>
+                                    <td><span id="wms_identifier-1">White matter mask identifier</span></td>
+                                    <td><input id="wms_identifier" type="text" class="form-control" name="wms_identifier" placeholder="White matter identifier" onchange="onTextChange(this)"></td>
                                 </tr>
                             </table>
                         </div>
@@ -101,12 +101,12 @@
                                     <th colspan="2">Inputs for Lesion Load calculation</th>
                                 </tr>
                                 <tr>
-                                    <td>Has brain extraction already been performed on all subjects</td>
-                                    <td><input type="checkbox" class="bright-checkbox" name="bet_performed_2" onchange="onCheckboxToggle(this)"></td>
+                                    <td><span id="bet_performed_2-1">Has brain extraction already been performed on all subjects</span></td>
+                                    <td><input id="bet_performed_2-2" type="checkbox" class="bright-checkbox" name="bet_performed_2" onchange="onCheckboxToggle(this)"></td>
                                 </tr>
                                 <tr>
-                                    <td>Skull-stripped brain identifier</td>
-                                    <td><input type="text" class="form-control" id="bet_identifier_2" name="bet_identifier_2" placeholder="Brain identifier" onchange="onTextChange(this)"></td>
+                                    <td><span id="bet_identifier_2-1">Skull-stripped brain identifier</span></td>
+                                    <td><input id="bet_identifier_2" type="text" class="form-control" name="bet_identifier_2" placeholder="Brain identifier" onchange="onTextChange(this)"></td>
                                 </tr>
                             </table>
                         </div>
@@ -122,9 +122,9 @@
                         <div class="section">
                             <table class="table table-striped equal-width">
                                 <tr>
-                                    <th>Corticospinal Tracts</th>
-                                    <th>FreeSurfer Cortical Regions of Interest</th>
-                                    <th>FreeSurfer Sub-Cortical Regions of Interest</th>
+                                    <th><span id="default_corticospinal_tracts-1">Corticospinal Tracts</span></th>
+                                    <th><span id="default_fs_cortical-1">FreeSurfer Cortical Regions of Interest</span></th>
+                                    <th><span id="default_fs_sub_cortical-1">FreeSurfer Sub-Cortical Regions of Interest</span></th>
                                 </tr>
                                 <tr>
                                     <td>
@@ -238,8 +238,8 @@
                         <div>
                             <table class="table table-striped">
                                 <tr>
-                                    <td><input type="checkbox" class="bright-checkbox" name="verify_fs" onchange="onCheckboxToggle(this)"></td>
-                                    <td>Each subject directory contains an aparc+aseg.mgz and T1.mgz file.</td>
+                                    <td><input id="verify_fs-1" type="checkbox" class="bright-checkbox" name="verify_fs" onchange="onCheckboxToggle(this)"></td>
+                                    <td><span id="verify_fs-2">Each subject directory contains an aparc+aseg.mgz and T1.mgz file.</span></td>
                                 </tr>
                             </table>
                         </div>
@@ -356,7 +356,7 @@
                         <div class="section">
                             <table class="table table-striped">
                                 <tr>
-                                    <th colspan="2"><input type="checkbox" class="bright-checkbox" name="own_rois" onchange="onCheckboxToggle(this)"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Own ROIs</th>
+                                    <th colspan="2"><input id="own_rois-1" type="checkbox" class="bright-checkbox" name="own_rois" onchange="onCheckboxToggle(this)"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Own ROIs</th>
                                 </tr>
                                 <tr>
                                     <td colspan="2">To use your own ROI, place them in folder along with the <b>Template Brain file</b> and mount that folder to <b>"/own_rois/"</b> while running PALS in the docker container.</td>
