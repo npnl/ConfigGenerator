@@ -15,25 +15,30 @@
                                 <tr>
                                     <th>Check</th>
                                     <th class="required">Select operations you want to perform</th>
+                                    <th class="required">Requires</th>
                                 </tr>
                                 <tr>
                                     <td><input id="rad_reorient-1" type="checkbox" class="bright-checkbox" name="Re_orient_radiological" onchange="onCheckboxToggle(this)"></td>
                                     <td><span id="rad_reorient-2">Reorient to radiological convention</span></td>
+                                    <td>T1 Anatomical File + (Optional: Lesion Mask File)</td>
                                 </tr>
                                 <tr>
                                     <td><input id="Lesion_correction-1" type="checkbox" class="bright-checkbox" name="Lesion_correction" onchange="onCheckboxToggle(this)"></td>
                                     <td><span id="Lesion_correction-2" >Lesion correction for white matter voxels</span></td>
+                                    <td>T1 Anatomical File + Lesion Mask File</td>
                                 </tr>
                                 <tr>
                                     <td><input id="Lesion_load_calculation-1" type="checkbox" class="bright-checkbox" name="Lesion_load_calculation" onchange="onCheckboxToggle(this)"></td>
                                     <td><span id="Lesion_load_calculation-2">Lesion load calculation</span></td>
+                                    <td>T1 Anatomical File + Lesion Mask File</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2"><center><span><b>--OR--</b></span></center></td>
+                                    <td colspan="3"><center><span><b>--OR--</b></span></center></td>
                                 </tr>
                                 <tr>
                                     <td><input id="visual-qc-1" type="checkbox" class="bright-checkbox" name="Visual_QC" onchange="onCheckboxToggle(this)"></td>
                                     <td><span id="visual-qc-2">Perform visual control</span></td>
+                                    <td>T1 Anatomical File + Lesion Mask File</td>
                                 </tr>
                             </table>
                         </div>
@@ -50,21 +55,21 @@
                                 </tr>
                                 <!--<tr>-->
                                     <!--<td>Input Directory</td>-->
-                                    <!--<td><input type="text" class="form-control" name="input_dir" placeholder="Directory containing subjects" onchange="onTextChange(this)"></td>-->
+                                    <!--<td><input type="text" class="form-control" name="input_dir" placeholder="Directory containing subjects" onkeyup="onTextChange(this)"></td>-->
                                 <!--</tr>-->
                                 <!--<tr>-->
                                     <!--<td>Output Directory</td>-->
                                     <!--<td><input type="text" class="form-control" name="output_dir"-->
-                                               <!--placeholder="Directory where results should be placed" onchange="onTextChange(this)">-->
+                                               <!--placeholder="Directory where results should be placed" onkeyup="onTextChange(this)">-->
                                     <!--</td>-->
                                 <!--</tr>-->
                                 <tr>
                                     <td class="required"><span id="t1_id-1">T1 Anatomical Image Identifier</span></td>
-                                    <td><input type="text" id="t1_id-2" class="form-control" name="t1_id" placeholder="T1 Identifier" onchange="onTextChange(this)"></td>
+                                    <td><input type="text" id="t1_id-2" class="form-control" name="t1_id" placeholder="T1 Identifier" onkeyup="onTextChange(this)"></td>
                                 </tr>
-                                <tr>
-                                    <td class="required"><span id="lesion_mask_id-1">Lesion Mask Identifier</span></td>
-                                    <td><input type="text" id="lesion_mask_id-2" class="form-control" name="lesion_mask_id" placeholder="Lesion Mask Identifier" onchange="onTextChange(this)"></td>
+                                <tr id="lesion-mask">
+                                    <td><span id="lesion_mask_id-1">Lesion Mask Identifier</span></td>
+                                    <td><input type="text" id="lesion_mask_id-2" class="form-control" name="lesion_mask_id" placeholder="Lesion Mask Identifier" onkeyup="onTextChange(this)"></td>
                                 </tr>
                             </table>
                         </div>
@@ -86,7 +91,7 @@
                                 </tr>
                                 <tr>
                                     <td><span id="bet_identifier_1-1">Skull-stripped brain identifier</span></td>
-                                    <td><input id="bet_identifier_1" type="text" class="form-control" name="bet_identifier_1" placeholder="Brain identifier" onchange="onTextChange(this)"></td>
+                                    <td><input id="bet_identifier_1" type="text" class="form-control" name="bet_identifier_1" placeholder="Brain identifier" onkeyup="onTextChange(this)"></td>
                                 </tr>
                                 <tr>
                                     <td><span id="wms_performed-1">Has white matter segmentation already been performed on all subjects</span></td>
@@ -94,7 +99,7 @@
                                 </tr>
                                 <tr>
                                     <td><span id="wms_identifier-1">White matter mask identifier</span></td>
-                                    <td><input id="wms_identifier" type="text" class="form-control" name="wms_identifier" placeholder="White matter identifier" onchange="onTextChange(this)"></td>
+                                    <td><input id="wms_identifier" type="text" class="form-control" name="wms_identifier" placeholder="White matter identifier" onkeyup="onTextChange(this)"></td>
                                 </tr>
                             </table>
                         </div>
@@ -113,7 +118,7 @@
                                 </tr>
                                 <tr>
                                     <td><span id="bet_identifier_2-1">Skull-stripped brain identifier</span></td>
-                                    <td><input id="bet_identifier_2" type="text" class="form-control" name="bet_identifier_2" placeholder="Brain identifier" onchange="onTextChange(this)"></td>
+                                    <td><input id="bet_identifier_2" type="text" class="form-control" name="bet_identifier_2" placeholder="Brain identifier" onkeyup="onTextChange(this)"></td>
                                 </tr>
                             </table>
                         </div>
@@ -371,7 +376,7 @@
 
                                 <tr>
                                     <td>File name of the template brain for your ROIs.</td>
-                                    <td><input type="text" class="form-control" name="template_brain" placeholder="Template Brain file name" onchange="onTextChange(this)"></td>
+                                    <td><input type="text" class="form-control" name="template_brain" placeholder="Template Brain file name" onkeyup="onTextChange(this)"></td>
                                 </tr>
 
 
@@ -382,7 +387,7 @@
 
                 <tr>
                     <td class="center-aligned">
-                        <a href="" id="a" class="btn btn-primary">Click here to download the config file</a>
+                        <a href="" id="download-btn" class="btn btn-primary">Click here to download the config file</a>
                     </td>
                 </tr>
             </table>

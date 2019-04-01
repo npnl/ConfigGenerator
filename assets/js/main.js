@@ -10,7 +10,7 @@ var configs = {
     "input_dir": "/input/",
     "output_dir": "/output/",
     "t1_id": "",
-    "lesion_mask_id": "",
+    "lesion_mask_id": "this_field_is_deliberately_left_like_this",
     "same_anatomical_space": false
   },
 
@@ -48,7 +48,7 @@ var configs = {
 
 function onTextChange(element) {
   var element_name = element.name;
-  var value = element.value;
+  var value = element.value.trim();
   switch (element_name) {
     case "input_dir":
       configs.common_settings.input_dir = value;
@@ -60,7 +60,7 @@ function onTextChange(element) {
       configs.common_settings.t1_id = value;
       break;
     case "lesion_mask_id":
-      configs.common_settings.lesion_mask_id = value;
+      configs.common_settings.lesion_mask_id = value || 'this_field_is_deliberately_left_like_this';
       break;
     case "bet_identifier_1":
       configs.module_settings.Lesion_correction.bet_identifier = value;
@@ -174,6 +174,7 @@ $('select').on('change', function(e){
 });
 
 $(document).ready(function () {
+  // toggleComponent("lesion-mask", 0);
   toggleComponent("lesion-correction", 0);
   toggleComponent("lesion-load-calculation-1", 0);
   toggleComponent("lesion-load-calculation-2", 0);
@@ -196,21 +197,32 @@ function itemsUpdated() {
 
 
 function download() {
-  var text = JSON.stringify(configs, null, 4);
-  var a = document.getElementById("a");
-  var file = new Blob([text], {type: 'text/plain'});
+  var button = document.getElementById("download-btn");
 
   if (configs.common_settings.t1_id === '' || configs.common_settings.lesion_mask_id === '') {
-    a.text = "T1 Identifier and Lesion Mask Id are required fields. Provide values for these fields to download the config file";
-    a.href = "";
-    return;
+    button.href = "";
+    if (configs.modules.Lesion_correction === true || configs.modules.Lesion_load_calculation === true || configs.modules.Visual_QC == true) {
+      button.text = "T1 Identifier and Lesion Mask Id are required fields. Provide values for these fields to download the config file";
+      button.classList.remove("btn-primary");
+      button.classList.add("btn-secondary");
+      return;
+    }
+    if(configs.common_settings.t1_id === '') {
+      button.text = "T1 Identifier is the required field. Provide a valid value to download the config file";
+      button.classList.remove("btn-primary");
+      button.classList.add("btn-secondary");
+      return;
+    }
   }
+
+  button.classList.remove("btn-secondary");
+  button.classList.add("btn-primary");
+
   var text = JSON.stringify(configs, null, 4);
-  var a = document.getElementById("a");
   var file = new Blob([text], {type: 'text/plain'});
-  a.text = "Click here to download the config file";
-  a.href = URL.createObjectURL(file);
-  a.download = 'config.json';
+  button.text = "Click here to download the config file";
+  button.href = URL.createObjectURL(file);
+  button.download = 'config.json';
 }
 
 function setToolTips(element_id, text) {
