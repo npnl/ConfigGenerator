@@ -144,6 +144,9 @@ function onCheckboxToggle(element) {
       configs.module_settings.Lesion_load_calculation.roi_names.own.own_rois = value;
       break;
 
+    case "Visual_QC":
+      configs.modules.Visual_QC = value;
+      break;
 
     default:
       console.log("Invalid selections");
@@ -230,6 +233,10 @@ function initializeToolTips() {
   text = "This module will perform lesion load for several different ROI selections: default ROIs, freesurfer segmentations, and user-input ROIs.";
   setToolTips("#Lesion_load_calculation-1", text);
   setToolTips("#Lesion_load_calculation-2", text);
+
+  text = "This module can only be selected if none of the other modules are selected. This will create a visual inspection page with lesion masks overlaid on T1s.";
+  setToolTips("#visual-qc-1", text);
+  setToolTips("#visual-qc-2", text);
 
   text = "Provide the T1 identifier to your whole-brain anatomical images. Note: this identifier should be unique to the anatomical whole-brain image only. For example, put 'T1' if subject1's T1 file is subj01_T1.nii.gz.";
   setToolTips("#t1_id-1", text);
