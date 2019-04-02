@@ -45,7 +45,6 @@ var configs = {
   }
 };
 
-
 function onTextChange(element) {
   var element_name = element.name;
   var value = element.value.trim();
@@ -93,8 +92,55 @@ function toggleDiv(div_id, enable) {
   }
 }
 
-function toggleComponent(component_id, ms) {
-  $("#" + component_id).toggle(ms);
+function toggleComponent(component_id, ms, show) {
+  if (show){
+    $("#" + component_id).show(ms);
+  }
+  else {
+    $("#" + component_id).hide(ms);
+  }
+}
+
+function lesionLoadToggle(is_selected) {
+  configs.modules.Lesion_load_calculation = is_selected;
+  document.getElementById("Lesion_load_calculation-1").checked = is_selected;
+  toggleComponent("lesion-load-calculation-1", 500, is_selected);
+  toggleComponent("lesion-load-calculation-2", 500, is_selected);
+  toggleComponent("lesion-load-calculation-3", 500, is_selected);
+  toggleComponent("lesion-load-calculation-4", 500, is_selected);
+  toggleComponent("lesion-load-calculation-5", 500, is_selected);
+  toggleComponent("lesion-load-calculation-6", 500, is_selected);
+  toggleComponent("lesion-load-calculation-7", 500, is_selected);
+  if (is_selected) {
+    visualQCToggle(false);
+  }
+}
+
+function reOrientToggle(is_selected) {
+  configs.modules.Re_orient_radiological = is_selected;
+  document.getElementById("rad_reorient-1").checked = is_selected;
+  if (is_selected) {
+    visualQCToggle(false);
+  }
+}
+
+function lesionCorrectionToggle(is_selected) {
+  configs.modules.Lesion_correction = is_selected;
+  document.getElementById("Lesion_correction-1").checked = is_selected;
+  toggleComponent("lesion-correction", 500);
+  if (is_selected) {
+    visualQCToggle(false);
+  }
+}
+
+function visualQCToggle(is_selected) {
+  configs.modules.Visual_QC = is_selected;
+  document.getElementById("visual-qc-1").checked = is_selected;
+  if (is_selected){
+    lesionLoadToggle(false);
+    reOrientToggle(false);
+    lesionCorrectionToggle(false);
+  }
 }
 
 function onCheckboxToggle(element) {
@@ -102,23 +148,15 @@ function onCheckboxToggle(element) {
   var value = element.checked;
   switch (element_name) {
     case "Re_orient_radiological":
-      configs.modules.Re_orient_radiological = value;
+      reOrientToggle(value);
       break;
 
     case "Lesion_correction":
-      configs.modules.Lesion_correction = value;
-      toggleComponent("lesion-correction", 500);
+      lesionCorrectionToggle(value);
       break;
 
     case "Lesion_load_calculation":
-      configs.modules.Lesion_load_calculation = value;
-      toggleComponent("lesion-load-calculation-1", 500);
-      toggleComponent("lesion-load-calculation-2", 500);
-      toggleComponent("lesion-load-calculation-3", 500);
-      toggleComponent("lesion-load-calculation-4", 500);
-      toggleComponent("lesion-load-calculation-5", 500);
-      toggleComponent("lesion-load-calculation-6", 500);
-      toggleComponent("lesion-load-calculation-7", 500);
+      lesionLoadToggle(value);
       break;
 
     case "bet_performed_1":
@@ -145,7 +183,7 @@ function onCheckboxToggle(element) {
       break;
 
     case "Visual_QC":
-      configs.modules.Visual_QC = value;
+      visualQCToggle(value);
       break;
 
     default:
@@ -175,14 +213,14 @@ $('select').on('change', function(e){
 
 $(document).ready(function () {
   // toggleComponent("lesion-mask", 0);
-  toggleComponent("lesion-correction", 0);
-  toggleComponent("lesion-load-calculation-1", 0);
-  toggleComponent("lesion-load-calculation-2", 0);
-  toggleComponent("lesion-load-calculation-3", 0);
-  toggleComponent("lesion-load-calculation-4", 0);
-  toggleComponent("lesion-load-calculation-5", 0);
-  toggleComponent("lesion-load-calculation-6", 0);
-  toggleComponent("lesion-load-calculation-7", 0);
+  toggleComponent("lesion-correction", 0, false);
+  toggleComponent("lesion-load-calculation-1", 0, false);
+  toggleComponent("lesion-load-calculation-2", 0, false);
+  toggleComponent("lesion-load-calculation-3", 0, false);
+  toggleComponent("lesion-load-calculation-4", 0, false);
+  toggleComponent("lesion-load-calculation-5", 0, false);
+  toggleComponent("lesion-load-calculation-6", 0, false);
+  toggleComponent("lesion-load-calculation-7", 0, false);
   toggleTextBox("wms_identifier", true);
   toggleTextBox("bet_identifier_1", true);
   toggleTextBox("bet_identifier_2", true);
@@ -199,7 +237,7 @@ function itemsUpdated() {
 function download() {
   var button = document.getElementById("download-btn");
 
-  if (configs.common_settings.t1_id === '' || configs.common_settings.lesion_mask_id === '') {
+  if (configs.common_settings.t1_id === '' || configs.common_settings.lesion_mask_id === '' || configs.common_settings.lesion_mask_id === 'this_field_is_deliberately_left_like_this') {
     button.href = "";
     if (configs.modules.Lesion_correction === true || configs.modules.Lesion_load_calculation === true || configs.modules.Visual_QC == true) {
       button.text = "T1 Identifier and Lesion Mask Id are required fields. Provide values for these fields to download the config file";
@@ -246,7 +284,7 @@ function initializeToolTips() {
   setToolTips("#Lesion_load_calculation-1", text);
   setToolTips("#Lesion_load_calculation-2", text);
 
-  text = "This module can only be selected if none of the other modules are selected. This will create a visual inspection page with lesion masks overlaid on T1s.";
+  text = "This module can only be selected if none of the other modules are selected. This will create a visual inspection page with lesion masks overlaid on T1s. Visual control will be performed by default for the lesion load and lesion correction modules";
   setToolTips("#visual-qc-1", text);
   setToolTips("#visual-qc-2", text);
 
