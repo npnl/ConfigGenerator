@@ -30,7 +30,8 @@ var configs = {
         "default": {
           "corticospinal_tracts": [],
           "fs_cortical": [],
-          "fs_sub_cortical": []
+          "fs_sub_cortical": [],
+          "additional": []
         },
         "free_surfer": {
           "fs_cortical": [],
@@ -111,6 +112,8 @@ function lesionLoadToggle(is_selected) {
   toggleComponent("lesion-load-calculation-5", 500, is_selected);
   toggleComponent("lesion-load-calculation-6", 500, is_selected);
   toggleComponent("lesion-load-calculation-7", 500, is_selected);
+  toggleComponent("lesion-load-calculation-8", 500, is_selected);
+  toggleComponent("lesion-load-calculation-9", 500, is_selected);
   if (is_selected) {
     visualQCToggle(false);
   }
@@ -196,8 +199,10 @@ function updateSelectedROIS() {
   configs.module_settings.Lesion_load_calculation.roi_names.default.corticospinal_tracts = $("#default_corticospinal_tracts").val() || [];
   configs.module_settings.Lesion_load_calculation.roi_names.default.fs_cortical = $("#default_fs_cortical").val() || [];
   configs.module_settings.Lesion_load_calculation.roi_names.default.fs_sub_cortical = $("#default_fs_sub_cortical").val() || [];
+  configs.module_settings.Lesion_load_calculation.roi_names.default.additional = $("#additional_rois").val() || [];
 
   configs.module_settings.Lesion_load_calculation.roi_names.free_surfer.fs_cortical = $("#fs_cortical").val() || [];
+
   configs.module_settings.Lesion_load_calculation.roi_names.free_surfer.fs_sub_cortical = $("#fs_sub_cortical").val() || [];
 
   itemsUpdated();
@@ -221,6 +226,8 @@ $(document).ready(function () {
   toggleComponent("lesion-load-calculation-5", 0, false);
   toggleComponent("lesion-load-calculation-6", 0, false);
   toggleComponent("lesion-load-calculation-7", 0, false);
+  toggleComponent("lesion-load-calculation-8", 0, false);
+  toggleComponent("lesion-load-calculation-9", 0, false);
   toggleTextBox("wms_identifier", true);
   toggleTextBox("bet_identifier_1", true);
   toggleTextBox("bet_identifier_2", true);
