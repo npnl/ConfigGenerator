@@ -246,7 +246,7 @@ function download() {
 
   if (configs.common_settings.t1_id === '' || configs.common_settings.lesion_mask_id === '' || configs.common_settings.lesion_mask_id === 'this_field_is_deliberately_left_like_this') {
     button.href = "";
-    if (configs.modules.Lesion_correction === true || configs.modules.Lesion_load_calculation === true || configs.modules.Visual_QC == true) {
+    if (configs.modules.Lesion_correction === true || configs.modules.Lesion_load_calculation === true) {
       button.text = "T1 Identifier and Lesion Mask Id are required fields. Provide values for these fields to download the config file";
       button.classList.remove("btn-primary");
       button.classList.add("btn-secondary");
