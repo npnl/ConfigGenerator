@@ -130,7 +130,7 @@ function reOrientToggle(is_selected) {
 function lesionCorrectionToggle(is_selected) {
   configs.modules.Lesion_correction = is_selected;
   document.getElementById("Lesion_correction-1").checked = is_selected;
-  toggleComponent("lesion-correction", 500);
+  toggleComponent("lesion-correction", 500, is_selected);
   if (is_selected) {
     visualQCToggle(false);
   }
