@@ -1,23 +1,23 @@
 var configs = {
   Analysis: {
-    Reorient: true,
+    Reorient: false,
     Orientation: "LAS",
-    Registration: true,
+    Registration: false,
     RegistrationMethod: "FLIRT",
-    BrainExtraction: true,
+    BrainExtraction: false,
     BrainExtractionMethod: "BET",
-    WhiteMatterSegmentation: true,
-    LesionCorrection: true,
-    LesionLoadCalculation: true,
-    LesionHeatMap: true,
+    WhiteMatterSegmentation: false,
+    LesionCorrection: false,
+    LesionLoadCalculation: false,
+    LesionHeatMap: false,
   },
   BrainExtraction: {
     frac: 0.5,
-    mask: true,
+    mask: false,
   },
   Registration: {
     cost_func: "normmi",
-    reference: "/input/MNI152_T1_2mm_brain.nii.gz",
+    reference: "",
   },
   LesionCorrection: {
     ImageNormMin: 0,
@@ -27,28 +27,28 @@ var configs = {
   BIDSRoot: "/input/",
   Subject: "",
   Session: "",
-  LesionRoot: "/input/",
-  WhiteMatterSegmentationRoot: "/input/",
-  ROIDir: "/input/ROIs",
+  LesionRoot: "",
+  WhiteMatterSegmentationRoot: "",
+  ROIDir: "",
   ROIList: [],
-  Multiprocessing: 4,
+  Multiprocessing: 1,
   T1Entities: {
-    desc: "T1FinalResampledNorm",
-    space: "MNI152NLin2009aSym",
+    desc: "",
+    space: "",
   },
   LesionEntities: {
-    suffix: "mask",
-    space: "MNI152NLin2009aSym",
-    label: "L",
+    suffix: "",
+    space: "",
+    label: "",
   },
   HeatMap: {
-    Reference: "/input/MNI152_T1_2mm_brain.nii.gz",
+    Reference: "",
     Transparency: 0.4,
   },
   Outputs: {
     Root: "/output/",
     StartRegistrationSpace: "",
-    OutputRegistrationSpace: "MNI152NLin2009aSym",
+    OutputRegistrationSpace: "",
     RegistrationTransform: "",
     Reorient: "",
     BrainExtraction: "",
@@ -57,33 +57,12 @@ var configs = {
 };
 
 var common_input_dir = "";
+var common_output_dir = "";
 
 function onTextChange(element) {
   var element_name = element.name;
   var value = element.value.trim();
   switch (element_name) {
-    case "input_dir":
-      configs.common_settings.input_dir = value;
-      break;
-    case "output_dir":
-      configs.common_settings.output_dir = value;
-      break;
-    case "t1_id":
-      configs.common_settings.t1_id = value;
-      break;
-    case "lesion_mask_id":
-      configs.common_settings.lesion_mask_id =
-        value || "this_field_is_deliberately_left_like_this";
-      break;
-    case "bet_identifier_1":
-      configs.module_settings.Lesion_correction.bet_identifier = value;
-      break;
-    case "bet_identifier_2":
-      configs.module_settings.Lesion_load_calculation.bet_identifier = value;
-      break;
-    case "wms_identifier":
-      configs.module_settings.Lesion_correction.wms_identifier = value;
-      break;
     case "rad-reorient-method":
       configs.Analysis.Orientation = value;
       break;
@@ -158,7 +137,8 @@ function onTextChange(element) {
       configs.Multiprocessing = value;
       break;
     case "output_dir":
-      configs.Outputs.Root = value;
+      configs.Outputs.Root = configs.Outputs.Root;
+      common_output_dir = value;
       break;
     case "out_start_reg_space":
       configs.Outputs.StartRegistrationSpace = value;
@@ -234,21 +214,32 @@ function onCheckboxToggle(element) {
   switch (element_name) {
     case "Re_orient_radiological":
       configs.Analysis.Reorient = value;
-      toggleTextBox("rad_reorient-4", value); //LAS
+      toggleTextBox("rad_reorient-4", !value);
+      document.getElementById("rad_reorient-4").value = value
+        ? configs.Analysis.Orientation
+        : "";
       document.getElementById("rad_reorient-1").checked = value;
       break;
     case "Registration":
       configs.Analysis.Registration = value;
-      toggleTextBox("registration-4", value); //FLIRT
+      toggleTextBox("registration-4", !value);
+      document.getElementById("registration-4").value = value
+        ? configs.Analysis.RegistrationMethod
+        : "";
       toggleDiv("registration_div", value);
       document.getElementById("registration-1").checked = value;
+      document.getElementById("reg-2").value = configs.Registration
       break;
     case "brain_extraction":
       configs.Analysis.BrainExtraction = value;
-      toggleTextBox("brain_extraction-4", value); //BET
+      toggleTextBox("brain_extraction-4", !value);
+      document.getElementById("brain_extraction-4").value = value
+        ? configs.Analysis.BrainExtractionMethod
+        : "";
       toggleDiv("brain_extraction_div", value);
       document.getElementById("brain_extraction-1").checked = value;
-      document.getElementById("bet_mask").checked = value;
+      document.getElementById("bet_mask").checked = configs.BrainExtraction.mask;
+      document.getElementById("bet_frac").checked = configs.BrainExtraction.frac;
       break;
     case "wm_segmentation":
       configs.Analysis.WhiteMatterSegmentation = value;
@@ -258,6 +249,9 @@ function onCheckboxToggle(element) {
       configs.Analysis.LesionCorrection = value;
       toggleDiv("lesion_correction_div", value);
       document.getElementById("Lesion_correction-1").checked = value;
+      document.getElementById("lc-2").value = configs.LesionCorrection.ImageNormMin;
+      document.getElementById("lc-4").value = configs.LesionCorrection.ImageNormMax;
+      document.getElementById("lc-6").value = configs.LesionCorrection.WhiteMatterSpread;
       break;
 
     case "Lesion_load_calculation":
@@ -269,6 +263,7 @@ function onCheckboxToggle(element) {
       configs.Analysis.HeatMap = value;
       toggleDiv("heatmap_div", value);
       document.getElementById("heatmap-1").checked = value;
+      document.getElementById("heatmap-4").value = configs.HeatMap.Transparency
       break;
     case "bet_mask":
       configs.BrainExtraction.mask = value;
@@ -285,9 +280,9 @@ $("select").selectpicker();
 $(document).ready(function () {
   // toggleComponent("lesion-mask", 0);
   toggleComponent("lesion-correction", 0, false);
-  toggleTextBox("rad_reorient-4", false); //LAS
-  toggleTextBox("registration-4", false); //FLIRT
-  toggleTextBox("brain_extraction-4", false); //BET
+  toggleTextBox("rad_reorient-4", true); //LAS
+  toggleTextBox("registration-4", true); //FLIRT
+  toggleTextBox("brain_extraction-4", true); //BET
   toggleDiv("brain_extraction_div", false);
   toggleDiv("registration_div", false);
   toggleDiv("lesion_correction_div", false);
@@ -302,6 +297,102 @@ function itemsUpdated() {
 
 function download() {
   var button = document.getElementById("download-btn");
+
+  if (configs.Analysis.Registration) {
+    button.href = "";
+    if (!configs.Outputs.OutputRegistrationSpace) {
+      button.text = "Output Registration Space must be defined";
+      button.classList.remove("btn-primary");
+      button.classList.add("btn-secondary");
+      return;
+    }
+  } else {
+    configs.Outputs.OutputRegistrationSpace =
+      configs.Outputs.StartRegistrationSpace;
+  }
+
+  if (
+    (configs.WhiteMatterSegmentationRoot === "") &
+    !configs.Analysis.WhiteMatterSegmentation &
+    configs.Analysis.LesionCorrection
+  ) {
+    button.text =
+      "White Matter Segmentation Root is required for Lesion Correction";
+    button.classList.remove("btn-primary");
+    button.classList.add("btn-secondary");
+    return;
+  }
+  if (
+    (configs.Analysis.LesionLoadCalculation || configs.Analysis.HeatMap) &
+    (configs.LesionRoot === "")
+  ) {
+    button.text =
+      "Lesion Root input is invalid and required for Lesion Load Calculation and Lesion Heatmap";
+    button.classList.remove("btn-primary");
+    button.classList.add("btn-secondary");
+    return;
+  }
+
+  if (configs.T1Entities.desc === "" || configs.T1Entities.space === "") {
+    button.text = "T1 Anatomical Image Identifiers are required.";
+    button.classList.remove("btn-primary");
+    button.classList.add("btn-secondary");
+    return;
+  }
+
+  if (
+    configs.LesionEntities.label === "" ||
+    configs.LesionEntities.space === "" ||
+    configs.LesionEntities.suffix === ""
+  ) {
+    button.text = "Lesion Mask Image Identifiers are required.";
+    button.classList.remove("btn-primary");
+    button.classList.add("btn-secondary");
+    return;
+  }
+
+  if (configs.Analysis.Registration & (configs.Registration.reference === '' || configs.Registration.cost_func === '')){
+    button.text = "Configuration for registration using FLIRT is required";
+    button.classList.remove("btn-primary");
+    button.classList.add("btn-secondary");
+    return;
+  }
+
+  if (configs.Analysis.HeatMap & (configs.HeatMap.Reference === '' || configs.HeatMap.Transparency === '')){
+    button.text = "Configuration for heatmap is required";
+    button.classList.remove("btn-primary");
+    button.classList.add("btn-secondary");
+    return;
+  }
+
+  if (common_input_dir){
+    button.text = "BIDS root directory is required";
+    button.classList.remove("btn-primary");
+    button.classList.add("btn-secondary");
+    return;
+  }
+
+  if (configs.ROIDir){
+    button.text = "ROIs directory is required";
+    button.classList.remove("btn-primary");
+    button.classList.add("btn-secondary");
+    return;
+  }
+
+  if (common_output_dir){
+    button.text = "Output directory is required";
+    button.classList.remove("btn-primary");
+    button.classList.add("btn-secondary");
+    return;
+  }
+
+  if (configs.Outputs.StartRegistrationSpace === ''){
+    button.text = "Start Registration Space is required";
+    button.classList.remove("btn-primary");
+    button.classList.add("btn-secondary");
+    return;
+  }
+
   button.classList.remove("btn-secondary");
   button.classList.add("btn-primary");
 
@@ -350,7 +441,8 @@ function initializeToolTips() {
     "Path to the BIDS root directory for the lesion masks. Must be present inside BIDS Root Directory.";
   def_white_matter_segmentation_root =
     "Path to the BIDS root directory for the white matter segmentation files. Must be present inside BIDS Root Directory.";
-  def_input_ROIDir = "Path to the directory containing ROI image files. Must be present inside BIDS Root Directory.";
+  def_input_ROIDir =
+    "Path to the directory containing ROI image files. Must be present inside BIDS Root Directory.";
 
   def_lesion_identifier_space =
     "Provide the space for your lesion file. For example, put 'MNIEx2009aEx' if your file is sub-r044s001_ses-1_space-MNIEx2009aEx_label-L_desc-T1lesion_mask.nii";
@@ -359,7 +451,8 @@ function initializeToolTips() {
   def_lesion_identifier_suffix =
     "Provide the suffix for your lesion file. For example, put 'mask' if your file is sub-r044s001_ses-1_space-MNIEx2009aEx_label-L_desc-T1lesion_mask.nii";
 
-  def_reg_ext_reference = "Path to reference file. Must be present inside BIDS Root Directory.";
+  def_reg_ext_reference =
+    "Path to reference file. Must be present inside BIDS Root Directory.";
   def_reg_ext_cost_func = "Cost function for registration";
 
   def_T1_identifier_space =
