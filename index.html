@@ -1,440 +1,350 @@
 <!doctype html>
 <html>
-    <head>
-        <link rel="stylesheet" href="assets/css/main.css">
-        <title>PALS - Config Generator</title>
-    </head>
-    <body>
-        <div class="container">
-            <h2 class="center-aligned">Generate Config File for PALS</h2>
-            <table>
-                <tr>
-                    <td>
-                        <div class="section">
-                            <table class="table table-striped">
-                                <tr>
-                                    <th>Check</th>
-                                    <th class="required">Select operations you want to perform</th>
-                                    <th class="required">Requires</th>
-                                </tr>
-                                <tr>
-                                    <td><input id="rad_reorient-1" type="checkbox" class="bright-checkbox" name="Re_orient_radiological" onchange="onCheckboxToggle(this)"></td>
-                                    <td><span id="rad_reorient-2">Reorient to radiological convention</span></td>
-                                    <td>T1 Anatomical File + (Optional: Lesion Mask File)</td>
-                                </tr>
-                                <tr>
-                                    <td><input id="Lesion_correction-1" type="checkbox" class="bright-checkbox" name="Lesion_correction" onchange="onCheckboxToggle(this)"></td>
-                                    <td><span id="Lesion_correction-2" >Lesion correction for white matter voxels</span></td>
-                                    <td>T1 Anatomical File + Lesion Mask File</td>
-                                </tr>
-                                <tr>
-                                    <td><input id="Lesion_load_calculation-1" type="checkbox" class="bright-checkbox" name="Lesion_load_calculation" onchange="onCheckboxToggle(this)"></td>
-                                    <td><span id="Lesion_load_calculation-2">Lesion load calculation</span></td>
-                                    <td>T1 Anatomical File + Lesion Mask File</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3"><center><span><b>--OR--</b></span></center></td>
-                                </tr>
-                                <tr>
-                                    <td><input id="visual-qc-1" type="checkbox" class="bright-checkbox" name="Visual_QC" onchange="onCheckboxToggle(this)"></td>
-                                    <td><span id="visual-qc-2">Perform visual control</span></td>
-                                    <td>T1 Anatomical File + Lesion Mask File</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </td>
-                </tr>
 
-                <tr id="common-settings">
-                    <td>
-                        <div class="section">
-                            <table class="table table-striped">
-                                <tr>
-                                    <th class="required">Common Settings (Mandatory)</th>
-                                    <td></td>
-                                </tr>
-                                <!--<tr>-->
-                                    <!--<td>Input Directory</td>-->
-                                    <!--<td><input type="text" class="form-control" name="input_dir" placeholder="Directory containing subjects" onkeyup="onTextChange(this)"></td>-->
-                                <!--</tr>-->
-                                <!--<tr>-->
-                                    <!--<td>Output Directory</td>-->
-                                    <!--<td><input type="text" class="form-control" name="output_dir"-->
-                                               <!--placeholder="Directory where results should be placed" onkeyup="onTextChange(this)">-->
-                                    <!--</td>-->
-                                <!--</tr>-->
-                                <tr>
-                                    <td class="required"><span id="t1_id-1">T1 Anatomical Image Identifier</span></td>
-                                    <td><input type="text" id="t1_id-2" class="form-control" name="t1_id" placeholder="T1 Identifier" onkeyup="onTextChange(this)"></td>
-                                </tr>
-                                <tr id="lesion-mask">
-                                    <td><span id="lesion_mask_id-1">Lesion Mask Identifier</span></td>
-                                    <td><input type="text" id="lesion_mask_id-2" class="form-control" name="lesion_mask_id" placeholder="Lesion Mask Identifier" onkeyup="onTextChange(this)"></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </td>
-                </tr>
+<head>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <title>PALS - Config Generator</title>
+</head>
 
+<body>
+    <div class="container">
+        <h2 class="center-aligned">Generate Config File for PALS</h2>
+        <table>
+            <tr>
+                <td>
+                    <div class="section">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Check</th>
+                                <th class="required">Select operations you want to perform</th>
+                                <th class="required">Requires</th>
+                            </tr>
+                            <tr>
+                                <td><input id="rad_reorient-1" type="checkbox" class="bright-checkbox"
+                                        name="Re_orient_radiological" onchange="onCheckboxToggle(this)"></td>
+                                <td><span id="rad_reorient-2">Reorient to radiological convention</span></td>
+                                <td>T1 Anatomical File + (Optional: Lesion Mask File)
+                                    <br></br>
+                                    <span id="rad_reorient-3">Orientation</span>
+                                    <input type="text" id="rad_reorient-4" placeholder="LAS" class="form-control"
+                                        name="rad-reorient-method" placeholder="Orientation Method"
+                                        onkeyup="onTextChange(this)">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input id="registration-1" type="checkbox" class="bright-checkbox"
+                                        name="Registration" onchange="onCheckboxToggle(this)"></td>
+                                <td><span id="registration-2">Registration</span></td>
+                                <td>T1 Anatomical File + (Optional: Lesion Mask File)
+                                    <br></br>
+                                    <span id="registration-3">Registration Method</span>
+                                    <input type="text" id="registration-4" placeholder="FLIRT" class="form-control"
+                                        name="registration-method" placeholder="Registration Method"
+                                        onkeyup="onTextChange(this)">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input id="brain_extraction-1" type="checkbox" class="bright-checkbox"
+                                        name="brain_extraction" onchange="onCheckboxToggle(this)"></td>
+                                <td><span id="brain_extraction-2">Brain Extraction</span></td>
+                                <td>T1 Anatomical File + (Optional: Lesion Mask File)
+                                    <br></br>
+                                    <span id="brain_extraction-3">Brain Extraction Method</span>
+                                    <input type="text" id="brain_extraction-4" placeholder="BET" class="form-control"
+                                        name="brain-extraction-method" placeholder="Brain Extraction Method"
+                                        onkeyup="onTextChange(this)">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input id="wm_segmentation-1" type="checkbox" class="bright-checkbox"
+                                        name="wm_segmentation" onchange="onCheckboxToggle(this)"></td>
+                                <td><span id="wm_segmentation-2">White Matter Segmentation</span></td>
+                                <td>T1 Anatomical File</td>
+                            </tr>
+                            <tr>
+                                <td><input id="Lesion_correction-1" type="checkbox" class="bright-checkbox"
+                                        name="Lesion_correction" onchange="onCheckboxToggle(this)"></td>
+                                <td><span id="Lesion_correction-2">Lesion correction for white matter voxels</span></td>
+                                <td>T1 Anatomical File + Lesion Mask File</td>
+                            </tr>
+                            <tr>
+                                <td><input id="Lesion_load_calculation-1" type="checkbox" class="bright-checkbox"
+                                        name="Lesion_load_calculation" onchange="onCheckboxToggle(this)"></td>
+                                <td><span id="Lesion_load_calculation-2">Lesion load calculation</span></td>
+                                <td>T1 Anatomical File + Lesion Mask File</td>
+                            </tr>
+                            <tr>
+                                <td><input id="heatmap-1" type="checkbox" class="bright-checkbox" name="heatmap"
+                                        onchange="onCheckboxToggle(this)"></td>
+                                <td><span id="heatmap-2">Lesion heatmap</span></td>
+                                <td>T1 Anatomical File</td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
 
-                <tr id="lesion-correction">
-                    <td>
+            <tr id="common-settings">
+                <td>
+                    <div class="section">
+                        <table class="table table-striped">
+                            <tr>
+                                <th class="required">Common Settings (Mandatory)</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="required"><span id="input_id-1">BIDS Root Directory</span></td>
+                                <td><input type="text" id="input_id-2" class="form-control" name="bids_root_dir"
+                                        onkeyup="onTextChange(this)"></td>
+                            </tr>
+                            <tr>
+                                <td class="required"><span id="input_id-3">ROIs Directory</span></td>
+                                <td style="display: flex; align-items: center;">
+                                    <input type="text" id="input_id-4" class="form-control" name="common_input_dir"
+                                        disabled>
+                                    <span style="margin: 0 5px;">/</span>
+                                    <input type="text" id="input_id-26" class="form-control" name="rois_dir"
+                                        onkeyup="onTextChange(this)">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="required"><span id="input_id-5">T1 Anatomical Image Identifiers</span></td>
+                                <td>
+                                    <span id="input_id-6">Desc</span>
+                                    <input type="text" id="input_id-7" class="form-control" name="t1_desc"
+                                        onkeyup="onTextChange(this)">
+                                    <span id="input_id-8">Space</span>
+                                    <input type="text" id="input_id-9" class="form-control" name="t1_space"
+                                        onkeyup="onTextChange(this)">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="required"><span id="input_id-10">Lesion Mask Identifiers</span></td>
+                                <td>
+                                    <span id="input_id-11">Suffix</span>
+                                    <input type="text" id="input_id-12" class="form-control" name="lesion_mask_suffix"
+                                        onkeyup="onTextChange(this)">
+                                    <span id="input_id-13">Space</span>
+                                    <input type="text" id="input_id-14" class="form-control" name="lesion_mask_space"
+                                        onkeyup="onTextChange(this)">
+                                    <span id="input_id-15">Label</span>
+                                    <input type="text" id="input_id-16" class="form-control" name="lesion_mask_label"
+                                        onkeyup="onTextChange(this)">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span id="input_id-17">Subject</span></td>
+                                <td><input type="text" id="input_id-18" class="form-control" name="subject"
+                                        onkeyup="onTextChange(this)"></td>
+                            </tr>
+                            <tr>
+                                <td><span id="input_id-19">Session</span></td>
+                                <td><input type="text" id="input_id-20" class="form-control" name="session"
+                                        onkeyup="onTextChange(this)"></td>
+                            </tr>
+                            <tr>
+                                <td class="required"><span id="input_id-21">White Matter Segmentation Directory</span>
+                                </td>
 
-                        <div class="section">
-                            <table class="table table-striped">
-                                <tr>
-                                    <th colspan="2">Inputs for Lesion correction for white matter voxels (Select all that apply)</th>
-                                </tr>
-                                <tr>
-                                    <td><span id="bet_performed_1-1">Has brain extraction already been performed on all subjects</span></td>
-                                    <td><input id="bet_performed_1-2" type="checkbox" class="bright-checkbox" name="bet_performed_1" onchange="onCheckboxToggle(this)"></td>
-                                </tr>
-                                <tr>
-                                    <td><span id="bet_identifier_1-1">Skull-stripped brain identifier</span></td>
-                                    <td><input id="bet_identifier_1" type="text" class="form-control" name="bet_identifier_1" placeholder="Brain identifier" onkeyup="onTextChange(this)"></td>
-                                </tr>
-                                <tr>
-                                    <td><span id="wms_performed-1">Has white matter segmentation already been performed on all subjects</span></td>
-                                    <td><input id="wms_performed-2" type="checkbox" class="bright-checkbox" name="wms_performed" onchange="onCheckboxToggle(this)"></td>
-                                </tr>
-                                <tr>
-                                    <td><span id="wms_identifier-1">White matter mask identifier</span></td>
-                                    <td><input id="wms_identifier" type="text" class="form-control" name="wms_identifier" placeholder="White matter identifier" onkeyup="onTextChange(this)"></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </td>
-                </tr>
-                <tr id="lesion-load-calculation-1">
-                    <td>
-                        <div class="section">
-                            <table class="table table-striped">
-                                <tr>
-                                    <th colspan="2">Inputs for Lesion Load calculation</th>
-                                </tr>
-                                <tr>
-                                    <td><span id="bet_performed_2-1">Has brain extraction already been performed on all subjects</span></td>
-                                    <td><input id="bet_performed_2-2" type="checkbox" class="bright-checkbox" name="bet_performed_2" onchange="onCheckboxToggle(this)"></td>
-                                </tr>
-                                <tr>
-                                    <td><span id="bet_identifier_2-1">Skull-stripped brain identifier</span></td>
-                                    <td><input id="bet_identifier_2" type="text" class="form-control" name="bet_identifier_2" placeholder="Brain identifier" onkeyup="onTextChange(this)"></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </td>
-                </tr>
+                                <td style="display: flex; align-items: center;">
+                                    <input type="text" id="input_id-4" class="form-control" name="common_input_dir"
+                                        disabled>
+                                    <span style="margin: 0 5px;">/</span>
+                                    <input type="text" id="input_id-22" class="form-control" name="wm_seg_dir"
+                                        onkeyup="onTextChange(this)">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="required"><span id="input_id-23">Lesion Root Directory</span></td>
+                                <td style="display: flex; align-items: center;">
+                                    <input type="text" id="input_id-4" class="form-control" name="common_input_dir"
+                                        disabled>
+                                    <span style="margin: 0 5px;">/</span>
+                                    <input type="text" id="input_id-24" class="form-control" name="lesion_root_dir"
+                                        onchange="onTextChange(this)">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="required"><span id="input_id-25">Multiprocessing</span></td>
+                                <td><input type="number" id="input_id-26" class="form-control" placeholder=1
+                                        name="multiprocessing" onkeyup="onTextChange(this)"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
 
-                <tr id="lesion-load-calculation-2">
-                    <th>Select Regions of interests included in PALS</th>
-                </tr>
+            <tr id="output-settings">
+                <td>
+                    <div class="section">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Output Settings</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="required"><span id="output_id-1">Output Directory</span></td>
+                                <td><input type="text" id="output_id-2" class="form-control" name="output_dir"
+                                        onkeyup="onTextChange(this)"></td>
+                            </tr>
+                            <tr>
+                                <td class="required"><span id="output_id-3">Start Registration Space</span></td>
+                                <td><input type="text" id="output_id-4" class="form-control" name="out_start_reg_space"
+                                        onkeyup="onTextChange(this)"></td>
+                            </tr>
+                            <tr>
+                                <td class="required"><span id="output_id-5">Output Registration Space</span></td>
+                                <td><input type="text" id="output_id-6" class="form-control" name="output_reg_space"
+                                        onkeyup="onTextChange(this)"></td>
+                            </tr>
+                            <tr>
+                                <td><span id="output_id-7">Registration Transform</span></td>
+                                <td><input type="text" id="output_id-8" class="form-control" name="out_reg_transform"
+                                        onkeyup="onTextChange(this)"></td>
+                            </tr>
+                            <tr>
+                                <td><span id="output_id-9">Reorient</span></td>
+                                <td><input type="text" id="output_id-10" class="form-control" name="out_reorient"
+                                        onkeyup="onTextChange(this)"></td>
+                            </tr>
+                            <tr>
+                                <td><span id="output_id-11">Brain Registration</span></td>
+                                <td><input type="text" id="output_id-12" class="form-control" name="out_brain_reg"
+                                        onkeyup="onTextChange(this)"></td>
+                            </tr>
+                            <tr>
+                                <td><span id="output_id-13">Lesion Corrected</span></td>
+                                <td><input type="text" id="output_id-14" class="form-control" name="out_lesion_corr"
+                                        onkeyup="onTextChange(this)"></td>
+                            </tr>
 
-                <tr id="lesion-load-calculation-3">
-                    <td>
-                        <div class="section">
-                            <table class="table table-striped equal-width">
-                                <tr>
-                                    <th><span id="default_corticospinal_tracts-1">Corticospinal Tracts</span></th>
-                                    <th><span id="default_fs_cortical-1">FreeSurfer Cortical Regions of Interest</span></th>
-                                    <th><span id="default_fs_sub_cortical-1">FreeSurfer Sub-Cortical Regions of Interest</span></th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <select id="default_corticospinal_tracts" class="selectpicker" multiple data-live-search="true" data-actions-box="true" data-width="75%">
-                                            <option value="Left Corticospinal Tract">Left Corticospinal Tract</option>
-                                            <option value="Right Corticospinal Tract">Right Corticospinal Tract</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="default_fs_cortical" class="selectpicker" multiple data-live-search="true" data-actions-box="true" data-width="75%">
-                                            <option value="Left Bank of the Superior Temporal Sulcus">Left Bank of the Superior Temporal Sulcus</option>
-                                            <option value="Right Bank of the Superior Temporal Sulcus">Right Bank of the Superior Temporal Sulcus</option>
-                                            <option value="Left Caudal Anterior Cingulate">Left Caudal Anterior Cingulate</option>
-                                            <option value="Right Caudal Anterior Cingulate">Right Caudal Anterior Cingulate</option>
-                                            <option value="Left Caudal Middle Frontal">Left Caudal Middle Frontal</option>
-                                            <option value="Right Caudal Middle Frontal">Right Caudal Middle Frontal</option>
-                                            <option value="Left Cuneus">Left Cuneus</option>
-                                            <option value="Right Cuneus">Right Cuneus</option>
-                                            <option value="Left Entorhinal">Left Entorhinal</option>
-                                            <option value="Right Entorhinal">Right Entorhinal</option>
-                                            <option value="Left Frontal Pole">Left Frontal Pole</option>
-                                            <option value="Right Frontal Pole">Right Frontal Pole</option>
-                                            <option value="Left Fusiform">Left Fusiform</option>
-                                            <option value="Right Fusiform">Right Fusiform</option>
-                                            <option value="Left Inferior Parietal">Left Inferior Parietal</option>
-                                            <option value="Right Inferior Parietal">Right Inferior Parietal</option>
-                                            <option value="Left Inferior Temporal">Left Inferior Temporal</option>
-                                            <option value="Right Inferior Temporal">Right Inferior Temporal</option>
-                                            <option value="Left Insula">Left Insula</option>
-                                            <option value="Right Insula">Right Insula</option>
-                                            <option value="Left Isthmus Cingulate">Left Isthmus Cingulate</option>
-                                            <option value="Right Isthmus Cingulate">Right Isthmus Cingulate</option>
-                                            <option value="Left Lateral Occipital">Left Lateral Occipital</option>
-                                            <option value="Right Lateral Occipital">Right Lateral Occipital</option>
-                                            <option value="Left Lateral Orbitofronal">Left Lateral Orbitofronal</option>
-                                            <option value="Right Lateral Orbitofronal">Right Lateral Orbitofronal</option>
-                                            <option value="Left Lingual">Left Lingual</option>
-                                            <option value="Right Lingual">Right Lingual</option>
-                                            <option value="Left Medial Orbitofrontal">Left Medial Orbitofrontal</option>
-                                            <option value="Right Medial Orbitofrontal">Right Medial Orbitofrontal</option>
-                                            <option value="Left Middle Temporal">Left Middle Temporal</option>
-                                            <option value="Right Middle Temporal">Right Middle Temporal</option>
-                                            <option value="Left Paracentral">Left Paracentral</option>
-                                            <option value="Right Paracentral">Right Paracentral</option>
-                                            <option value="Left Parahippocampal">Left Parahippocampal</option>
-                                            <option value="Right Parahippocampal">Right Parahippocampal</option>
-                                            <option value="Left Pars Opercularis">Left Pars Opercularis</option>
-                                            <option value="Right Pars Opercularis">Right Pars Opercularis</option>
-                                            <option value="Left Pars Orbitalis">Left Pars Orbitalis</option>
-                                            <option value="Right Pars Orbitalis">Right Pars Orbitalis</option>
-                                            <option value="Left Pars Triangularis">Left Pars Triangularis</option>
-                                            <option value="Right Pars Triangularis">Right Pars Triangularis</option>
-                                            <option value="Left Pericalcarine">Left Pericalcarine</option>
-                                            <option value="Right Pericalcarine">Right Pericalcarine</option>
-                                            <option value="Left Post Central">Left Post Central</option>
-                                            <option value="Right Post Central">Right Post Central</option>
-                                            <option value="Left Posterior Cingulate">Left Posterior Cingulate</option>
-                                            <option value="Right Posterior Cingulate">Right Posterior Cingulate</option>
-                                            <option value="Left Precentral">Left Precentral</option>
-                                            <option value="Right Precentral">Right Precentral</option>
-                                            <option value="Left Precuneus">Left Precuneus</option>
-                                            <option value="Right Precuneus">Right Precuneus</option>
-                                            <option value="Left Rostral Anterior Cingulate">Left Rostral Anterior Cingulate</option>
-                                            <option value="Right Rostral Anterior Cingulate">Right Rostral Anterior Cingulate</option>
-                                            <option value="Left Rostral Middle Frontal">Left Rostral Middle Frontal</option>
-                                            <option value="Right Rostral Middle Frontal">Right Rostral Middle Frontal</option>
-                                            <option value="Left Superior Frontal">Left Superior Frontal</option>
-                                            <option value="Right Superior Frontal">Right Superior Frontal</option>
-                                            <option value="Left Superior Parietal">Left Superior Parietal</option>
-                                            <option value="Right Superior Parietal">Right Superior Parietal</option>
-                                            <option value="Left Superior Temporal">Left Superior Temporal</option>
-                                            <option value="Right Superior Temporal">Right Superior Temporal</option>
-                                            <option value="Left Supramarginal">Left Supramarginal</option>
-                                            <option value="Right Supramarginal">Right Supramarginal</option>
-                                            <option value="Left Temporal Pole">Left Temporal Pole</option>
-                                            <option value="Right Temporal Pole">Right Temporal Pole</option>
-                                            <option value="Left Transverse Temporal">Left Transverse Temporal</option>
-                                            <option value="Right Transverse Temporal">Right Transverse Temporal</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="default_fs_sub_cortical" class="selectpicker" multiple data-live-search="true" data-actions-box="true" data-width="75%">
-                                            <option value="Left Accumbens">Left Accumbens</option>
-                                            <option value="Right Accumbens">Right Accumbens</option>
-                                            <option value="Left Amygdala">Left Amygdala</option>
-                                            <option value="Right Amygdala">Right Amygdala</option>
-                                            <option value="Left Caudate">Left Caudate</option>
-                                            <option value="Right Caudate">Right Caudate</option>
-                                            <option value="Left Hippocampus">Left Hippocampus</option>
-                                            <option value="Right Hippocampus">Right Hippocampus</option>
-                                            <option value="Left Pallidum">Left Pallidum</option>
-                                            <option value="Right Pallidum">Right Pallidum</option>
-                                            <option value="Left Putamen">Left Putamen</option>
-                                            <option value="Right Putamen">Right Putamen</option>
-                                            <option value="Left Thalamus">Left Thalamus</option>
-                                            <option value="Right Thalamus">Right Thalamus</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </td>
-                </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
 
-                <tr id="lesion-load-calculation-4">
-                    <th>Use subject-specific FreeSurfer segmentations</th>
-                </tr>
+            <tr id="brain-extraction">
+                <td>
+                    <div class="section" id="brain_extraction_div">
+                        <table class="table table-striped">
+                            <tr>
+                                <th colspan="2">Configuration for Brain Extraction</th>
+                            </tr>
+                            <tr>
+                                <td><span id="bet_identifier-1">Mask</span></td>
+                                <td><input id="bet_identifier-2" type="checkbox" class="bright-checkbox"
+                                        name="bet_mask" onchange="onCheckboxToggle(this)"></td>
+                            </tr>
+                            <tr>
+                                <td><span id="bet_identifier-3">Fraction</span></td>
+                                <td><input id="bet_identifier-4" type="number" step="0.1" class="form-control"
+                                        name="bet_frac" placeholder="0.5" onkeyup="onTextChange(this)"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
 
-                <tr id="lesion-load-calculation-5">
-                    <td>
-                        <div>
-                            <table class="table table-striped">
-                                <tr>
-                                    <td><input id="verify_fs-1" type="checkbox" class="bright-checkbox" name="verify_fs" onchange="onCheckboxToggle(this)"></td>
-                                    <td><span id="verify_fs-2">Each subject directory contains an aparc+aseg.mgz and T1.mgz file.</span></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </td>
-                </tr>
+            <tr id="registration">
+                <td>
+                    <div class="section" id="registration_div">
+                        <table class="table table-striped">
+                            <tr>
+                                <th colspan="2">Configuration for FLIRT</th>
+                            </tr>
+                            <tr>
+                                <td><span id="reg-1">Cost Function</span></td>
+                                <td><input id="reg-2" type="text" class="form-control" name="reg_cost_func"
+                                        placeholder="normmi" onkeyup="onTextChange(this)"></td>
+                            </tr>
+                            <tr>
+                                <td><span id="reg-3">Reference</span></td>
+                                <td style="display: flex; align-items: center;">
+                                    <input type="text" id="input_id-4" class="form-control" name="common_input_dir"
+                                        disabled>
+                                    <span style="margin: 0 5px;">/</span>
+                                    <input type="text" id="reg-4" class="form-control" name="reg_ref"
+                                        onkeyup="onTextChange(this)">
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
 
-                <tr id="lesion-load-calculation-6">
-                    <td>
-                        <div class="section" id="lesion-load-calculation-6_1">
-                            <table class="table table-striped">
-                                <tr>
-                                    <th>FreeSurfer Cortical Regions of Interest</th>
-                                    <th>FreeSurfer Sub-Cortical Regions of Interest</th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <select id="fs_cortical" class="selectpicker" multiple data-live-search="true" data-actions-box="true" data-width="75%">
-                                            <option value="Left Bank of the Superior Temporal Sulcus">Left Bank of the Superior Temporal Sulcus</option>
-                                            <option value="Right Bank of the Superior Temporal Sulcus">Right Bank of the Superior Temporal Sulcus</option>
-                                            <option value="Left Caudal Anterior Cingulate">Left Caudal Anterior Cingulate</option>
-                                            <option value="Right Caudal Anterior Cingulate">Right Caudal Anterior Cingulate</option>
-                                            <option value="Left Caudal Middle Frontal">Left Caudal Middle Frontal</option>
-                                            <option value="Right Caudal Middle Frontal">Right Caudal Middle Frontal</option>
-                                            <option value="Left Cuneus">Left Cuneus</option>
-                                            <option value="Right Cuneus">Right Cuneus</option>
-                                            <option value="Left Entorhinal">Left Entorhinal</option>
-                                            <option value="Right Entorhinal">Right Entorhinal</option>
-                                            <option value="Left Frontal Pole">Left Frontal Pole</option>
-                                            <option value="Right Frontal Pole">Right Frontal Pole</option>
-                                            <option value="Left Fusiform">Left Fusiform</option>
-                                            <option value="Right Fusiform">Right Fusiform</option>
-                                            <option value="Left Inferior Parietal">Left Inferior Parietal</option>
-                                            <option value="Right Inferior Parietal">Right Inferior Parietal</option>
-                                            <option value="Left Inferior Temporal">Left Inferior Temporal</option>
-                                            <option value="Right Inferior Temporal">Right Inferior Temporal</option>
-                                            <option value="Left Insula">Left Insula</option>
-                                            <option value="Right Insula">Right Insula</option>
-                                            <option value="Left Isthmus Cingulate">Left Isthmus Cingulate</option>
-                                            <option value="Right Isthmus Cingulate">Right Isthmus Cingulate</option>
-                                            <option value="Left Lateral Occipital">Left Lateral Occipital</option>
-                                            <option value="Right Lateral Occipital">Right Lateral Occipital</option>
-                                            <option value="Left Lateral Orbitofronal">Left Lateral Orbitofronal</option>
-                                            <option value="Right Lateral Orbitofronal">Right Lateral Orbitofronal</option>
-                                            <option value="Left Lingual">Left Lingual</option>
-                                            <option value="Right Lingual">Right Lingual</option>
-                                            <option value="Left Medial Orbitofrontal">Left Medial Orbitofrontal</option>
-                                            <option value="Right Medial Orbitofrontal">Right Medial Orbitofrontal</option>
-                                            <option value="Left Middle Temporal">Left Middle Temporal</option>
-                                            <option value="Right Middle Temporal">Right Middle Temporal</option>
-                                            <option value="Left Paracentral">Left Paracentral</option>
-                                            <option value="Right Paracentral">Right Paracentral</option>
-                                            <option value="Left Parahippocampal">Left Parahippocampal</option>
-                                            <option value="Right Parahippocampal">Right Parahippocampal</option>
-                                            <option value="Left Pars Opercularis">Left Pars Opercularis</option>
-                                            <option value="Right Pars Opercularis">Right Pars Opercularis</option>
-                                            <option value="Left Pars Orbitalis">Left Pars Orbitalis</option>
-                                            <option value="Right Pars Orbitalis">Right Pars Orbitalis</option>
-                                            <option value="Left Pars Triangularis">Left Pars Triangularis</option>
-                                            <option value="Right Pars Triangularis">Right Pars Triangularis</option>
-                                            <option value="Left Pericalcarine">Left Pericalcarine</option>
-                                            <option value="Right Pericalcarine">Right Pericalcarine</option>
-                                            <option value="Left Post Central">Left Post Central</option>
-                                            <option value="Right Post Central">Right Post Central</option>
-                                            <option value="Left Posterior Cingulate">Left Posterior Cingulate</option>
-                                            <option value="Right Posterior Cingulate">Right Posterior Cingulate</option>
-                                            <option value="Left Precentral">Left Precentral</option>
-                                            <option value="Right Precentral">Right Precentral</option>
-                                            <option value="Left Precuneus">Left Precuneus</option>
-                                            <option value="Right Precuneus">Right Precuneus</option>
-                                            <option value="Left Rostral Anterior Cingulate">Left Rostral Anterior Cingulate</option>
-                                            <option value="Right Rostral Anterior Cingulate">Right Rostral Anterior Cingulate</option>
-                                            <option value="Left Rostral Middle Frontal">Left Rostral Middle Frontal</option>
-                                            <option value="Right Rostral Middle Frontal">Right Rostral Middle Frontal</option>
-                                            <option value="Left Superior Frontal">Left Superior Frontal</option>
-                                            <option value="Right Superior Frontal">Right Superior Frontal</option>
-                                            <option value="Left Superior Parietal">Left Superior Parietal</option>
-                                            <option value="Right Superior Parietal">Right Superior Parietal</option>
-                                            <option value="Left Superior Temporal">Left Superior Temporal</option>
-                                            <option value="Right Superior Temporal">Right Superior Temporal</option>
-                                            <option value="Left Supramarginal">Left Supramarginal</option>
-                                            <option value="Right Supramarginal">Right Supramarginal</option>
-                                            <option value="Left Temporal Pole">Left Temporal Pole</option>
-                                            <option value="Right Temporal Pole">Right Temporal Pole</option>
-                                            <option value="Left Transverse Temporal">Left Transverse Temporal</option>
-                                            <option value="Right Transverse Temporal">Right Transverse Temporal</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="fs_sub_cortical" class="selectpicker" multiple data-live-search="true" data-actions-box="true" data-width="75%">
-                                            <option value="Left Accumbens">Left Accumbens</option>
-                                            <option value="Right Accumbens">Right Accumbens</option>
-                                            <option value="Left Amygdala">Left Amygdala</option>
-                                            <option value="Right Amygdala">Right Amygdala</option>
-                                            <option value="Left Caudate">Left Caudate</option>
-                                            <option value="Right Caudate">Right Caudate</option>
-                                            <option value="Left Hippocampus">Left Hippocampus</option>
-                                            <option value="Right Hippocampus">Right Hippocampus</option>
-                                            <option value="Left Pallidum">Left Pallidum</option>
-                                            <option value="Right Pallidum">Right Pallidum</option>
-                                            <option value="Left Putamen">Left Putamen</option>
-                                            <option value="Right Putamen">Right Putamen</option>
-                                            <option value="Left Thalamus">Left Thalamus</option>
-                                            <option value="Right Thalamus">Right Thalamus</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </td>
-                </tr>
+            <tr id="lesion_correction">
+                <td>
+                    <div class="section" id="lesion_correction_div">
+                        <table class="table table-striped">
+                            <tr>
+                                <th colspan="2">Lesion Correction</th>
+                            </tr>
+                            <tr>
+                                <td><span id="lc-1">Image Norm Min</span></td>
+                                <td><input id="lc-2" type="number" class="form-control" name="img_norm_min"
+                                        placeholder="0" onkeyup="onTextChange(this)"></td>
+                            </tr>
+                            <tr>
+                                <td><span id="lc-3">Image Norm Max</span></td>
+                                <td><input id="lc-4" type="number" class="form-control" name="img_norm_max"
+                                        placeholder="255" onkeyup="onTextChange(this)"></td>
+                            </tr>
+                            <tr>
+                                <td><span id="lc-5">White Matter Spread</span></td>
+                                <td><input id="lc-6" type="number" step="0.01" class="form-control" name="wm_spread"
+                                        placeholder="0.05" onkeyup="onTextChange(this)"></td>
+                            </tr>
+                            
+                        </table>
+                    </div>
+                </td>
+            </tr>
+
+            <tr id="heatmap">
+                <td>
+                    <div class="section" id="heatmap_div">
+                        <table class="table table-striped">
+                            <tr>
+                                <th colspan="2">Heatmap</th>
+                            </tr>
+                            <tr>
+                                <td><span id="heatmap-3">Transparency</span></td>
+                                <td><input id="heatmap-4" type="number" step="0.1" class="form-control" name="heatmap_transparency"
+                                        placeholder="0.4" onkeyup="onTextChange(this)"></td>
+                            </tr>
+                            <tr>
+                                <td><span id="heatmap-5">Reference</span></td>
+                                <td style="display: flex; align-items: center;">
+                                    <input type="text" id="input_id-4" class="form-control" name="common_input_dir"
+                                        disabled>
+                                    <span style="margin: 0 5px;">/</span>
+                                    <input type="text" id="heatmap-6" class="form-control" name="heatmap_ref"
+                                        onkeyup="onTextChange(this)">
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
 
 
-                <tr id="lesion-load-calculation-8">
-                    <th>Select Regions of interests included in PALS</th>
-                </tr>
+            <tr>
+                <td class="center-aligned">
+                    <a href="" id="download-btn" class="btn btn-primary">Click here to download the config file</a>
+                </td>
+            </tr>
+        </table>
 
-                <tr id="lesion-load-calculation-9">
-                    <td>
-                        <div class="section">
-                            <table class="table table-striped equal-width">
-                                <tr>
-                                    <th><span id="additional_rois-1">Additional ROIs</span></th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <select id="additional_rois" class="selectpicker" multiple data-live-search="true" data-actions-box="true" data-width="75%">
-                                            <option value="S-MATT_L_M1">S-MATT_L_M1</option>
-                                            <option value="S-MATT_L_PMd">S-MATT_L_PMd</option>
-                                            <option value="S-MATT_L_PMv">S-MATT_L_PMv</option>
-                                            <option value="S-MATT_L_preSMA">S-MATT_L_preSMA</option>
-                                            <option value="S-MATT_L_S1">S-MATT_L_S1</option>
-                                            <option value="S-MATT_L_SMA">S-MATT_L_SMA</option>
-                                            <option value="S-MATT_R_M1">S-MATT_R_M1</option>
-                                            <option value="S-MATT_R_PMd">S-MATT_R_PMd</option>
-                                            <option value="S-MATT_R_PMv">S-MATT_R_PMv</option>
-                                            <option value="S-MATT_R_preSMA">S-MATT_R_preSMA</option>
-                                            <option value="S-MATT_R_S1">S-MATT_R_S1</option>
-                                            <option value="S-MATT_R_SMA">S-MATT_R_SMA</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </td>
-                </tr>
+    </div>
 
-                <tr id="lesion-load-calculation-7">
-                    <td>
-                        <div class="section">
-                            <table class="table table-striped">
-                                <tr>
-                                    <th colspan="2"><input id="own_rois-1" type="checkbox" class="bright-checkbox" name="own_rois" onchange="onCheckboxToggle(this)"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Own ROIs</th>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">To use your own ROI, place them in folder along with the <b>Template Brain file</b> and mount that folder to <b>"/own_rois/"</b> while running PALS in the docker container.</td>
-                                </tr>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 
-                                <tr>
-                                    <td>File name of the template brain for your ROIs.</td>
-                                    <td><input type="text" class="form-control" name="template_brain" placeholder="Template Brain file name" onkeyup="onTextChange(this)"></td>
-                                </tr>
+    <script src="assets/js/main.js"></script>
+</body>
 
-
-                            </table>
-                        </div>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="center-aligned">
-                        <a href="" id="download-btn" class="btn btn-primary">Click here to download the config file</a>
-                    </td>
-                </tr>
-            </table>
-
-        </div>
-
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
-
-        <script src="assets/js/main.js"></script>
-    </body>
 </html>
