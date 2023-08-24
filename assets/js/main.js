@@ -1,50 +1,62 @@
 var configs = {
-  "modules": {
-    "Re_orient_radiological": false,
-    "Lesion_correction": false,
-    "Lesion_load_calculation": false,
-    "Visual_QC": false
+  Analysis: {
+    Reorient: true,
+    Orientation: "LAS",
+    Registration: true,
+    RegistrationMethod: "FLIRT",
+    BrainExtraction: true,
+    BrainExtractionMethod: "BET",
+    WhiteMatterSegmentation: true,
+    LesionCorrection: true,
+    LesionLoadCalculation: true,
+    LesionHeatMap: true,
   },
-
-  "common_settings": {
-    "input_dir": "/input/",
-    "output_dir": "/output/",
-    "t1_id": "",
-    "lesion_mask_id": "this_field_is_deliberately_left_like_this",
-    "same_anatomical_space": false
+  BrainExtraction: {
+    frac: 0.5,
+    mask: true,
   },
-
-  "module_settings": {
-    "Lesion_correction": {
-      "bet_performed": false,
-      "bet_identifier": "",
-      "wms_performed": false,
-      "wms_identifier": "",
-      "t1_intensity_percent": 5.0
-    },
-
-    "Lesion_load_calculation": {
-      "bet_performed": false,
-      "bet_identifier": "",
-      "roi_names": {
-        "default": {
-          "corticospinal_tracts": [],
-          "fs_cortical": [],
-          "fs_sub_cortical": [],
-          "additional": []
-        },
-        "free_surfer": {
-          "fs_cortical": [],
-          "fs_sub_cortical": []
-        },
-        "own": {
-          "template_brain": "",
-          "own_rois": false
-        }
-      }
-    }
-  }
+  Registration: {
+    cost_func: "normmi",
+    reference: "/input/MNI152_T1_2mm_brain.nii.gz",
+  },
+  LesionCorrection: {
+    ImageNormMin: 0,
+    ImageNormMax: 255,
+    WhiteMatterSpread: 0.05,
+  },
+  BIDSRoot: "/input/",
+  Subject: "",
+  Session: "",
+  LesionRoot: "/input/",
+  WhiteMatterSegmentationRoot: "/input/",
+  ROIDir: "/input/ROIs",
+  ROIList: [],
+  Multiprocessing: 4,
+  T1Entities: {
+    desc: "T1FinalResampledNorm",
+    space: "MNI152NLin2009aSym",
+  },
+  LesionEntities: {
+    suffix: "mask",
+    space: "MNI152NLin2009aSym",
+    label: "L",
+  },
+  HeatMap: {
+    Reference: "/input/MNI152_T1_2mm_brain.nii.gz",
+    Transparency: 0.4,
+  },
+  Outputs: {
+    Root: "/output/",
+    StartRegistrationSpace: "",
+    OutputRegistrationSpace: "MNI152NLin2009aSym",
+    RegistrationTransform: "",
+    Reorient: "",
+    BrainExtraction: "",
+    LesionCorrected: "",
+  },
 };
+
+var common_input_dir = "";
 
 function onTextChange(element) {
   var element_name = element.name;
@@ -60,7 +72,8 @@ function onTextChange(element) {
       configs.common_settings.t1_id = value;
       break;
     case "lesion_mask_id":
-      configs.common_settings.lesion_mask_id = value || 'this_field_is_deliberately_left_like_this';
+      configs.common_settings.lesion_mask_id =
+        value || "this_field_is_deliberately_left_like_this";
       break;
     case "bet_identifier_1":
       configs.module_settings.Lesion_correction.bet_identifier = value;
@@ -71,8 +84,123 @@ function onTextChange(element) {
     case "wms_identifier":
       configs.module_settings.Lesion_correction.wms_identifier = value;
       break;
-    case "template_brain":
-      configs.module_settings.Lesion_load_calculation.roi_names.own.template_brain = value;
+    case "rad-reorient-method":
+      configs.Analysis.Orientation = value;
+      break;
+    case "registration-method":
+      configs.Analysis.RegistrationMethod = value;
+      break;
+    case "brain-extraction-method":
+      configs.Analysis.BrainExtractionMethod = value;
+      break;
+    case "bids_root_dir":
+      if (value.endsWith("/")) {
+        value = value.slice(0, -1);
+      }
+      common_input_dir = value;
+      document
+        .getElementsByName("common_input_dir")
+        .forEach((element) => (element.value = value));
+      break;
+    case "rois_dir":
+      if (value.startsWith("/")) {
+        value = value.slice(1);
+      }
+      document
+        .getElementsByName("rois_dir")
+        .forEach((element) => (element.value = value));
+      configs.ROIDir = configs.BIDSRoot + value;
+      break;
+    case "t1_desc":
+      configs.T1Entities.desc = value;
+      break;
+    case "t1_space":
+      configs.T1Entities.space = value;
+      break;
+    case "lesion_mask_suffix":
+      configs.LesionEntities.suffix = value;
+      break;
+    case "lesion_mask_space":
+      configs.LesionEntities.space = value;
+      break;
+    case "lesion_mask_label":
+      configs.LesionEntities.label = value;
+      break;
+    case "subject":
+      configs.Subject = value;
+      break;
+    case "session":
+      configs.Session = value;
+      break;
+    case "wm_seg_dir":
+      if (value.startsWith("/")) {
+        value = value.slice(1);
+      }
+      document
+        .getElementsByName("wm_seg_dir")
+        .forEach((element) => (element.value = value));
+      configs.WhiteMatterSegmentationRoot = configs.BIDSRoot + value;
+      break;
+    case "lesion_root_dir":
+      if (value.startsWith("/")) {
+        value = value.slice(1);
+      }
+      document
+        .getElementsByName("lesion_root_dir")
+        .forEach((element) => (element.value = value));
+      configs.LesionRoot = configs.BIDSRoot + value;
+      break;
+    case "multiprocessing":
+      configs.Multiprocessing = value;
+      break;
+
+    case "multiprocessing":
+      configs.Multiprocessing = value;
+      break;
+    case "output_dir":
+      configs.Outputs.Root = value;
+      break;
+    case "out_start_reg_space":
+      configs.Outputs.StartRegistrationSpace = value;
+      break;
+    case "output_reg_space":
+      configs.Outputs.OutputRegistrationSpace = value;
+      break;
+    case "out_reg_transform":
+      configs.Outputs.RegistrationTransform = value;
+      break;
+    case "out_reorient":
+      configs.Outputs.Reorient = value;
+      break;
+    case "out_brain_reg":
+      configs.Outputs.BrainExtraction = value;
+      break;
+    case "out_lesion_corr":
+      configs.Outputs.LesionCorrected = value;
+      break;
+    case "bet_frac":
+      configs.BrainExtraction.frac = value;
+      break;
+    case "reg_cost_func":
+      configs.Registration.cost_func = value;
+      break;
+    case "reg_ref":
+      configs.Registration.reference = configs.BIDSRoot + value;
+      break;
+    case "img_norm_min":
+      configs.LesionCorrection.ImageNormMin = value;
+      break;
+    case "img_norm_max":
+      configs.LesionCorrection.ImageNormMax = value;
+      break;
+    case "wm_spread":
+      configs.LesionCorrection.WhiteMatterSpread = value;
+      break;
+    case "heatmap_transparency":
+      configs.HeatMap.Transparency = value;
+      break;
+    case "heatmap_ref":
+      configs.HeatMap.Reference = configs.BIDSRoot + value;
       break;
     default:
       console.log("No handler for this text change");
@@ -81,68 +209,22 @@ function onTextChange(element) {
 }
 
 function toggleTextBox(textBoxId, toggle) {
-  $("#" + textBoxId).prop( "disabled", toggle);
+  $("#" + textBoxId).prop("disabled", toggle);
 }
 
 function toggleDiv(div_id, enable) {
   if (enable) {
     $("#" + div_id).removeClass("disable_div");
-  }
-  else {
+  } else {
     $("#" + div_id).addClass("disable_div");
   }
 }
 
 function toggleComponent(component_id, ms, show) {
-  if (show){
+  if (show) {
     $("#" + component_id).show(ms);
-  }
-  else {
+  } else {
     $("#" + component_id).hide(ms);
-  }
-}
-
-function lesionLoadToggle(is_selected) {
-  configs.modules.Lesion_load_calculation = is_selected;
-  document.getElementById("Lesion_load_calculation-1").checked = is_selected;
-  toggleComponent("lesion-load-calculation-1", 500, is_selected);
-  toggleComponent("lesion-load-calculation-2", 500, is_selected);
-  toggleComponent("lesion-load-calculation-3", 500, is_selected);
-  toggleComponent("lesion-load-calculation-4", 500, is_selected);
-  toggleComponent("lesion-load-calculation-5", 500, is_selected);
-  toggleComponent("lesion-load-calculation-6", 500, is_selected);
-  toggleComponent("lesion-load-calculation-7", 500, is_selected);
-  toggleComponent("lesion-load-calculation-8", 500, is_selected);
-  toggleComponent("lesion-load-calculation-9", 500, is_selected);
-  if (is_selected) {
-    visualQCToggle(false);
-  }
-}
-
-function reOrientToggle(is_selected) {
-  configs.modules.Re_orient_radiological = is_selected;
-  document.getElementById("rad_reorient-1").checked = is_selected;
-  if (is_selected) {
-    visualQCToggle(false);
-  }
-}
-
-function lesionCorrectionToggle(is_selected) {
-  configs.modules.Lesion_correction = is_selected;
-  document.getElementById("Lesion_correction-1").checked = is_selected;
-  toggleComponent("lesion-correction", 500, is_selected);
-  if (is_selected) {
-    visualQCToggle(false);
-  }
-}
-
-function visualQCToggle(is_selected) {
-  configs.modules.Visual_QC = is_selected;
-  document.getElementById("visual-qc-1").checked = is_selected;
-  if (is_selected){
-    lesionLoadToggle(false);
-    reOrientToggle(false);
-    lesionCorrectionToggle(false);
   }
 }
 
@@ -151,88 +233,66 @@ function onCheckboxToggle(element) {
   var value = element.checked;
   switch (element_name) {
     case "Re_orient_radiological":
-      reOrientToggle(value);
+      configs.Analysis.Reorient = value;
+      toggleTextBox("rad_reorient-4", value); //LAS
+      document.getElementById("rad_reorient-1").checked = value;
       break;
-
+    case "Registration":
+      configs.Analysis.Registration = value;
+      toggleTextBox("registration-4", value); //FLIRT
+      toggleDiv("registration_div", value);
+      document.getElementById("registration-1").checked = value;
+      break;
+    case "brain_extraction":
+      configs.Analysis.BrainExtraction = value;
+      toggleTextBox("brain_extraction-4", value); //BET
+      toggleDiv("brain_extraction_div", value);
+      document.getElementById("brain_extraction-1").checked = value;
+      document.getElementById("bet_mask").checked = value;
+      break;
+    case "wm_segmentation":
+      configs.Analysis.WhiteMatterSegmentation = value;
+      document.getElementById("wm_segmentation-1").checked = value;
+      break;
     case "Lesion_correction":
-      lesionCorrectionToggle(value);
+      configs.Analysis.LesionCorrection = value;
+      toggleDiv("lesion_correction_div", value);
+      document.getElementById("Lesion_correction-1").checked = value;
       break;
 
     case "Lesion_load_calculation":
-      lesionLoadToggle(value);
+      configs.Analysis.LesionLoadCalculation = value;
+      document.getElementById("Lesion_load_calculation-1").checked = value;
       break;
 
-    case "bet_performed_1":
-      configs.module_settings.Lesion_correction.bet_performed = value;
-      toggleTextBox("bet_identifier_1", !value);
+    case "heatmap":
+      configs.Analysis.HeatMap = value;
+      toggleDiv("heatmap_div", value);
+      document.getElementById("heatmap-1").checked = value;
       break;
-
-    case "bet_performed_2":
-      configs.module_settings.Lesion_load_calculation.bet_performed = value;
-      toggleTextBox("bet_identifier_2", !value);
+    case "bet_mask":
+      configs.BrainExtraction.mask = value;
+      document.getElementById("bet_identifier-2").checked = value;
       break;
-
-    case "wms_performed":
-      configs.module_settings.Lesion_correction.wms_performed = value;
-      toggleTextBox("wms_identifier", !value);
-      break;
-
-    case "verify_fs":
-      toggleDiv("lesion-load-calculation-6_1", value);
-      break;
-
-    case "own_rois":
-      configs.module_settings.Lesion_load_calculation.roi_names.own.own_rois = value;
-      break;
-
-    case "Visual_QC":
-      visualQCToggle(value);
-      break;
-
     default:
       console.log("Invalid selections");
   }
   itemsUpdated();
 }
 
-function updateSelectedROIS() {
-  configs.module_settings.Lesion_load_calculation.roi_names.default.corticospinal_tracts = $("#default_corticospinal_tracts").val() || [];
-  configs.module_settings.Lesion_load_calculation.roi_names.default.fs_cortical = $("#default_fs_cortical").val() || [];
-  configs.module_settings.Lesion_load_calculation.roi_names.default.fs_sub_cortical = $("#default_fs_sub_cortical").val() || [];
-  configs.module_settings.Lesion_load_calculation.roi_names.default.additional = $("#additional_rois").val() || [];
-
-  configs.module_settings.Lesion_load_calculation.roi_names.free_surfer.fs_cortical = $("#fs_cortical").val() || [];
-
-  configs.module_settings.Lesion_load_calculation.roi_names.free_surfer.fs_sub_cortical = $("#fs_sub_cortical").val() || [];
-
-  itemsUpdated();
-
-  console.log(configs);
-}
-
-$('select').selectpicker();
-
-$('select').on('change', function(e){
-  updateSelectedROIS();
-});
+$("select").selectpicker();
 
 $(document).ready(function () {
   // toggleComponent("lesion-mask", 0);
   toggleComponent("lesion-correction", 0, false);
-  toggleComponent("lesion-load-calculation-1", 0, false);
-  toggleComponent("lesion-load-calculation-2", 0, false);
-  toggleComponent("lesion-load-calculation-3", 0, false);
-  toggleComponent("lesion-load-calculation-4", 0, false);
-  toggleComponent("lesion-load-calculation-5", 0, false);
-  toggleComponent("lesion-load-calculation-6", 0, false);
-  toggleComponent("lesion-load-calculation-7", 0, false);
-  toggleComponent("lesion-load-calculation-8", 0, false);
-  toggleComponent("lesion-load-calculation-9", 0, false);
-  toggleTextBox("wms_identifier", true);
-  toggleTextBox("bet_identifier_1", true);
-  toggleTextBox("bet_identifier_2", true);
+  toggleTextBox("rad_reorient-4", false); //LAS
+  toggleTextBox("registration-4", false); //FLIRT
+  toggleTextBox("brain_extraction-4", false); //BET
+  toggleDiv("brain_extraction_div", false);
+  toggleDiv("registration_div", false);
+  toggleDiv("lesion_correction_div", false);
+  toggleDiv("heatmap_div", false);
   itemsUpdated();
-  toggleDiv("lesion-load-calculation-6_1", false);
   initializeToolTips();
 });
 
@@ -240,100 +300,192 @@ function itemsUpdated() {
   download();
 }
 
-
 function download() {
   var button = document.getElementById("download-btn");
-
-  if (configs.common_settings.t1_id === '' || configs.common_settings.lesion_mask_id === '' || configs.common_settings.lesion_mask_id === 'this_field_is_deliberately_left_like_this') {
-    button.href = "";
-    if (configs.modules.Lesion_correction === true || configs.modules.Lesion_load_calculation === true) {
-      button.text = "T1 Identifier and Lesion Mask Id are required fields. Provide values for these fields to download the config file";
-      button.classList.remove("btn-primary");
-      button.classList.add("btn-secondary");
-      return;
-    }
-    if(configs.common_settings.t1_id === '') {
-      button.text = "T1 Identifier is the required field. Provide a valid value to download the config file";
-      button.classList.remove("btn-primary");
-      button.classList.add("btn-secondary");
-      return;
-    }
-  }
-
   button.classList.remove("btn-secondary");
   button.classList.add("btn-primary");
 
   var text = JSON.stringify(configs, null, 4);
-  var file = new Blob([text], {type: 'text/plain'});
+  var file = new Blob([text], { type: "text/plain" });
   button.text = "Click here to download the config file";
   button.href = URL.createObjectURL(file);
-  button.download = 'config.json';
+  button.download = "config.json";
 }
 
 function setToolTips(element_id, text) {
-  $(element_id).attr('title', text)
-    .tooltip('show')
-    .tooltip('hide');
+  $(element_id).attr("title", text).tooltip("show").tooltip("hide");
 }
 
 function initializeToolTips() {
-  $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+  def_reorient =
+    "This module will check that all subject inputs are in the same orientation, flag subjects that have mismatched input orientations, and convert all remaining inputs to radiological convention. This is recommended for all datasets, and especially for multi-site data.";
+  def_orientation =
+    "Orientation to standardize to. Options: L/R (left/right), A/P (anterior/posterior), I/S (inferior/superior). Default is LAS.";
+  def_registration =
+    "This module will perform registration to a common template.";
+  def_registration_method =
+    "Registration method. Example: FLIRT (default) or leave blank (no registration).";
+  def_brain_extraction = "This module will perform brain extraction.";
+  def_brain_extraction_method =
+    "Method to use for brain extraction. Options: BET (default) or leave blank (no brain extraction).";
+  def_white_matter_segmentation =
+    "This module will perform white matter segmentation. If false, and you want to perform LesionCorrection, you must place file in same location as the input files in the BIDS structure.";
+  def_lesion_correction =
+    "This module will perform lesion correction. If true, requires white matter segmentation file.";
+  def_lesion_load_calculation = "This module will compute lesion load.";
+  def_lesion_heatmap = "This module will combine the lesions into a heatmap.";
 
-  var text = "This module will check that all subject inputs are in the same orientation, flag subjects that have mismatched input orientations, and convert all remaining inputs to radiological convention. This is recommended for all datasets, and especially for multi-site data.";
-  setToolTips("#rad_reorient-1", text);
-  setToolTips("#rad_reorient-2", text);
+  def_lc_image_norm_min = "Minimum value for image.";
+  def_lc_image_norm_max = "Maximum value for image.";
+  def_lc_wm_spread =
+    "The deviation of the white matter intensity as a fraction of the mean white matter intensity.";
 
-  text = "This module is for manually segmented lesions. This aims to correct for intact white matter voxels that may have been inadvertently included in a manually segmented mask by removing voxels in the lesion mask that are within the intensity range of a white matter mask.";
-  setToolTips("#Lesion_correction-1", text);
-  setToolTips("#Lesion_correction-2", text);
+  def_bids_root_dir =
+    "Directory path to the BIDS root directory for the raw data.";
+  def_input_subject =
+    "ID of the subject to run. Runs all subjects if left blank. Ex: r001s001";
+  def_input_session =
+    "ID of the session to run. Runs all sessions if left blank. Ex: 1";
+  def_input_lesion_root =
+    "Path to the BIDS root directory for the lesion masks. Must be present inside BIDS Root Directory.";
+  def_white_matter_segmentation_root =
+    "Path to the BIDS root directory for the white matter segmentation files. Must be present inside BIDS Root Directory.";
+  def_input_ROIDir = "Path to the directory containing ROI image files. Must be present inside BIDS Root Directory.";
 
-  text = "This module will perform lesion load for several different ROI selections: default ROIs, freesurfer segmentations, and user-input ROIs.";
-  setToolTips("#Lesion_load_calculation-1", text);
-  setToolTips("#Lesion_load_calculation-2", text);
+  def_lesion_identifier_space =
+    "Provide the space for your lesion file. For example, put 'MNIEx2009aEx' if your file is sub-r044s001_ses-1_space-MNIEx2009aEx_label-L_desc-T1lesion_mask.nii";
+  def_lesion_identifier_label =
+    "Provide the label for your lesion file. For example, put 'L' if your file is sub-r044s001_ses-1_space-MNIEx2009aEx_label-L_desc-T1lesion_mask.nii";
+  def_lesion_identifier_suffix =
+    "Provide the suffix for your lesion file. For example, put 'mask' if your file is sub-r044s001_ses-1_space-MNIEx2009aEx_label-L_desc-T1lesion_mask.nii";
 
-  text = "This module can only be selected if none of the other modules are selected. This will create a visual inspection page with lesion masks overlaid on T1s. Visual control will be performed by default for the lesion load and lesion correction modules";
-  setToolTips("#visual-qc-1", text);
-  setToolTips("#visual-qc-2", text);
+  def_reg_ext_reference = "Path to reference file. Must be present inside BIDS Root Directory.";
+  def_reg_ext_cost_func = "Cost function for registration";
 
-  text = "Provide the T1 identifier to your whole-brain anatomical images. Note: this identifier should be unique to the anatomical whole-brain image only. For example, put 'T1' if subject1's T1 file is subj01_T1.nii.gz.";
-  setToolTips("#t1_id-1", text);
-  setToolTips("#t1_id-2", text);
+  def_T1_identifier_space =
+    "Provide the space for your T1 file. For example, put 'MNIEx2009aEx' if your file is sub-r044s001_ses-1_space-MNIEx2009aEx_desc-T1FinalResampledNorm.nii";
+  def_T1_identifier_desc =
+    "Provide the desc for your T1 file. For example, put 'T1FinalResampledNorm' if your file is sub-r044s001_ses-1_space-MNIEx2009aEx_desc-T1FinalResampledNorm.nii";
 
-  text = "Provide the identifier for your lesion mask. For example, put 'Lesion' if subject1's lesion mask files is subj01_Lesion.nii.gz.";
-  setToolTips("#lesion_mask_id-1", text);
-  setToolTips("#lesion_mask_id-2", text);
+  def_heatmap_reference =
+    "Overlays the heatmap on this image and creates NIFTI file with overlay and NITFI file with the mask only. Also produces 4 PNGS: 9 slices of the lesions from sagittal, axial, and coronal orientations (3 images) and an image with a cross-section of each orientation. If your images are pre-registered, you MUST use your own reference image used for their registration. Must be present inside BIDS Root Directory.";
+  def_heatmap_transparency =
+    "Transparency to use when mixing the reference image and the heatmap. Smaller values darker reference and lighter heatmap.";
 
-  text = "Indicate if you have already performed brain extraction for all subjects. Each subject directory should contain a skull-stripped brain. If not, PALS will perform brain extraction for all subjects using FSL BET. *NOTE: Skull-stripped brain files must be present in each subject directory. If any subject is missing a brain file, PALS will run brain extraction on all subjects.";
-  setToolTips("#bet_performed_1-1", text);
-  setToolTips("#bet_performed_1-2", text);
-  setToolTips("#bet_performed_2-1", text);
-  setToolTips("#bet_performed_2-2", text);
+  def_output_root = "Path to directory where to place the output.";
+  def_start_reg_space =
+    'Value to use for "space" entity in BIDS output filename.';
+  def_output_reg_space = "Reserved for future use.";
+  def_output_reg_transform = "Path for saving registration transform.";
+  def_output_reorient = "Path for saving reoriented volume.";
+  def_output_brain_extraction = "Path for saving the brain extracted volume.";
+  def_output_lesion_correction =
+    "Path for saving the white matter-corrected lesions.";
 
-  text = "Indicate the unique identifier for skull-stripped brain files. For example, 'Brain' if subject1's brain file is subj01_Brain.nii.gz.";
-  setToolTips("#bet_identifier_1", text);
-  setToolTips("#bet_identifier_1-1", text);
-  setToolTips("#bet_identifier_2", text);
-  setToolTips("#bet_identifier_2-1", text);
+  $("body").tooltip({ selector: "[data-toggle=tooltip]" });
 
-  text = "Indicate if you have already performed white matter segmentation on all subjects. Each subject directory should contain a white matter mask. If not, PALS will perform white matter segmentation for all subjects using FSL FAST. *NOTE: White matter mask files must be present in each subject directory. If any subject is missing a white matter mask, PALS will run white matter segmentation on all subjects.";
-  setToolTips("#wms_performed-1", text);
-  setToolTips("#wms_performed-2", text);
+  setToolTips("#rad_reorient-1", def_reorient);
+  setToolTips("#rad_reorient-2", def_reorient);
 
-  text = "Indicate the unique identifier for white matter masks. For example, 'wm' if subject1's white matter mask filename is subj01_wm.nii.gz.";
-  setToolTips("#wms_identifier", text);
-  setToolTips("#wms_identifier-1", text);
+  setToolTips("#rad_reorient-3", def_orientation);
+  setToolTips("#rad_reorient-4", def_orientation);
 
-  text = "NOTE: all of these template ROIs are in 2mm MNI152 template space.";
-  setToolTips("#default_corticospinal_tracts-1", text);
-  setToolTips("#default_fs_cortical-1", text);
-  setToolTips("#default_fs_sub_cortical-1", text);
+  setToolTips("#registration-1", def_registration);
+  setToolTips("#registration-2", def_registration);
 
-  text = "Select if you would like to use subject-specific Freesurfer segmentations to calculate lesion load. This operation requires that Freesurfer cortical and subcortical segmentation has already been performed for each subject, and each subject directory must contain an aparc+aseg.mgz and T1.mgz file.";
-  setToolTips("#verify_fs-1", text);
-  setToolTips("#verify_fs-2", text);
+  setToolTips("#registration-3", def_registration_method);
+  setToolTips("#registration-4", def_registration_method);
 
-  text = "Select if you would like import your own regions of interest to calculate lesion load. NOTE: these ROIs must all be in the same space.";
-  setToolTips("#own_rois-1", text);
+  setToolTips("#brain_extraction-1", def_brain_extraction);
+  setToolTips("#brain_extraction-2", def_brain_extraction);
 
-};
+  setToolTips("#brain_extraction-3", def_brain_extraction_method);
+  setToolTips("#brain_extraction-4", def_brain_extraction_method);
 
+  setToolTips("#wm_segmentation-1", def_white_matter_segmentation);
+  setToolTips("#wm_segmentation-2", def_white_matter_segmentation);
+
+  setToolTips("#Lesion_correction-1", def_lesion_correction);
+  setToolTips("#Lesion_correction-2", def_lesion_correction);
+
+  setToolTips("#Lesion_load_calculation-1", def_lesion_load_calculation);
+  setToolTips("#Lesion_load_calculation-2", def_lesion_load_calculation);
+
+  setToolTips("#heatmap-1", def_lesion_heatmap);
+  setToolTips("#heatmap-2", def_lesion_heatmap);
+
+  setToolTips("#input_id-1", def_bids_root_dir);
+  setToolTips("#input_id-2", def_bids_root_dir);
+
+  setToolTips("#input_id-3", def_bids_root_dir);
+  setToolTips("#input_id-26", def_input_ROIDir);
+
+  setToolTips("#input_id-6", def_T1_identifier_desc);
+  setToolTips("#input_id-7", def_T1_identifier_desc);
+
+  setToolTips("#input_id-8", def_T1_identifier_space);
+  setToolTips("#input_id-9", def_T1_identifier_space);
+
+  setToolTips("#input_id-11", def_lesion_identifier_suffix);
+  setToolTips("#input_id-12", def_lesion_identifier_suffix);
+
+  setToolTips("#input_id-13", def_lesion_identifier_space);
+  setToolTips("#input_id-14", def_lesion_identifier_space);
+
+  setToolTips("#input_id-15", def_lesion_identifier_label);
+  setToolTips("#input_id-16", def_lesion_identifier_label);
+
+  setToolTips("#input_id-17", def_input_subject);
+  setToolTips("#input_id-18", def_input_subject);
+
+  setToolTips("#input_id-19", def_input_session);
+  setToolTips("#input_id-20", def_input_session);
+
+  setToolTips("#input_id-21", def_white_matter_segmentation_root);
+  setToolTips("#input_id-22", def_white_matter_segmentation_root);
+
+  setToolTips("#input_id-23", def_input_lesion_root);
+  setToolTips("#input_id-24", def_input_lesion_root);
+
+  setToolTips("#output_id-1", def_output_root);
+  setToolTips("#output_id-2", def_output_root);
+
+  setToolTips("#output_id-3", def_start_reg_space);
+  setToolTips("#output_id-4", def_start_reg_space);
+
+  setToolTips("#output_id-5", def_output_reg_space);
+  setToolTips("#output_id-6", def_output_reg_space);
+
+  setToolTips("#output_id-7", def_output_reg_transform);
+  setToolTips("#output_id-8", def_output_reg_transform);
+
+  setToolTips("#output_id-9", def_output_reorient);
+  setToolTips("#output_id-10", def_output_reorient);
+
+  setToolTips("#output_id-11", def_output_brain_extraction);
+  setToolTips("#output_id-12", def_output_brain_extraction);
+
+  setToolTips("#output_id-13", def_output_root);
+  setToolTips("#output_id-14", def_output_root);
+
+  setToolTips("#reg-1", def_reg_ext_cost_func);
+  setToolTips("#reg-2", def_reg_ext_cost_func);
+
+  setToolTips("#reg-3", def_reg_ext_reference);
+  setToolTips("#reg-4", def_reg_ext_reference);
+
+  setToolTips("#lc-1", def_lc_image_norm_min);
+  setToolTips("#lc-2", def_lc_image_norm_min);
+
+  setToolTips("#lc-3", def_lc_image_norm_max);
+  setToolTips("#lc-4", def_lc_image_norm_max);
+
+  setToolTips("#lc-5", def_lc_wm_spread);
+  setToolTips("#lc-6", def_lc_wm_spread);
+
+  setToolTips("#heatmap-3", def_heatmap_transparency);
+  setToolTips("#heatmap-4", def_heatmap_transparency);
+
+  setToolTips("#heatmap-5", def_heatmap_reference);
+  setToolTips("#heatmap-6", def_heatmap_reference);
+}
