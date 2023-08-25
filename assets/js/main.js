@@ -228,7 +228,7 @@ function onCheckboxToggle(element) {
         : "";
       toggleDiv("registration_div", value);
       document.getElementById("registration-1").checked = value;
-      document.getElementById("reg-2").value = configs.Registration
+      document.getElementById("reg-2").value = configs.Registration.cost_func;
       break;
     case "brain_extraction":
       configs.Analysis.BrainExtraction = value;
@@ -365,21 +365,21 @@ function download() {
     return;
   }
 
-  if (common_input_dir){
+  if (common_input_dir === ''){
     button.text = "BIDS root directory is required";
     button.classList.remove("btn-primary");
     button.classList.add("btn-secondary");
     return;
   }
 
-  if (configs.ROIDir){
+  if (configs.ROIDir === ''){
     button.text = "ROIs directory is required";
     button.classList.remove("btn-primary");
     button.classList.add("btn-secondary");
     return;
   }
 
-  if (common_output_dir){
+  if (common_output_dir === ''){
     button.text = "Output directory is required";
     button.classList.remove("btn-primary");
     button.classList.add("btn-secondary");
