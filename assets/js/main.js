@@ -73,6 +73,7 @@ function onTextChange(element) {
       document
         .getElementsByName("common_input_dir")
         .forEach((element) => (element.value = value));
+      break;
     case "rad-reorient-method":
       configs.Analysis.Orientation = value;
       break;
