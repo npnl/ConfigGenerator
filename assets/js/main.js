@@ -145,7 +145,7 @@ function onTextChange(element) {
       break;
 
     case "multiprocessing":
-      configs.Multiprocessing = int(value);
+      configs.Multiprocessing = parseInt(value);
       break;
     case "output_dir":
       configs.Outputs.Root = configs.Outputs.Root;
@@ -170,7 +170,7 @@ function onTextChange(element) {
       configs.Outputs.LesionCorrected = value;
       break;
     case "bet_frac":
-      configs.BrainExtraction.frac = value;
+      configs.BrainExtraction.frac = parseFloat(value);
       break;
     case "reg_cost_func":
       configs.Registration.cost_func = value;
@@ -179,16 +179,16 @@ function onTextChange(element) {
       configs.Registration.reference = common_input_dir_replace + value;
       break;
     case "img_norm_min":
-      configs.LesionCorrection.ImageNormMin = value;
+      configs.LesionCorrection.ImageNormMin = parseInt(value);
       break;
     case "img_norm_max":
-      configs.LesionCorrection.ImageNormMax = value;
+      configs.LesionCorrection.ImageNormMax = parseInt(value);
       break;
     case "wm_spread":
-      configs.LesionCorrection.WhiteMatterSpread = value;
+      configs.LesionCorrection.WhiteMatterSpread = parseFloat(value);
       break;
     case "heatmap_transparency":
-      configs.HeatMap.Transparency = value;
+      configs.HeatMap.Transparency = parseFloat(value);
       break;
     case "heatmap_ref":
       configs.HeatMap.Reference = common_input_dir_replace + value;
@@ -271,7 +271,7 @@ function onCheckboxToggle(element) {
       break;
 
     case "heatmap":
-      configs.Analysis.HeatMap = value;
+      configs.Analysis.LesionHeatMap = value;
       toggleDiv("heatmap_div", value);
       document.getElementById("heatmap-1").checked = value;
       document.getElementById("heatmap-4").value = configs.HeatMap.Transparency
@@ -334,7 +334,7 @@ function download() {
     return;
   }
   if (
-    (configs.Analysis.LesionLoadCalculation || configs.Analysis.HeatMap) &
+    (configs.Analysis.LesionLoadCalculation || configs.Analysis.LesionHeatMap) &
     (configs.LesionRoot === "")
   ) {
     button.text =
@@ -369,7 +369,7 @@ function download() {
     return;
   }
 
-  if (configs.Analysis.HeatMap & (configs.HeatMap.Reference === '' || configs.HeatMap.Transparency === '')){
+  if (configs.Analysis.LesionHeatMap & (configs.HeatMap.Reference === '' || configs.HeatMap.Transparency === '')){
     button.text = "Configuration for heatmap is required";
     button.classList.remove("btn-primary");
     button.classList.add("btn-secondary");
