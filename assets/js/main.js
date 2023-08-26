@@ -145,7 +145,7 @@ function onTextChange(element) {
       break;
 
     case "multiprocessing":
-      configs.Multiprocessing = value;
+      configs.Multiprocessing = int(value);
       break;
     case "output_dir":
       configs.Outputs.Root = configs.Outputs.Root;
