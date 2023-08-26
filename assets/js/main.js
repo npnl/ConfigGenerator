@@ -24,7 +24,7 @@ var configs = {
     ImageNormMax: 255,
     WhiteMatterSpread: 0.05,
   },
-  BIDSRoot: "/input/",
+  BIDSRoot: "",
   Subject: "",
   Session: "",
   LesionRoot: "",
@@ -57,12 +57,22 @@ var configs = {
 };
 
 var common_input_dir = "";
+var common_input_dir_replace = "/input/"
 var common_output_dir = "";
 
 function onTextChange(element) {
   var element_name = element.name;
   var value = element.value.trim();
   switch (element_name) {
+    case "input_root_dir":
+      common_input_dir = "";
+      if (value.endsWith("/")) {
+        value = value.slice(0, -1);
+      }
+      common_input_dir = value;
+      document
+        .getElementsByName("common_input_dir")
+        .forEach((element) => (element.value = value));
     case "rad-reorient-method":
       configs.Analysis.Orientation = value;
       break;
@@ -73,13 +83,13 @@ function onTextChange(element) {
       configs.Analysis.BrainExtractionMethod = value;
       break;
     case "bids_root_dir":
-      if (value.endsWith("/")) {
-        value = value.slice(0, -1);
+      if (value.startsWith("/")) {
+        value = value.slice(1);
       }
-      common_input_dir = value;
       document
-        .getElementsByName("common_input_dir")
+        .getElementsByName("bids_root_dir")
         .forEach((element) => (element.value = value));
+      configs.BIDSRoot = common_input_dir_replace + value;
       break;
     case "rois_dir":
       if (value.startsWith("/")) {
@@ -88,7 +98,7 @@ function onTextChange(element) {
       document
         .getElementsByName("rois_dir")
         .forEach((element) => (element.value = value));
-      configs.ROIDir = configs.BIDSRoot + value;
+      configs.ROIDir = common_input_dir_replace + value;
       break;
     case "t1_desc":
       configs.T1Entities.desc = value;
@@ -118,7 +128,7 @@ function onTextChange(element) {
       document
         .getElementsByName("wm_seg_dir")
         .forEach((element) => (element.value = value));
-      configs.WhiteMatterSegmentationRoot = configs.BIDSRoot + value;
+      configs.WhiteMatterSegmentationRoot = common_input_dir_replace + value;
       break;
     case "lesion_root_dir":
       if (value.startsWith("/")) {
@@ -127,7 +137,7 @@ function onTextChange(element) {
       document
         .getElementsByName("lesion_root_dir")
         .forEach((element) => (element.value = value));
-      configs.LesionRoot = configs.BIDSRoot + value;
+      configs.LesionRoot = common_input_dir_replace + value;
       break;
     case "multiprocessing":
       configs.Multiprocessing = value;
@@ -165,7 +175,7 @@ function onTextChange(element) {
       configs.Registration.cost_func = value;
       break;
     case "reg_ref":
-      configs.Registration.reference = configs.BIDSRoot + value;
+      configs.Registration.reference = common_input_dir_replace + value;
       break;
     case "img_norm_min":
       configs.LesionCorrection.ImageNormMin = value;
@@ -180,7 +190,7 @@ function onTextChange(element) {
       configs.HeatMap.Transparency = value;
       break;
     case "heatmap_ref":
-      configs.HeatMap.Reference = configs.BIDSRoot + value;
+      configs.HeatMap.Reference = common_input_dir_replace + value;
       break;
     default:
       console.log("No handler for this text change");
@@ -431,6 +441,7 @@ function initializeToolTips() {
   def_lc_wm_spread =
     "The deviation of the white matter intensity as a fraction of the mean white matter intensity.";
 
+  def_parent_input_dir = "Direcory path that contains ALL files including reference files and files of subjects."
   def_bids_root_dir =
     "Directory path to the BIDS root directory for the raw data.";
   def_input_subject =
@@ -506,6 +517,9 @@ function initializeToolTips() {
 
   setToolTips("#heatmap-1", def_lesion_heatmap);
   setToolTips("#heatmap-2", def_lesion_heatmap);
+
+  setToolTips("#input_dir", def_parent_input_dir);
+  setToolTips("#input_dir-2", def_parent_input_dir);
 
   setToolTips("#input_id-1", def_bids_root_dir);
   setToolTips("#input_id-2", def_bids_root_dir);

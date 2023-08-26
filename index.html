@@ -93,9 +93,19 @@
                                 <td></td>
                             </tr>
                             <tr>
-                                <td class="required"><span id="input_id-1">BIDS Root Directory</span></td>
-                                <td><input type="text" id="input_id-2" class="form-control" name="bids_root_dir"
+                                <td class="required"><span id="input_dir">Input Directory</span></td>
+                                <td><input type="text" id="input_dir-2" class="form-control" name="input_root_dir"
                                         onkeyup="onTextChange(this)"></td>
+                            </tr>
+                            <tr>
+                                <td class="required"><span id="input_id-1">BIDS Root Directory</span></td>
+                                <td style="display: flex; align-items: center;">
+                                    <input type="text" id="input_id-4" class="form-control" name="common_input_dir"
+                                        disabled>
+                                    <span style="margin: 0 5px;">/</span>
+                                    <input type="text" id="input_id-2" class="form-control" name="bids_root_dir"
+                                        onkeyup="onTextChange(this)">
+                                </td>
                             </tr>
                             <tr>
                                 <td class="required"><span id="input_id-3">ROIs Directory</span></td>
