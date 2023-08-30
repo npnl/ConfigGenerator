@@ -141,10 +141,6 @@ function onTextChange(element) {
       configs.LesionRoot = common_input_dir_replace + value;
       break;
     case "multiprocessing":
-      configs.Multiprocessing = value;
-      break;
-
-    case "multiprocessing":
       configs.Multiprocessing = parseInt(value);
       break;
     case "output_dir":
@@ -250,7 +246,7 @@ function onCheckboxToggle(element) {
       toggleDiv("brain_extraction_div", value);
       document.getElementById("brain_extraction-1").checked = value;
       document.getElementById("bet_mask").checked = configs.BrainExtraction.mask;
-      document.getElementById("bet_frac").checked = configs.BrainExtraction.frac;
+      document.getElementById("bet_frac").value = configs.BrainExtraction.frac;
       break;
     case "wm_segmentation":
       configs.Analysis.WhiteMatterSegmentation = value;
