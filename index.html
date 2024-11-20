@@ -1,359 +1,338 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-
-<head>
-    <link rel="stylesheet" href="assets/css/main.css">
+  <head>
+    <link rel="stylesheet" href="assets/css/main.css" />
     <title>PALS - Config Generator</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <h2 class="center-aligned">Generate Config File for PALS</h2>
-        <table>
-            <tr>
-                <td>
-                    <div class="section">
-                        <table class="table table-striped">
-                            <tr>
-                                <th>Check</th>
-                                <th class="required">Select operations you want to perform</th>
-                                <th class="required">Requires</th>
-                            </tr>
-                            <tr>
-                                <td><input id="rad_reorient-1" type="checkbox" class="bright-checkbox"
-                                        name="Re_orient_radiological" onchange="onCheckboxToggle(this)"></td>
-                                <td><span id="rad_reorient-2">Reorient to radiological convention</span></td>
-                                <td>T1 Anatomical File + (Optional: Lesion Mask File)
-                                    <br></br>
-                                    <span id="rad_reorient-3">Orientation</span>
-                                    <input type="text" id="rad_reorient-4" placeholder="LAS" class="form-control"
-                                        name="rad-reorient-method" placeholder="Orientation Method"
-                                        onkeyup="onTextChange(this)">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><input id="registration-1" type="checkbox" class="bright-checkbox"
-                                        name="Registration" onchange="onCheckboxToggle(this)"></td>
-                                <td><span id="registration-2">Registration</span></td>
-                                <td>T1 Anatomical File + (Optional: Lesion Mask File)
-                                    <br></br>
-                                    <span id="registration-3">Registration Method</span>
-                                    <input type="text" id="registration-4" placeholder="FLIRT" class="form-control"
-                                        name="registration-method" placeholder="Registration Method"
-                                        onkeyup="onTextChange(this)">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><input id="brain_extraction-1" type="checkbox" class="bright-checkbox"
-                                        name="brain_extraction" onchange="onCheckboxToggle(this)"></td>
-                                <td><span id="brain_extraction-2">Brain Extraction</span></td>
-                                <td>T1 Anatomical File + (Optional: Lesion Mask File)
-                                    <br></br>
-                                    <span id="brain_extraction-3">Brain Extraction Method</span>
-                                    <input type="text" id="brain_extraction-4" placeholder="BET" class="form-control"
-                                        name="brain-extraction-method" placeholder="Brain Extraction Method"
-                                        onkeyup="onTextChange(this)">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><input id="wm_segmentation-1" type="checkbox" class="bright-checkbox"
-                                        name="wm_segmentation" onchange="onCheckboxToggle(this)"></td>
-                                <td><span id="wm_segmentation-2">White Matter Segmentation</span></td>
-                                <td>T1 Anatomical File</td>
-                            </tr>
-                            <tr>
-                                <td><input id="Lesion_correction-1" type="checkbox" class="bright-checkbox"
-                                        name="Lesion_correction" onchange="onCheckboxToggle(this)"></td>
-                                <td><span id="Lesion_correction-2">Lesion correction for white matter voxels</span></td>
-                                <td>T1 Anatomical File + Lesion Mask File</td>
-                            </tr>
-                            <tr>
-                                <td><input id="Lesion_load_calculation-1" type="checkbox" class="bright-checkbox"
-                                        name="Lesion_load_calculation" onchange="onCheckboxToggle(this)"></td>
-                                <td><span id="Lesion_load_calculation-2">Lesion load calculation</span></td>
-                                <td>T1 Anatomical File + Lesion Mask File</td>
-                            </tr>
-                            <tr>
-                                <td><input id="heatmap-1" type="checkbox" class="bright-checkbox" name="heatmap"
-                                        onchange="onCheckboxToggle(this)"></td>
-                                <td><span id="heatmap-2">Lesion heatmap</span></td>
-                                <td>T1 Anatomical File</td>
-                            </tr>
-                        </table>
-                    </div>
-                </td>
-            </tr>
+      <h2 class="center-aligned">Generate Config File for PALS</h2>
+      <table>
+        <tr id="common-settings">
+          <td>
+            <div class="section">
+              <table class="table table-striped">
+                <tr>
+                  <th class="required">General Settings</th>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td class="required">
+                    <span id="session_id-1">Identifier</span>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      id="session_id-2"
+                      class="form-control"
+                      name="session_id"
+                      onkeyup="onTextChange(this)"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="required">
+                    <span id="input_path-1">File path to image (nifti)</span>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      id="input_path-2"
+                      class="form-control"
+                      name="im_path"
+                      onkeyup="onTextChange(this)"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="required">
+                    <span id="input_path-3">File path to mask (nifti)</span>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      id="input_path-4"
+                      class="form-control"
+                      name="les_path"
+                      onkeyup="onTextChange(this)"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="required">
+                    <span id="output_path-1">Output directory</span>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      id="output_path-2"
+                      class="form-control"
+                      name="out_dir"
+                      onkeyup="onTextChange(this)"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td><span id="script_run-1">Script Run</span></td>
+                  <td>
+                    <select
+                      id="script_run-2"
+                      class="form-control"
+                      name="run"
+                      value="all"
+                      onchange="onTextChange(this)"
+                    >
+                      <option value="all">all</option>
+                      <option value="bet">bet</option>
+                      <option value="mnireg">mnired</option>
+                      <option value="coreg">coreg</option>
+                      <option value="pals">pals</option>
+                      <option value="skipdone">skipdone</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="required">
+                    <span id="input_path-5">Starting Space</span>
+                  </td>
+                  <td>
+                    <select
+                      id="input-path-6"
+                      class="form-control"
+                      name="space"
+                      onchange="onTextChange(this)"
+                    >
+                      <option value="orig">orig</option>
+                      <option value="mni">mni</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td><span id="output_path-3">Results Output Format</span></td>
+                  <td>
+                    <select
+                      id="output_path-4"
+                      class="form-control"
+                      name="out_format"
+                      onchange="onTextChange(this)"
+                    >
+                      <option value="csv">csv</option>
+                      <option value="json">json</option>
+                    </select>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
 
-            <tr id="common-settings">
-                <td>
-                    <div class="section">
-                        <table class="table table-striped">
-                            <tr>
-                                <th class="required">Common Settings (Mandatory)</th>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td class="required"><span id="input_dir">Input Directory</span></td>
-                                <td><input type="text" id="input_dir-2" class="form-control" name="input_root_dir"
-                                        onkeyup="onTextChange(this)"></td>
-                            </tr>
-                            <tr>
-                                <td class="required"><span id="input_id-1">BIDS Root Directory</span></td>
-                                <td style="display: flex; align-items: center;">
-                                    <input type="text" id="input_id-4" class="form-control" name="common_input_dir"
-                                        disabled>
-                                    <span style="margin: 0 5px;">/</span>
-                                    <input type="text" id="input_id-2" class="form-control" name="bids_root_dir"
-                                        onkeyup="onTextChange(this)">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="required"><span id="input_id-3">ROIs Directory</span></td>
-                                <td style="display: flex; align-items: center;">
-                                    <input type="text" id="input_id-4" class="form-control" name="common_input_dir"
-                                        disabled>
-                                    <span style="margin: 0 5px;">/</span>
-                                    <input type="text" id="input_id-26" class="form-control" name="rois_dir"
-                                        onkeyup="onTextChange(this)">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="required"><span id="input_id-5">T1 Anatomical Image Identifiers</span></td>
-                                <td>
-                                    <span id="input_id-6">Desc</span>
-                                    <input type="text" id="input_id-7" class="form-control" name="t1_desc"
-                                        onkeyup="onTextChange(this)">
-                                    <span id="input_id-8">Space</span>
-                                    <input type="text" id="input_id-9" class="form-control" name="t1_space"
-                                        onkeyup="onTextChange(this)">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="required"><span id="input_id-10">Lesion Mask Identifiers</span></td>
-                                <td>
-                                    <span id="input_id-11">Suffix</span>
-                                    <input type="text" id="input_id-12" class="form-control" name="lesion_mask_suffix"
-                                        onkeyup="onTextChange(this)">
-                                    <span id="input_id-13">Space</span>
-                                    <input type="text" id="input_id-14" class="form-control" name="lesion_mask_space"
-                                        onkeyup="onTextChange(this)">
-                                    <span id="input_id-15">Label</span>
-                                    <input type="text" id="input_id-16" class="form-control" name="lesion_mask_label"
-                                        onkeyup="onTextChange(this)">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span id="input_id-17">Subject</span></td>
-                                <td><input type="text" id="input_id-18" class="form-control" name="subject"
-                                        onkeyup="onTextChange(this)"></td>
-                            </tr>
-                            <tr>
-                                <td><span id="input_id-19">Session</span></td>
-                                <td><input type="text" id="input_id-20" class="form-control" name="session"
-                                        onkeyup="onTextChange(this)"></td>
-                            </tr>
-                            <tr>
-                                <td class="required"><span id="input_id-21">White Matter Segmentation Directory</span>
-                                </td>
+        <tr id="output-settings">
+          <td>
+            <div class="section">
+              <table class="table table-striped">
+                <tr>
+                  <th>Path Configuration</th>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td class="required">
+                    <span id="output_id-1">ANTs Binaries Folder Path</span>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      id="output_id-2"
+                      class="form-control"
+                      name="ants_path"
+                      onkeyup="onTextChange(this)"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="required">
+                    <span id="output_id-3">FSL Binaries Folder Path</span>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      id="output_id-4"
+                      class="form-control"
+                      name="fsl_path"
+                      onkeyup="onTextChange(this)"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="required">
+                    <span id="output_id-5">ROIs Folder Path</span>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      id="output_id-6"
+                      class="form-control"
+                      name="rois_path"
+                      onkeyup="onTextChange(this)"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="required">
+                    <span id="output_id-7">Template Folder Path</span>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      id="output_id-8"
+                      class="form-control"
+                      name="template_directory"
+                      onkeyup="onTextChange(this)"
+                    />
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
 
-                                <td style="display: flex; align-items: center;">
-                                    <input type="text" id="input_id-4" class="form-control" name="common_input_dir"
-                                        disabled>
-                                    <span style="margin: 0 5px;">/</span>
-                                    <input type="text" id="input_id-22" class="form-control" name="wm_seg_dir"
-                                        onkeyup="onTextChange(this)">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="required"><span id="input_id-23">Lesion Root Directory</span></td>
-                                <td style="display: flex; align-items: center;">
-                                    <input type="text" id="input_id-4" class="form-control" name="common_input_dir"
-                                        disabled>
-                                    <span style="margin: 0 5px;">/</span>
-                                    <input type="text" id="input_id-24" class="form-control" name="lesion_root_dir"
-                                        onchange="onTextChange(this)">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="required"><span id="input_id-25">Multiprocessing</span></td>
-                                <td><input type="number" id="input_id-26" class="form-control" placeholder=1
-                                        name="multiprocessing" onchange="onTextChange(this)"></td>
-                            </tr>
-                        </table>
-                    </div>
-                </td>
-            </tr>
+        <tr id="registration">
+          <td>
+            <div class="section" id="registration_div">
+              <table class="table table-striped">
+                <tr>
+                  <th colspan="2">Configuration for Registration</th>
+                </tr>
+                <tr>
+                  <td><span id="reg-1">Registration Method</span></td>
+                  <td>
+                    <select
+                      id="reg-2"
+                      type="text"
+                      class="form-control"
+                      name="reg_method"
+                      onchange="onTextChange(this)"
+                      value="flirt"
+                    >
+                      <option value="flirt">flirt</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td><span id="reg-3">Cost Function</span></td>
+                  <td>
+                    <input
+                      id="reg-4"
+                      type="text"
+                      class="form-control"
+                      value="corratio"
+                      name="reg_costfn"
+                      onkeyup="onTextChange(this)"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td><span id="reg-5">Partial Mask Weighting</span></td>
+                  <td>
+                    <input
+                      id="reg-6"
+                      type="checkbox"
+                      class="form-control"
+                      name="reg_partmask"
+                      onchange="onCheckboxToggle(this)"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td><span id="reg-7">No Mask Weighting</span></td>
+                  <td>
+                    <input
+                      id="reg-8"
+                      type="checkbox"
+                      class="form-control"
+                      name="reg_nomask"
+                      onchange="onCheckboxToggle(this)"
+                    />
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
 
-            <tr id="output-settings">
-                <td>
-                    <div class="section">
-                        <table class="table table-striped">
-                            <tr>
-                                <th>Output Settings</th>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td class="required"><span id="output_id-1">Output Directory</span></td>
-                                <td><input type="text" id="output_id-2" class="form-control" name="output_dir"
-                                        onkeyup="onTextChange(this)"></td>
-                            </tr>
-                            <tr>
-                                <td class="required"><span id="output_id-3">Start Registration Space</span></td>
-                                <td><input type="text" id="output_id-4" class="form-control" name="out_start_reg_space"
-                                        onkeyup="onTextChange(this)"></td>
-                            </tr>
-                            <tr>
-                                <td class="required"><span id="output_id-5">Output Registration Space</span></td>
-                                <td><input type="text" id="output_id-6" class="form-control" name="output_reg_space"
-                                        onkeyup="onTextChange(this)"></td>
-                            </tr>
-                            <tr>
-                                <td><span id="output_id-7">Registration Transform</span></td>
-                                <td><input type="text" id="output_id-8" class="form-control" name="out_reg_transform"
-                                        onkeyup="onTextChange(this)"></td>
-                            </tr>
-                            <tr>
-                                <td><span id="output_id-9">Reorient</span></td>
-                                <td><input type="text" id="output_id-10" class="form-control" name="out_reorient"
-                                        onkeyup="onTextChange(this)"></td>
-                            </tr>
-                            <tr>
-                                <td><span id="output_id-11">Brain Registration</span></td>
-                                <td><input type="text" id="output_id-12" class="form-control" name="out_brain_reg"
-                                        onkeyup="onTextChange(this)"></td>
-                            </tr>
-                            <tr>
-                                <td><span id="output_id-13">Lesion Corrected</span></td>
-                                <td><input type="text" id="output_id-14" class="form-control" name="out_lesion_corr"
-                                        onkeyup="onTextChange(this)"></td>
-                            </tr>
+        <tr id="brain_extraction">
+          <td>
+            <div class="section" id="brain_extraction_div">
+              <table class="table table-striped">
+                <tr>
+                  <th colspan="2">Configuration for Brain Extraction</th>
+                </tr>
+                <tr>
+                  <td><span id="bet-1">Cost Function</span></td>
+                  <td>
+                    <input
+                      id="bet-2"
+                      type="number"
+                      value="-0.25"
+                      step="0.05"
+                      class="form-control"
+                      name="bet_g"
+                      onchange="onTextChange(this)"
+                    />
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
 
-                        </table>
-                    </div>
-                </td>
-            </tr>
-
-            <tr id="brain-extraction">
-                <td>
-                    <div class="section" id="brain_extraction_div">
-                        <table class="table table-striped">
-                            <tr>
-                                <th colspan="2">Configuration for Brain Extraction</th>
-                            </tr>
-                            <tr>
-                                <td><span id="bet_identifier-1">Mask</span></td>
-                                <td><input id="bet_identifier-2" type="checkbox" class="bright-checkbox"
-                                        name="bet_mask" onchange="onCheckboxToggle(this)"></td>
-                            </tr>
-                            <tr>
-                                <td><span id="bet_identifier-3">Fraction</span></td>
-                                <td><input id="bet_identifier-4" type="number" step="0.1" class="form-control"
-                                        name="bet_frac" placeholder="0.5" onchange="onTextChange(this)"></td>
-                            </tr>
-                        </table>
-                    </div>
-                </td>
-            </tr>
-
-            <tr id="registration">
-                <td>
-                    <div class="section" id="registration_div">
-                        <table class="table table-striped">
-                            <tr>
-                                <th colspan="2">Configuration for registration with FLIRT</th>
-                            </tr>
-                            <tr>
-                                <td><span id="reg-1">Cost Function</span></td>
-                                <td><input id="reg-2" type="text" class="form-control" name="reg_cost_func"
-                                        placeholder="normmi" onkeyup="onTextChange(this)"></td>
-                            </tr>
-                            <tr>
-                                <td><span id="reg-3">Reference</span></td>
-                                <td style="display: flex; align-items: center;">
-                                    <input type="text" id="input_id-4" class="form-control" name="common_input_dir"
-                                        disabled>
-                                    <span style="margin: 0 5px;">/</span>
-                                    <input type="text" id="reg-4" class="form-control" name="reg_ref"
-                                        onkeyup="onTextChange(this)">
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </td>
-            </tr>
-
-            <tr id="lesion_correction">
-                <td>
-                    <div class="section" id="lesion_correction_div">
-                        <table class="table table-striped">
-                            <tr>
-                                <th colspan="2">Configuration for Lesion Correction</th>
-                            </tr>
-                            <tr>
-                                <td><span id="lc-1">Image Norm Min</span></td>
-                                <td><input id="lc-2" type="number" class="form-control" name="img_norm_min"
-                                        placeholder="0" onchange="onTextChange(this)"></td>
-                            </tr>
-                            <tr>
-                                <td><span id="lc-3">Image Norm Max</span></td>
-                                <td><input id="lc-4" type="number" class="form-control" name="img_norm_max"
-                                        placeholder="255" onchange="onTextChange(this)"></td>
-                            </tr>
-                            <tr>
-                                <td><span id="lc-5">White Matter Spread</span></td>
-                                <td><input id="lc-6" type="number" step="0.01" class="form-control" name="wm_spread"
-                                        placeholder="0.05" onchange="onTextChange(this)"></td>
-                            </tr>
-                            
-                        </table>
-                    </div>
-                </td>
-            </tr>
-
-            <tr id="heatmap">
-                <td>
-                    <div class="section" id="heatmap_div">
-                        <table class="table table-striped">
-                            <tr>
-                                <th colspan="2">Configuration for Heatmap</th>
-                            </tr>
-                            <tr>
-                                <td><span id="heatmap-3">Transparency</span></td>
-                                <td><input id="heatmap-4" type="number" step="0.1" class="form-control" name="heatmap_transparency"
-                                        placeholder="0.4" onchange="onTextChange(this)"></td>
-                            </tr>
-                            <tr>
-                                <td><span id="heatmap-5">Reference</span></td>
-                                <td style="display: flex; align-items: center;">
-                                    <input type="text" id="input_id-4" class="form-control" name="common_input_dir"
-                                        disabled>
-                                    <span style="margin: 0 5px;">/</span>
-                                    <input type="text" id="heatmap-6" class="form-control" name="heatmap_ref"
-                                        onkeyup="onTextChange(this)">
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="center-aligned">
-                    <a href="" id="download-btn" class="btn btn-primary">Click here to download the config file</a>
-                </td>
-            </tr>
-        </table>
-
+        <tr id="qc">
+          <td>
+            <div class="section" id="qc_div">
+              <table class="table table-striped">
+                <tr>
+                  <th colspan="2">Configuration for QC</th>
+                </tr>
+                <tr>
+                  <td><span id="qc-1">GIF Duration</span></td>
+                  <td>
+                    <input
+                      id="qc-2"
+                      type="number"
+                      value="0.5"
+                      step="0.05"
+                      class="form-control"
+                      name="gif_duration"
+                      onchange="onTextChange(this)"
+                    />
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="center-aligned">
+            <a href="" id="download-btn" class="btn btn-primary"
+              >Click here to download the config file</a
+            >
+          </td>
+        </tr>
+      </table>
     </div>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css"
+    />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 
     <script src="assets/js/main.js"></script>
-</body>
-
+  </body>
 </html>

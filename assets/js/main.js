@@ -1,193 +1,71 @@
 var configs = {
-  Analysis: {
-    Reorient: false,
-    Orientation: "LAS",
-    Registration: false,
-    RegistrationMethod: "FLIRT",
-    BrainExtraction: false,
-    BrainExtractionMethod: "BET",
-    WhiteMatterSegmentation: false,
-    LesionCorrection: false,
-    LesionLoadCalculation: false,
-    LesionHeatMap: false,
-  },
-  BrainExtraction: {
-    frac: 0.5,
-    mask: false,
-  },
-  Registration: {
-    cost_func: "normmi",
-    reference: "",
-  },
-  LesionCorrection: {
-    ImageNormMin: 0,
-    ImageNormMax: 255,
-    WhiteMatterSpread: 0.05,
-  },
-  BIDSRoot: "",
-  Subject: "",
-  Session: "",
-  LesionRoot: "",
-  WhiteMatterSegmentationRoot: "",
-  ROIDir: "",
-  ROIList: [],
-  Multiprocessing: 1,
-  T1Entities: {
-    desc: "",
-    space: "",
-  },
-  LesionEntities: {
-    suffix: "",
-    space: "",
-    label: "",
-  },
-  HeatMap: {
-    Reference: "",
-    Transparency: 0.4,
-  },
-  Outputs: {
-    Root: "/output/",
-    StartRegistrationSpace: "",
-    OutputRegistrationSpace: "",
-    RegistrationTransform: "",
-    Reorient: "",
-    BrainExtraction: "",
-    LesionCorrected: "",
-  },
+  session_id: "",
+  im_path: "",
+  les_path: "",
+  out_dir: "",
+  run: "all",
+  space: "orig",
+  ants_path: "",
+  fsl_path: "",
+  rois_path: "",
+  template_directory: "",
+  out_format: "",
+  reg_method: "flirt",
+  reg_costfn: "corratio",
+  reg_partmask: false,
+  reg_nomask: false,
+  bet_g: -0.25,
+  gif_duration: 0.5,
 };
-
-var common_input_dir = "";
-var common_input_dir_replace = "/input/"
-var common_output_dir = "";
 
 function onTextChange(element) {
   var element_name = element.name;
   var value = element.value.trim();
   switch (element_name) {
-    case "input_root_dir":
-      common_input_dir = "";
-      if (value.endsWith("/")) {
-        value = value.slice(0, -1);
-      }
-      common_input_dir = value;
-      document
-        .getElementsByName("common_input_dir")
-        .forEach((element) => (element.value = value));
+    case "session_id":
+      configs.session_id = value;
       break;
-    case "rad-reorient-method":
-      configs.Analysis.Orientation = value;
+    case "im_path":
+      configs.im_path = value;
       break;
-    case "registration-method":
-      configs.Analysis.RegistrationMethod = value;
+    case "les_path":
+      configs.les_path = value;
       break;
-    case "brain-extraction-method":
-      configs.Analysis.BrainExtractionMethod = value;
+    case "out_dir":
+      configs.out_dir = value;
       break;
-    case "bids_root_dir":
-      if (value.startsWith("/")) {
-        value = value.slice(1);
-      }
-      document
-        .getElementsByName("bids_root_dir")
-        .forEach((element) => (element.value = value));
-      configs.BIDSRoot = common_input_dir_replace + value;
+    case "run":
+      configs.run = value;
       break;
-    case "rois_dir":
-      if (value.startsWith("/")) {
-        value = value.slice(1);
-      }
-      document
-        .getElementsByName("rois_dir")
-        .forEach((element) => (element.value = value));
-      configs.ROIDir = common_input_dir_replace + value;
+    case "space":
+      configs.space = value;
       break;
-    case "t1_desc":
-      configs.T1Entities.desc = value;
+    case "ants_path":
+      configs.ants_path = value;
       break;
-    case "t1_space":
-      configs.T1Entities.space = value;
+    case "fsl_path":
+      configs.fsl_path = value;
       break;
-    case "lesion_mask_suffix":
-      configs.LesionEntities.suffix = value;
+    case "rois_path":
+      configs.rois_path = value;
       break;
-    case "lesion_mask_space":
-      configs.LesionEntities.space = value;
+    case "template_directory":
+      configs.template_directory = value;
       break;
-    case "lesion_mask_label":
-      configs.LesionEntities.label = value;
+    case "out_format":
+      configs.out_format = value;
       break;
-    case "subject":
-      configs.Subject = value;
+    case "reg_method":
+      configs.reg_method = value;
       break;
-    case "session":
-      configs.Session = value;
+    case "reg_costfn":
+      configs.reg_costfn = value;
       break;
-    case "wm_seg_dir":
-      if (value.startsWith("/")) {
-        value = value.slice(1);
-      }
-      document
-        .getElementsByName("wm_seg_dir")
-        .forEach((element) => (element.value = value));
-      configs.WhiteMatterSegmentationRoot = common_input_dir_replace + value;
+    case "bet_g":
+      configs.bet_g = parseFloat(value);
       break;
-    case "lesion_root_dir":
-      if (value.startsWith("/")) {
-        value = value.slice(1);
-      }
-      document
-        .getElementsByName("lesion_root_dir")
-        .forEach((element) => (element.value = value));
-      configs.LesionRoot = common_input_dir_replace + value;
-      break;
-    case "multiprocessing":
-      configs.Multiprocessing = parseInt(value);
-      break;
-    case "output_dir":
-      configs.Outputs.Root = configs.Outputs.Root;
-      common_output_dir = value;
-      break;
-    case "out_start_reg_space":
-      configs.Outputs.StartRegistrationSpace = value;
-      break;
-    case "output_reg_space":
-      configs.Outputs.OutputRegistrationSpace = value;
-      break;
-    case "out_reg_transform":
-      configs.Outputs.RegistrationTransform = value;
-      break;
-    case "out_reorient":
-      configs.Outputs.Reorient = value;
-      break;
-    case "out_brain_reg":
-      configs.Outputs.BrainExtraction = value;
-      break;
-    case "out_lesion_corr":
-      configs.Outputs.LesionCorrected = value;
-      break;
-    case "bet_frac":
-      configs.BrainExtraction.frac = parseFloat(value);
-      break;
-    case "reg_cost_func":
-      configs.Registration.cost_func = value;
-      break;
-    case "reg_ref":
-      configs.Registration.reference = common_input_dir_replace + value;
-      break;
-    case "img_norm_min":
-      configs.LesionCorrection.ImageNormMin = parseInt(value);
-      break;
-    case "img_norm_max":
-      configs.LesionCorrection.ImageNormMax = parseInt(value);
-      break;
-    case "wm_spread":
-      configs.LesionCorrection.WhiteMatterSpread = parseFloat(value);
-      break;
-    case "heatmap_transparency":
-      configs.HeatMap.Transparency = parseFloat(value);
-      break;
-    case "heatmap_ref":
-      configs.HeatMap.Reference = common_input_dir_replace + value;
+    case "gif_duration":
+      configs.gif_duration = parseFloat(value);
       break;
     default:
       console.log("No handler for this text change");
@@ -195,108 +73,21 @@ function onTextChange(element) {
   itemsUpdated();
 }
 
-function toggleTextBox(textBoxId, toggle) {
-  $("#" + textBoxId).prop("disabled", toggle);
-}
-
-function toggleDiv(div_id, enable) {
-  if (enable) {
-    $("#" + div_id).removeClass("disable_div");
-  } else {
-    $("#" + div_id).addClass("disable_div");
-  }
-}
-
-function toggleComponent(component_id, ms, show) {
-  if (show) {
-    $("#" + component_id).show(ms);
-  } else {
-    $("#" + component_id).hide(ms);
-  }
-}
-
 function onCheckboxToggle(element) {
   var element_name = element.name;
   var value = element.checked;
   switch (element_name) {
-    case "Re_orient_radiological":
-      configs.Analysis.Reorient = value;
-      toggleTextBox("rad_reorient-4", !value);
-      document.getElementById("rad_reorient-4").value = value
-        ? configs.Analysis.Orientation
-        : "";
-      document.getElementById("rad_reorient-1").checked = value;
+    case "reg_partmask":
+      configs.reg_partmask = value;
       break;
-    case "Registration":
-      configs.Analysis.Registration = value;
-      toggleTextBox("registration-4", !value);
-      document.getElementById("registration-4").value = value
-        ? configs.Analysis.RegistrationMethod
-        : "";
-      toggleDiv("registration_div", value);
-      document.getElementById("registration-1").checked = value;
-      document.getElementById("reg-2").value = configs.Registration.cost_func;
-      break;
-    case "brain_extraction":
-      configs.Analysis.BrainExtraction = value;
-      toggleTextBox("brain_extraction-4", !value);
-      document.getElementById("brain_extraction-4").value = value
-        ? configs.Analysis.BrainExtractionMethod
-        : "";
-      toggleDiv("brain_extraction_div", value);
-      document.getElementById("brain_extraction-1").checked = value;
-      document.getElementById("bet_mask").checked = configs.BrainExtraction.mask;
-      document.getElementById("bet_frac").value = configs.BrainExtraction.frac;
-      break;
-    case "wm_segmentation":
-      configs.Analysis.WhiteMatterSegmentation = value;
-      document.getElementById("wm_segmentation-1").checked = value;
-      break;
-    case "Lesion_correction":
-      configs.Analysis.LesionCorrection = value;
-      toggleDiv("lesion_correction_div", value);
-      document.getElementById("Lesion_correction-1").checked = value;
-      document.getElementById("lc-2").value = configs.LesionCorrection.ImageNormMin;
-      document.getElementById("lc-4").value = configs.LesionCorrection.ImageNormMax;
-      document.getElementById("lc-6").value = configs.LesionCorrection.WhiteMatterSpread;
-      break;
-
-    case "Lesion_load_calculation":
-      configs.Analysis.LesionLoadCalculation = value;
-      document.getElementById("Lesion_load_calculation-1").checked = value;
-      break;
-
-    case "heatmap":
-      configs.Analysis.LesionHeatMap = value;
-      toggleDiv("heatmap_div", value);
-      document.getElementById("heatmap-1").checked = value;
-      document.getElementById("heatmap-4").value = configs.HeatMap.Transparency
-      break;
-    case "bet_mask":
-      configs.BrainExtraction.mask = value;
-      document.getElementById("bet_identifier-2").checked = value;
+    case "reg_nomask":
+      configs.reg_nomask = value;
       break;
     default:
-      console.log("Invalid selections");
+      console.log("No handler for this checkbox toggle");
   }
   itemsUpdated();
 }
-
-$("select").selectpicker();
-
-$(document).ready(function () {
-  // toggleComponent("lesion-mask", 0);
-  toggleComponent("lesion-correction", 0, false);
-  toggleTextBox("rad_reorient-4", true); //LAS
-  toggleTextBox("registration-4", true); //FLIRT
-  toggleTextBox("brain_extraction-4", true); //BET
-  toggleDiv("brain_extraction_div", false);
-  toggleDiv("registration_div", false);
-  toggleDiv("lesion_correction_div", false);
-  toggleDiv("heatmap_div", false);
-  itemsUpdated();
-  initializeToolTips();
-});
 
 function itemsUpdated() {
   download();
@@ -305,96 +96,50 @@ function itemsUpdated() {
 function download() {
   var button = document.getElementById("download-btn");
 
-  if (configs.Analysis.Registration) {
-    button.href = "";
-    if (!configs.Outputs.OutputRegistrationSpace) {
-      button.text = "Output Registration Space must be defined";
-      button.classList.remove("btn-primary");
-      button.classList.add("btn-secondary");
-      return;
-    }
-  } else {
-    configs.Outputs.OutputRegistrationSpace =
-      configs.Outputs.StartRegistrationSpace;
-  }
-
-  if (
-    (configs.WhiteMatterSegmentationRoot === "") &
-    !configs.Analysis.WhiteMatterSegmentation &
-    configs.Analysis.LesionCorrection
-  ) {
-    button.text =
-      "White Matter Segmentation Root is required for Lesion Correction";
+  if (!configs.session_id) {
+    button.text = "Session ID is required.";
     button.classList.remove("btn-primary");
     button.classList.add("btn-secondary");
     return;
   }
-  if (
-    (configs.Analysis.LesionLoadCalculation || configs.Analysis.LesionHeatMap) &
-    (configs.LesionRoot === "")
-  ) {
-    button.text =
-      "Lesion Root input is invalid and required for Lesion Load Calculation and Lesion Heatmap";
+  if (!configs.im_path) {
+    button.text = "File path to image is required.";
     button.classList.remove("btn-primary");
     button.classList.add("btn-secondary");
     return;
   }
-
-  if (configs.T1Entities.desc === "" || configs.T1Entities.space === "") {
-    button.text = "T1 Anatomical Image Identifiers are required.";
+  if (!configs.les_path) {
+    button.text = "File path to mask is required.";
     button.classList.remove("btn-primary");
     button.classList.add("btn-secondary");
     return;
   }
-
-  if (
-    configs.LesionEntities.label === "" ||
-    configs.LesionEntities.space === "" ||
-    configs.LesionEntities.suffix === ""
-  ) {
-    button.text = "Lesion Mask Image Identifiers are required.";
+  if (!configs.out_dir) {
+    button.text = "Output directory is required.";
     button.classList.remove("btn-primary");
     button.classList.add("btn-secondary");
     return;
   }
-
-  if (configs.Analysis.Registration & (configs.Registration.reference === '' || configs.Registration.cost_func === '')){
-    button.text = "Configuration for registration using FLIRT is required";
+  if (!configs.ants_path) {
+    button.text = "ANTs Binaries Folder Path is required.";
     button.classList.remove("btn-primary");
     button.classList.add("btn-secondary");
     return;
   }
-
-  if (configs.Analysis.LesionHeatMap & (configs.HeatMap.Reference === '' || configs.HeatMap.Transparency === '')){
-    button.text = "Configuration for heatmap is required";
+  if (!configs.fsl_path) {
+    button.text = "FSL Binaries Folder Path is required.";
     button.classList.remove("btn-primary");
     button.classList.add("btn-secondary");
     return;
   }
-
-  if (common_input_dir === ''){
-    button.text = "BIDS root directory is required";
+  if (!configs.rois_path) {
+    button.text = "ROIs Folder Path is required.";
     button.classList.remove("btn-primary");
     button.classList.add("btn-secondary");
     return;
   }
-
-  if (configs.ROIDir === ''){
-    button.text = "ROIs directory is required";
-    button.classList.remove("btn-primary");
-    button.classList.add("btn-secondary");
-    return;
-  }
-
-  if (common_output_dir === ''){
-    button.text = "Output directory is required";
-    button.classList.remove("btn-primary");
-    button.classList.add("btn-secondary");
-    return;
-  }
-
-  if (configs.Outputs.StartRegistrationSpace === ''){
-    button.text = "Start Registration Space is required";
+  if (!configs.template_directory) {
+    button.text = "Template Folder Path is required.";
     button.classList.remove("btn-primary");
     button.classList.add("btn-secondary");
     return;
@@ -410,186 +155,92 @@ function download() {
   button.download = "config.json";
 }
 
+$(document).ready(function () {
+  itemsUpdated();
+  initializeToolTips();
+});
+
+
 function setToolTips(element_id, text) {
   $(element_id).attr("title", text).tooltip("show").tooltip("hide");
 }
 
 function initializeToolTips() {
-  def_reorient =
-    "This module will check that all subject inputs are in the same orientation, flag subjects that have mismatched input orientations, and convert all remaining inputs to radiological convention. This is recommended for all datasets, and especially for multi-site data.";
-  def_orientation =
-    "Orientation to standardize to. Options: L/R (left/right), A/P (anterior/posterior), I/S (inferior/superior). Default is LAS.";
-  def_registration =
-    "This module will perform registration to a common template.";
-  def_registration_method =
-    "Registration method. Example: FLIRT (default) or leave blank (no registration).";
-  def_brain_extraction = "This module will perform brain extraction.";
-  def_brain_extraction_method =
-    "Method to use for brain extraction. Options: BET (default) or leave blank (no brain extraction).";
-  def_white_matter_segmentation =
-    "This module will perform white matter segmentation. If false, and you want to perform LesionCorrection, you must place file in same location as the input files in the BIDS structure.";
-  def_lesion_correction =
-    "This module will perform lesion correction. If true, requires white matter segmentation file.";
-  def_lesion_load_calculation = "This module will compute lesion load.";
-  def_lesion_heatmap = "This module will combine the lesions into a heatmap.";
+  def_session_id = "Identifier for the scan. Ideally follows \"sub-{subject}_ses-{session}\" format specified by BIDS. This will be used in all outputs."
+  def_im_path = "Path to the T1-weighted MRI image in NIFTI format";
+  def_les_path = "Path to the lesion segmentation mask in NIFTI format.";
+  def_out_dir = "Path to output directory to save all PALS outputs. Note that a PALS directory will be generated in this output directory. Recommended to set this path to the derivatives folder of a BIDS-compliant directory."
+  def_run = "Option to specify which processing steps to execute. For options other than all, the process will skip any steps that have already been completed, and begin at the specified step. all: Runs all steps, overwriting any previous outputs and results\nbet: Starts from the brain extraction step, overwriting all subsequent outputs and results.\nmnireg: Starts from the registration to the MNI template step, overwriting all subsequent outputs and results.\ncoreg: Starts from the lesion coregistration step, overwriting all subsequent outputs and results.\npals: Starts from the lesion load calculation step, overwriting all subsequent outputs and results.\nskipdone: Starts from the first step that has not yet been completed, skipping any steps that are already finished.";
+  def_space = "Description of the input image space. Can either be \"orig\" or \"mni\". \"Orig\" refers to native image space, \"mni\" refers to standard MNI space."
+  def_ants_path = "Path to the ANTs binaries folder. Required to run intensity inhomogeneity correction."
+  def_fsl_path = "Path to the FSL binaries folder. Required to run brain extraction and affine registration."
+  def_rois_path = "Path to the ROIs to use for lesion overlap analysis. This should be pointing to the ROIs folder in the PALS repository."
+  def_template_directory = "Path to the Templates folder provided in the PALS repository."
 
-  def_lc_image_norm_min = "Minimum value for image.";
-  def_lc_image_norm_max = "Maximum value for image.";
-  def_lc_wm_spread =
-    "The deviation of the white matter intensity as a fraction of the mean white matter intensity.";
+  def_Ide = "Option to specify what format to output the PALS results. By default, PALS outputs a CSV, but a JSON can also be chosen."
+  def_reg_method = "Designate which software package to use for registering image to template. Currently only FSL's FLIRT is supported."
+  def_reg_costfn = "Designate which cost function to use to register the image to template. Please use a valid FLIRT input. \"corratio\" is the default."
+    
 
-  def_parent_input_dir = "Direcory path that contains ALL files including reference files and files of subjects."
-  def_bids_root_dir =
-    "Directory path to the BIDS root directory for the raw data.";
-  def_input_subject =
-    "ID of the subject to run. Runs all subjects if left blank. Ex: r001s001";
-  def_input_session =
-    "ID of the session to run. Runs all sessions if left blank. Ex: 1";
-  def_input_lesion_root =
-    "Path to the BIDS root directory for the lesion masks. Must be present inside BIDS Root Directory.";
-  def_white_matter_segmentation_root =
-    "Path to the BIDS root directory for the white matter segmentation files. Must be present inside BIDS Root Directory.";
-  def_input_ROIDir =
-    "Path to the directory containing ROI image files. Must be present inside BIDS Root Directory.";
-
-  def_lesion_identifier_space =
-    "Provide the space for your lesion file. For example, put 'MNIEx2009aEx' if your file is sub-r044s001_ses-1_space-MNIEx2009aEx_label-L_desc-T1lesion_mask.nii";
-  def_lesion_identifier_label =
-    "Provide the label for your lesion file. For example, put 'L' if your file is sub-r044s001_ses-1_space-MNIEx2009aEx_label-L_desc-T1lesion_mask.nii";
-  def_lesion_identifier_suffix =
-    "Provide the suffix for your lesion file. For example, put 'mask' if your file is sub-r044s001_ses-1_space-MNIEx2009aEx_label-L_desc-T1lesion_mask.nii";
-
-  def_reg_ext_reference =
-    "Path to reference file. Must be present inside BIDS Root Directory.";
-  def_reg_ext_cost_func = "Cost function for registration";
-
-  def_T1_identifier_space =
-    "Provide the space for your T1 file. For example, put 'MNIEx2009aEx' if your file is sub-r044s001_ses-1_space-MNIEx2009aEx_desc-T1FinalResampledNorm.nii";
-  def_T1_identifier_desc =
-    "Provide the desc for your T1 file. For example, put 'T1FinalResampledNorm' if your file is sub-r044s001_ses-1_space-MNIEx2009aEx_desc-T1FinalResampledNorm.nii";
-
-  def_heatmap_reference =
-    "Overlays the heatmap on this image and creates NIFTI file with overlay and NITFI file with the mask only. Also produces 4 PNGS: 9 slices of the lesions from sagittal, axial, and coronal orientations (3 images) and an image with a cross-section of each orientation. If your images are pre-registered, you MUST use your own reference image used for their registration. Must be present inside BIDS Root Directory.";
-  def_heatmap_transparency =
-    "Transparency to use when mixing the reference image and the heatmap. Smaller values darker reference and lighter heatmap.";
-
-  def_output_root = "Path to directory where to place the output.";
-  def_start_reg_space =
-    'Value to use for "space" entity in BIDS output filename.';
-  def_output_reg_space = "Reserved for future use.";
-  def_output_reg_transform = "Path for saving registration transform.";
-  def_output_reorient = "Path for saving reoriented volume.";
-  def_output_brain_extraction = "Path for saving the brain extracted volume.";
-  def_output_lesion_correction =
-    "Path for saving the white matter-corrected lesions.";
+  def_reg_partmask = "Specify whether to run the partial weighting option for FLIRT. This allows non-brain structures to have minor influence on the FLIRT registration result."
+  def_reg_nomask = "Specify whether to run the no weighting option for FLIRT. This allows non-brain structures to have equal influence as brain structures on the FLIRT registration result."
+    
+  def_bet_g = "Specify the vertical gradient for BET. Default is -0.25. Positive values indicate brain is shifted more below the midline, negative values indicate brain is shifted more above the midline."
+   
+  def_gif_duration = "Set the duration for each GIF frame generated in the QC workflow. Default is 0.5 seconds"
+    
 
   $("body").tooltip({ selector: "[data-toggle=tooltip]" });
 
-  setToolTips("#rad_reorient-1", def_reorient);
-  setToolTips("#rad_reorient-2", def_reorient);
+  setToolTips("#session_id-1", def_session_id);
+  setToolTips("#session_id-2", def_session_id);
 
-  setToolTips("#rad_reorient-3", def_orientation);
-  setToolTips("#rad_reorient-4", def_orientation);
+  setToolTips("#input_path-1", def_im_path);
+  setToolTips("#input_path-2", def_im_path);
 
-  setToolTips("#registration-1", def_registration);
-  setToolTips("#registration-2", def_registration);
+  setToolTips("#input_path-3", def_les_path);
+  setToolTips("#input_path-4", def_les_path);
 
-  setToolTips("#registration-3", def_registration_method);
-  setToolTips("#registration-4", def_registration_method);
+  setToolTips("#output_path-1", def_out_dir);
+  setToolTips("#output_path-2", def_out_dir);
 
-  setToolTips("#brain_extraction-1", def_brain_extraction);
-  setToolTips("#brain_extraction-2", def_brain_extraction);
+  setToolTips("#script_run-1", def_run);
+  setToolTips("#script_run-2", def_run);
 
-  setToolTips("#brain_extraction-3", def_brain_extraction_method);
-  setToolTips("#brain_extraction-4", def_brain_extraction_method);
+  setToolTips("#input_path-5", def_space);
+  setToolTips("#input_path-6", def_space);
 
-  setToolTips("#wm_segmentation-1", def_white_matter_segmentation);
-  setToolTips("#wm_segmentation-2", def_white_matter_segmentation);
+  setToolTips("#output_path-3", def_Ide);
+  setToolTips("#output_path-4", def_Ide);
 
-  setToolTips("#Lesion_correction-1", def_lesion_correction);
-  setToolTips("#Lesion_correction-2", def_lesion_correction);
+  setToolTips("#output_id-1", def_ants_path);
+  setToolTips("#output_id-2", def_ants_path);
 
-  setToolTips("#Lesion_load_calculation-1", def_lesion_load_calculation);
-  setToolTips("#Lesion_load_calculation-2", def_lesion_load_calculation);
+  setToolTips("#output_id-3", def_fsl_path);
+  setToolTips("#output_id-4", def_fsl_path);
 
-  setToolTips("#heatmap-1", def_lesion_heatmap);
-  setToolTips("#heatmap-2", def_lesion_heatmap);
+  setToolTips("#output_id-5", def_rois_path);
+  setToolTips("#output_id-6", def_rois_path);
 
-  setToolTips("#input_dir", def_parent_input_dir);
-  setToolTips("#input_dir-2", def_parent_input_dir);
+  setToolTips("#output_id-7", def_template_directory);
+  setToolTips("#output_id-8", def_template_directory);
 
-  setToolTips("#input_id-1", def_bids_root_dir);
-  setToolTips("#input_id-2", def_bids_root_dir);
+  setToolTips("#reg-1", def_reg_method);
+  setToolTips("#reg-2", def_reg_method);
 
-  setToolTips("#input_id-3", def_bids_root_dir);
-  setToolTips("#input_id-26", def_input_ROIDir);
+  setToolTips("#reg-3", def_reg_costfn);
+  setToolTips("#reg-4", def_reg_costfn);
 
-  setToolTips("#input_id-6", def_T1_identifier_desc);
-  setToolTips("#input_id-7", def_T1_identifier_desc);
+  setToolTips("#reg-5", def_reg_partmask);
+  setToolTips("#reg-6", def_reg_partmask);
 
-  setToolTips("#input_id-8", def_T1_identifier_space);
-  setToolTips("#input_id-9", def_T1_identifier_space);
+  setToolTips("#reg-7", def_reg_nomask);
+  setToolTips("#reg-8", def_reg_nomask);
 
-  setToolTips("#input_id-11", def_lesion_identifier_suffix);
-  setToolTips("#input_id-12", def_lesion_identifier_suffix);
+  setToolTips("#bet-1", def_bet_g);
+  setToolTips("#bet-2", def_bet_g);
 
-  setToolTips("#input_id-13", def_lesion_identifier_space);
-  setToolTips("#input_id-14", def_lesion_identifier_space);
+  setToolTips("#qc-1", def_gif_duration);
+  setToolTips("#qc-2", def_gif_duration);
 
-  setToolTips("#input_id-15", def_lesion_identifier_label);
-  setToolTips("#input_id-16", def_lesion_identifier_label);
-
-  setToolTips("#input_id-17", def_input_subject);
-  setToolTips("#input_id-18", def_input_subject);
-
-  setToolTips("#input_id-19", def_input_session);
-  setToolTips("#input_id-20", def_input_session);
-
-  setToolTips("#input_id-21", def_white_matter_segmentation_root);
-  setToolTips("#input_id-22", def_white_matter_segmentation_root);
-
-  setToolTips("#input_id-23", def_input_lesion_root);
-  setToolTips("#input_id-24", def_input_lesion_root);
-
-  setToolTips("#output_id-1", def_output_root);
-  setToolTips("#output_id-2", def_output_root);
-
-  setToolTips("#output_id-3", def_start_reg_space);
-  setToolTips("#output_id-4", def_start_reg_space);
-
-  setToolTips("#output_id-5", def_output_reg_space);
-  setToolTips("#output_id-6", def_output_reg_space);
-
-  setToolTips("#output_id-7", def_output_reg_transform);
-  setToolTips("#output_id-8", def_output_reg_transform);
-
-  setToolTips("#output_id-9", def_output_reorient);
-  setToolTips("#output_id-10", def_output_reorient);
-
-  setToolTips("#output_id-11", def_output_brain_extraction);
-  setToolTips("#output_id-12", def_output_brain_extraction);
-
-  setToolTips("#output_id-13", def_output_root);
-  setToolTips("#output_id-14", def_output_root);
-
-  setToolTips("#reg-1", def_reg_ext_cost_func);
-  setToolTips("#reg-2", def_reg_ext_cost_func);
-
-  setToolTips("#reg-3", def_reg_ext_reference);
-  setToolTips("#reg-4", def_reg_ext_reference);
-
-  setToolTips("#lc-1", def_lc_image_norm_min);
-  setToolTips("#lc-2", def_lc_image_norm_min);
-
-  setToolTips("#lc-3", def_lc_image_norm_max);
-  setToolTips("#lc-4", def_lc_image_norm_max);
-
-  setToolTips("#lc-5", def_lc_wm_spread);
-  setToolTips("#lc-6", def_lc_wm_spread);
-
-  setToolTips("#heatmap-3", def_heatmap_transparency);
-  setToolTips("#heatmap-4", def_heatmap_transparency);
-
-  setToolTips("#heatmap-5", def_heatmap_reference);
-  setToolTips("#heatmap-6", def_heatmap_reference);
 }
